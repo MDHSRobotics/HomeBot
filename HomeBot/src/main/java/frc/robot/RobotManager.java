@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 
 import frc.robot.consoles.Logger;
-import frc.robot.consoles.Shuffler;
 
 // This is where the robot state is initialized and persisted.
 public class RobotManager {
@@ -32,9 +31,6 @@ public class RobotManager {
     // Shuffleboard & SmartDashboard //
     //-------------------------------//
 
-    // The robot Shuffler instance
-    public static Shuffler botShuffler;
-
     // The auto command chooser to add to SmartDashboard
     public static SendableChooser<Command> autoCommandChooser;
 
@@ -46,29 +42,19 @@ public class RobotManager {
     public static void initialize() {
         Logger.setup("Initializing RobotManager...");
 
-        // Pre-intialize the Shuffler
-        botShuffler = new Shuffler();
-        botShuffler.preInitialize();
-
         // Initialize BotSensors, BotSubsystems, BotCommands, and TestCommands
         BotSensors.initializeSensors();
         BotSubsystems.initializeSubsystems();
         BotCommands.initializeCommands();
-        TestCommands.initializeCommands();
 
         // Setup SmartDashboard
         setupSmartDashboard();
-
-        // Intialize and configure the Shuffler
-        botShuffler.initialize();
-        botShuffler.configure();
     }
 
     // Add the desired commands to the SmartDashboard
     private static void setupSmartDashboard() {
         Logger.setup("Adding AutoModes to SmartDashboard...");
         autoCommandChooser = new SendableChooser<>();
-        autoCommandChooser.addOption("Lighter - CycleLights", BotCommands.cycleLights);
         SmartDashboard.putData("AutoMode", autoCommandChooser);
     }
 

@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 import frc.robot.consoles.Logger;
-import frc.robot.tests.TestRunnable;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -61,8 +60,6 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotPeriodic() {
-        // Update the Shuffleboard
-        RobotManager.botShuffler.update();
 
         // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
         // commands, running already-scheduled commands, removing finished or interrupted commands,
@@ -79,8 +76,6 @@ public class Robot extends TimedRobot {
         System.out.println("--");
         Logger.ending("Disabling Robot...");
 
-        // Reset virtual controllers and cancel all scheduled commands
-        VirtualControllers.reset();
         CommandScheduler.getInstance().cancelAll();
     }
 
@@ -96,8 +91,6 @@ public class Robot extends TimedRobot {
         System.out.println("--");
         Logger.setup("Initializing Autonomous Mode...");
 
-        // Reset virtual controllers and cancel all scheduled commands
-        VirtualControllers.reset();
         CommandScheduler.getInstance().cancelAll();
 
         // Schedule the autonomous command
@@ -122,8 +115,6 @@ public class Robot extends TimedRobot {
         // Set subsystem "teleop" default commands
         BotSubsystems.setTeleopDefaultCommands();
 
-        // Reset virtual controllers and cancel all scheduled commands
-        VirtualControllers.reset();
         CommandScheduler.getInstance().cancelAll();
     }
 
@@ -141,20 +132,12 @@ public class Robot extends TimedRobot {
         System.out.println("--");
         Logger.setup("Initializing Test Mode...");
 
-        // Set subsystem "test" default commands
-        BotSubsystems.setTestDefaultCommands();
-
-        // Reset virtual controllers and cancel all scheduled commands
-        VirtualControllers.reset();
         CommandScheduler.getInstance().cancelAll();
         // Re-enable the scheduler
         CommandScheduler.getInstance().enable();
 
-        // Configure virtual controllers
-        VirtualControllers.configure();
 
         // Reset the test variables
-        m_numberOfTests = TestSupplier.getNumberOfTests();
         Logger.info("Number of tests registered: " + m_numberOfTests);
         m_currentTestNumber = 0;
         m_testIteration = 0;
@@ -165,23 +148,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void testPeriodic() {
-        if (m_testIteration == 0) {
-            VirtualControllers.reset();
-            CommandScheduler.getInstance().cancelAll();
-            m_currentTestNumber++;
-        }
-
-        if (m_currentTestNumber <= m_numberOfTests) {
-            TestRunnable currentTest = TestSupplier.getTest(m_currentTestNumber);
-            m_testIteration = currentTest.run(m_testIteration);
-        }
-        else {
-            Logger.ending("All tests complete.");
-            VirtualControllers.reset();
-            CommandScheduler.getInstance().cancelAll();
-            m_currentTestNumber = 0;
-            m_testIteration = 0;
-        }
+        
     }
 
 }
