@@ -5,10 +5,10 @@ import frc.robot.consoles.Logger;
 import frc.robot.devices.DevTalonSRX;
 
 import static frc.robot.subsystems.Devices.diffDriveTalon;
-import static frc.robot.subsystems.Devices.talonFxDiffWheelFrontLeft;
-import static frc.robot.subsystems.Devices.talonFxDiffWheelFrontRight;
-import static frc.robot.subsystems.Devices.talonFxDiffWheelRearLeft;
-import static frc.robot.subsystems.Devices.talonFxDiffWheelRearRight;
+import static frc.robot.subsystems.Devices.talonSrxDiffWheelFrontLeft;
+import static frc.robot.subsystems.Devices.talonSrxDiffWheelFrontRight;
+import static frc.robot.subsystems.Devices.talonSrxDiffWheelRearLeft;
+import static frc.robot.subsystems.Devices.talonSrxDiffWheelRearRight;
 import static frc.robot.RobotManager.isReal;
 
 // Differential driver subsystem.
@@ -24,13 +24,13 @@ public class DiffDriverTalon extends DiffDriver {
 
         if (isReal) {
             // Configure the subsystem devices
-            configureTalon(talonFxDiffWheelFrontLeft);
-            configureTalon(talonFxDiffWheelFrontRight);
-            configureTalon(talonFxDiffWheelRearLeft);
-            configureTalon(talonFxDiffWheelRearRight);
+            configureTalon(talonSrxDiffWheelFrontLeft);
+            configureTalon(talonSrxDiffWheelFrontRight);
+            configureTalon(talonSrxDiffWheelRearLeft);
+            configureTalon(talonSrxDiffWheelRearRight);
         }
-        talonFxDiffWheelRearLeft.follow(talonFxDiffWheelFrontLeft);
-        talonFxDiffWheelRearRight.follow(talonFxDiffWheelFrontRight);
+        talonSrxDiffWheelRearLeft.follow(talonSrxDiffWheelFrontLeft);
+        talonSrxDiffWheelRearRight.follow(talonSrxDiffWheelFrontRight);
     }
 
     // Configure the given talon
