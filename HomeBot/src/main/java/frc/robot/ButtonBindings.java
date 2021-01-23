@@ -12,23 +12,7 @@ public class ButtonBindings {
 
         //DiffDriver
         BotControllers.xbox.btnY.whileHeld(BotCommands.rotateTowardsTarget);
-
-        //BotControllers.xbox.btnStickLeft.whileHeld(BotCommands.alignDiffDriveToGyro);
-
-        //Limelight
-        BotControllers.xbox.btnY.whenReleased(BotCommands.turnOffLimelightArray);
-        // Roller
-        // BotControllers.xbox.btnX.whileHeld(BotCommands.reverseRoller);
-        // BotControllers.xbox.btnB.whileHeld(BotCommands.spinRollerAndConveyor);
-
-        // Conveyor & Shooter
-        BotControllers.xbox.btnX.whileHeld(BotCommands.spinRollerAndConveyor);
-        BotControllers.xbox.btnB.whileHeld(BotCommands.spinConveyorBackward);
-
-        // BotControllers.xbox.btnBumperLeft.whileHeld(BotCommands.reverseConveyor);
-        BotControllers.xbox.btnBumperRight.whenPressed(BotCommands.reverseConveyorAndShoot);
-        BotControllers.xbox.btnBumperLeft.whenPressed(BotCommands.stopConveyorAndShooter);
-        BotControllers.xbox.btnStart.whenPressed(BotCommands.resetShoot);
+        
 
     }
 
