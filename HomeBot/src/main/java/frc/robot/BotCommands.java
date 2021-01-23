@@ -9,7 +9,6 @@ import frc.robot.commands.diffdriver.*;
 public class BotCommands {
     // DiffDriver
     public static RotateToDpadDirection rotateToDpadDirection;
-    public static RotateTowardsTarget rotateTowardsTarget;
     public static DriveDiffTank driveDiffTank;
     
     // Initialize all robot commands
@@ -17,7 +16,6 @@ public class BotCommands {
         Logger.setup("Initializing BotCommands...");
 
         // DiffDriver
-        rotateTowardsTarget = new RotateTowardsTarget(BotSubsystems.diffDriver);
         driveDiffTank = new DriveDiffTank(BotSubsystems.diffDriver, BotControllers.xbox);
     }
 
