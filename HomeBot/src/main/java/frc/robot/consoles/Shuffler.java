@@ -14,9 +14,7 @@ public class Shuffler {
     // Tabs
     private MainTab m_mainTab;
     private InputsTab m_inputsTab;
-    private ConveyorTab m_conveyorTab;
     private DriveTab m_driveTab;
-    private RollerTab m_rollerTab;
     private ShooterTab m_shooterTab;
     private DebugTab m_debugTab;
 
@@ -25,9 +23,7 @@ public class Shuffler {
 
         m_mainTab = new MainTab();
         m_inputsTab = new InputsTab();
-        m_conveyorTab = new ConveyorTab();
         m_driveTab = new DriveTab();
-        m_rollerTab = new RollerTab();
         m_shooterTab = new ShooterTab();
         m_debugTab = new DebugTab();
     }
@@ -37,9 +33,7 @@ public class Shuffler {
 
         m_mainTab.preInitialize();
         m_inputsTab.preInitialize();
-        m_conveyorTab.preInitialize();
         m_driveTab.preInitialize();
-        m_rollerTab.preInitialize();
         m_shooterTab.preInitialize();
         m_debugTab.preInitialize();
     }
@@ -50,9 +44,7 @@ public class Shuffler {
         m_mainTab.initialize();
         m_inputsTab.initialize();
         m_driveTab.initialize();
-        m_conveyorTab.initialize();
 
-        m_rollerTab.initialize();
         m_shooterTab.initialize();
 
         m_debugTab.initialize();
@@ -63,9 +55,7 @@ public class Shuffler {
 
         m_mainTab.configure();
         m_inputsTab.configure();
-        m_conveyorTab.configure();
         m_driveTab.configure();
-        m_rollerTab.configure();
         m_shooterTab.configure();
         m_debugTab.configure();
         setupSmartdashboard();
@@ -74,9 +64,8 @@ public class Shuffler {
     public void update() {
         m_mainTab.update();
         m_inputsTab.update();
-        m_conveyorTab.update();
         m_driveTab.update();
-        m_rollerTab.update();
+
         m_shooterTab.update();
         m_debugTab.update();
     }
