@@ -23,20 +23,12 @@ public class Shoot extends CommandBase {
     public void initialize() {
         Logger.action("Initializing Command: Shoot...");
 
-        m_shooter.shootBasedOnDistance();
+        m_shooter.shootBasedOnTPHMS();
     }
 
     @Override
     public void execute() {
-        double topVelocity = m_shooter.getTopWheelVelocity();
-        double bottomVelocity = m_shooter.getBottomWheelVelocity();
-        double topVelocityFPS = m_shooter.getTopWheelVelocityFPS();
-        double bottomVelocityFPS = m_shooter.getBottomWheelVelocityFPS();
 
-        // Logger.info("Shoot -> Top wheel velocity: " + topVelocity);
-        // Logger.info("Shoot -> Top wheel fps: " + topVelocityFPS);
-        // Logger.info("\n Shoot -> Bottom wheel velocity: " + bottomVelocity);
-        // Logger.info("Shoot -> Bottom wheel fps: " + bottomVelocityFPS);
     }
 
     // This command continues until interrupted

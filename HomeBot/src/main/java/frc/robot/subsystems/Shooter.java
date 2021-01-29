@@ -4,18 +4,13 @@ package frc.robot.subsystems;
 import java.util.*;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.DemandType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.brains.RobotBrain;
 import frc.robot.brains.ShooterBrain;
 import frc.robot.consoles.Logger;
-import frc.robot.devices.DevTalonSRX;
-import frc.robot.subsystems.utils.EncoderUtils;
-import frc.robot.subsystems.utils.PIDValues;
-import frc.robot.subsystems.utils.TalonUtils;
+import frc.robot.subsystems.utils.*;
 
-import static frc.robot.subsystems.constants.EncoderConstants.*;
 import static frc.robot.subsystems.Devices.talonSrxShooterBottomWheel;
 import static frc.robot.subsystems.Devices.talonSrxShooterTopWheel;
 import static frc.robot.RobotManager.isReal;
@@ -23,16 +18,15 @@ import static frc.robot.RobotManager.isReal;
 // Shooter subsystem, for shooting balls with two flywheels.
 public class Shooter extends SubsystemBase {
 
-    // Mechanical constants
-    private final double GEAR_RATIO = 4.0; // (MS : GS)
-    private final double WHEEL_DIAMETER = 4.0; // In inches
-
     // Encoder constants
     private static final boolean SENSOR_PHASE_BOTTOM = true;
     private static final boolean MOTOR_INVERT_BOTTOM = false;
 
     private static final boolean SENSOR_PHASE_TOP = true;
     private static final boolean MOTOR_INVERT_TOP = false;
+
+    // Position constants
+    private static final double GEAR_RATIO = 4.0;
 
     // Shuffleboard
     private double topVelocity = ShooterBrain.shootTopWheelCurrentVelocityDefault;
@@ -44,15 +38,21 @@ public class Shooter extends SubsystemBase {
     private double minBottomVelocity = ShooterBrain.shootBottomWheelMinVelocityDefault;
     private double maxBottomVelocity = ShooterBrain.shootBottomWheelMaxVelocityDefault;
 
+    private double avgTopVelocity = 0;
+    private double avgBottomVelocity = 0;
+    private int sampleSize = 5;
+    private double[] averageTopVelocity = new double[sampleSize];
+    private double[] averageBottomVelocity = new double[sampleSize];
+
     public Shooter() {
         Logger.setup("Constructing Subsystem: Shooter...");
 
         if (isReal) {
             // Configure devices
-            PIDValues pidBottom = new PIDValues(0.1, 0.0, 0.0, 0.0);
+            PIDValues pidBottom = new PIDValues(0.087, 0.0, 0.0, 0.0);
             TalonUtils.configureTalonWithEncoder(talonSrxShooterBottomWheel, SENSOR_PHASE_BOTTOM, MOTOR_INVERT_BOTTOM, pidBottom);
 
-            PIDValues pidTop = new PIDValues(0.1, 0.0, 0.0, 0.0);
+            PIDValues pidTop = new PIDValues(0.0885, 0.0, 0.0, 0.0); // kF should be 0.0015 greater than the bottom kF
             TalonUtils.configureTalonWithEncoder(talonSrxShooterTopWheel, SENSOR_PHASE_TOP, MOTOR_INVERT_TOP, pidTop);
         }
     }
@@ -60,12 +60,15 @@ public class Shooter extends SubsystemBase {
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
+
         topVelocity = getTopWheelVelocity();
         bottomVelocity = getBottomWheelVelocity();
 
+        // Current Velocity
         ShooterBrain.setTopWheelCurrentVelocity(topVelocity);
         ShooterBrain.setBottomWheelCurrentVelocity(bottomVelocity);
 
+        // Min and Max Velocity
         if (topVelocity < minTopVelocity) minTopVelocity = topVelocity;
         if (topVelocity > maxTopVelocity) maxTopVelocity = topVelocity;
         if (bottomVelocity < minBottomVelocity) minBottomVelocity = bottomVelocity;
@@ -75,9 +78,30 @@ public class Shooter extends SubsystemBase {
         ShooterBrain.setBottomWheelMaxVelocity(maxBottomVelocity);
         ShooterBrain.setTopWheelMinVelocity(minTopVelocity);
         ShooterBrain.setTopWheelMaxVelocity(maxTopVelocity);
-    }
 
-    // TODO Do we really need the following 5 methods?
+        // Average Velocity
+        for (int i = sampleSize - 2; i > 0; i--){
+            averageTopVelocity[i] = averageTopVelocity[i - 1];
+            averageBottomVelocity[i] = averageBottomVelocity[i - 1];
+        }
+
+        averageTopVelocity[0] = topVelocity;
+        averageBottomVelocity[0] = bottomVelocity;
+
+        for (double sample : averageTopVelocity) {
+            avgTopVelocity += sample;
+        }
+
+        for (double sample : averageBottomVelocity) {
+            avgBottomVelocity += sample;
+        }
+
+        avgTopVelocity /= sampleSize;
+        avgBottomVelocity /= sampleSize;
+
+        ShooterBrain.setTopWheelAverageVelocity(avgBottomVelocity);
+        ShooterBrain.setBottomWheelAverageVelocity(avgTopVelocity);
+    }
 
     // Stop the shooter
     public void stop() {
@@ -85,37 +109,45 @@ public class Shooter extends SubsystemBase {
         talonSrxShooterTopWheel.stopMotor();
     }
 
-    private void spinWheel(DevTalonSRX talon, double velocity) {
-        double nativeVelocity = EncoderUtils.translateFPSToTicksPerDecisecond(velocity, WHEEL_DIAMETER, GEAR_RATIO) / 10;
-        Logger.info("Shooter -> FlyWheel Velocity:" + velocity + " FPS");
-        Logger.info("Shooter -> FlyWheel Native Velocity:" + nativeVelocity + " TPDS");
+    // Spin the shooter motors at a velocity to hit the target center based on a given distance
+    // Note: the distance is currently manually defined in Shuffleboard
+    public void shootBasedOnDistance() {
+        double sHeight = RobotBrain.shooterHeightFeetDefault;
+        double sAngle = RobotBrain.shooterAngleDegreesDefault;
+        double fHeight = RobotBrain.fieldTargetHeightFeet;
 
-        Logger.action("Shooter -> Setting " + talon.getName() + " velocity...");
-        talon.set(ControlMode.Velocity, nativeVelocity);
+        double distanceFeet = ShooterBrain.getShootDistance();
+        double numerator = 32.174 * Math.pow(distanceFeet, 2);
+        double denominator = 2 * (distanceFeet * Math.sin(sAngle) * Math.cos(sAngle)
+                - (fHeight - sHeight) * Math.pow(Math.cos(sAngle), 2));
+        double velocityFPS = Math.sqrt(numerator) / Math.sqrt(denominator);
+
+        // Convert the desired ball velocity (ft/sec) into the required motor speed (Ticks per 100 ms)
+        double velocityTPHMS = translateFPSToTicksViaTable(velocityFPS);
+        double velocityTPHMSOffsetTop = ShooterBrain.getShooterVelocityTPHMSOffsetTop();
+        double velocityTPHMSOffsetBottom = ShooterBrain.getShooterVelocityTPHMSOffsetBottom();
+
+        talonSrxShooterTopWheel.set(ControlMode.Velocity, velocityTPHMS + velocityTPHMSOffsetTop);
+        talonSrxShooterBottomWheel.set(ControlMode.Velocity, velocityTPHMS + velocityTPHMSOffsetBottom);
+
+        // Update values for Shuffleboard
+        ShooterBrain.setTargetFPS(velocityFPS);
+        ShooterBrain.setTargetTPHMS(velocityTPHMS);
     }
 
-    // Spin the bottom shooter wheel
-    public void spinBottomWheel() {
-        double velocity = ShooterBrain.getBottomWheelVelocity();
-        spinWheel(talonSrxShooterBottomWheel, velocity);
+    public void shootBasedOnVelocity() {
+        double velocityFPS = ShooterBrain.getTargetFPS();
+        double velocityTPHMS = translateFPSToTicksViaTable(velocityFPS);
+        talonSrxShooterBottomWheel.set(ControlMode.Velocity, velocityTPHMS);
+        talonSrxShooterTopWheel.set(ControlMode.Velocity, velocityTPHMS);
+
+        ShooterBrain.setTargetTPHMS(velocityTPHMS);
     }
 
-    // Spin the top Shooter wheel
-    public void spinTopWheel() {
-        double velocity = ShooterBrain.getTopWheelVelocity();
-        spinWheel(talonSrxShooterTopWheel, velocity);
-    }
-
-    // Spin the top Shooter wheel master and follower
-    public void spinTopWheelMasterFollower() {
-        double velocity = ShooterBrain.getTopWheelVelocity();
-        double nativeVelocity = EncoderUtils.translateFPSToTicksPerDecisecond(velocity, WHEEL_DIAMETER, GEAR_RATIO);
-        double heading = talonSrxShooterBottomWheel.getSelectedSensorPosition(PID_SLOT_1);
-        Logger.info("Shooter -> FlyWheel Velocity:" + velocity + " FPS");
-        Logger.info("Shooter -> FlyWheel Native Velocity:" + nativeVelocity + " TPDS");
-
-        Logger.action("Shooter -> Setting top wheel velocity...");
-        talonSrxShooterTopWheel.set(ControlMode.Velocity, nativeVelocity, DemandType.AuxPID, heading);
+    public void shootBasedOnTPHMS() {
+        double velocityTPHMS = ShooterBrain.getTargetTPHMS() / GEAR_RATIO;
+        talonSrxShooterBottomWheel.set(velocityTPHMS);
+        talonSrxShooterTopWheel.set(velocityTPHMS);
     }
 
     // Translate a desired target velocity in feet per second to a motor speed in Ticks per 100 ms.
@@ -133,11 +165,12 @@ public class Shooter extends SubsystemBase {
 
         // The data below is based on shooting experiments conducted on March 5, 2020:
         // (Feet per second, Ticks per 100ms)
-        // TODO Update the values in the table below based on latest experiment
-        luTable.put(20., 200.);
-        luTable.put(30., 300.);
-        luTable.put(50., 500.);
-        luTable.put(90., 1700.);
+        luTable.put(22.676, 4671.); // 8
+        luTable.put(19.753, 4275.); // 10
+        luTable.put(27.878, 5425.); // 7
+        luTable.put(25.117, 4946.); // 7.5
+        luTable.put(33.766, 6402.); // 6.5
+        luTable.put(30.830, 5814.); // 6.75
 
         boolean firstPass = true;
         double f1 = -99.;
@@ -169,69 +202,20 @@ public class Shooter extends SubsystemBase {
         return targetTPHMS;
     }
 
-    // Spin the shooter motors at a velocity to hit the target center based on a given distance
-    // Note: the distance is currently manually defined in Shuffleboard
-    public void shootBasedOnDistance() {
-        double distanceFeet = ShooterBrain.getShootDistance();
-        shootBasedOnDistance(distanceFeet);
-    }
-
-    public void shootBasedOnDistance(double distanceFeet) {
-        double sHeight = RobotBrain.shooterHeightFeetDefault;
-        double sAngle = RobotBrain.shooterAngleDegreesDefault;
-        double fHeight = RobotBrain.fieldTargetHeightFeet;
-
-
-        // TODO Use a bit more precise value for acceleration due to gravity
-        double numerator = 32.2 * Math.pow(distanceFeet, 2);
-        double denominator = 2 * (distanceFeet * Math.sin(sAngle) * Math.cos(sAngle)
-                - (fHeight - sHeight) * Math.pow(Math.cos(sAngle), 2));
-        double velocityFPS = Math.sqrt(numerator) / Math.sqrt(denominator);
-
-        // Convert the desired ball velocity (ft/sec) into the required motor speed (Ticks per 100 ms)
-        double nativeVelocity = translateFPSToTicksViaTable(velocityFPS);
-
-        talonSrxShooterTopWheel.set(ControlMode.Velocity, nativeVelocity);
-        talonSrxShooterBottomWheel.set(ControlMode.Velocity, nativeVelocity);
-
-        // Update values for Shuffleboard
-        ShooterBrain.setTargetFPS(velocityFPS);
-        ShooterBrain.setTargetTPHMS(nativeVelocity);
-
-    }
-
     //---------//
     // Getters //
     //---------//
 
     // Get the current Shooter BottomWheel motor velocity
     public int getBottomWheelVelocity() {
-        int velocity = talonSrxShooterBottomWheel.getSelectedSensorVelocity();
+        int velocity = talonSrxShooterBottomWheel.getSelectedSensorVelocity() / 10;
         return velocity;
-    }
-
-    // Get the current Shooter BottomWheel motor velocity in feet per second
-    public double getBottomWheelVelocityFPS() {
-        double tpds = getBottomWheelVelocity();
-        double fps = EncoderUtils.translateTicksPerDecisecondToFPS(tpds, WHEEL_DIAMETER, GEAR_RATIO);
-        return fps;
     }
 
     // Get the current Shooter TopWheel motor velocity
     public int getTopWheelVelocity() {
-        int velocity = talonSrxShooterTopWheel.getSelectedSensorVelocity();
+        int velocity = talonSrxShooterTopWheel.getSelectedSensorVelocity() / 10;
         return velocity;
-    }
-
-    // Get the current Shooter TopWheel motor velocity in feet per second
-    public double getTopWheelVelocityFPS() {
-        double tpds = getTopWheelVelocity();
-        double fps = EncoderUtils.translateTicksPerDecisecondToFPS(tpds, WHEEL_DIAMETER, GEAR_RATIO);
-        return fps;
-    }
-
-    public double getWheelPosition() {
-        return talonSrxShooterTopWheel.getSelectedSensorPosition() / GEAR_RATIO;
     }
 
     //--------------//
@@ -245,13 +229,10 @@ public class Shooter extends SubsystemBase {
 
         minBottomVelocity = ShooterBrain.shootBottomWheelMinVelocityDefault;
         maxBottomVelocity = ShooterBrain.shootBottomWheelMaxVelocityDefault;
+
+        avgTopVelocity = ShooterBrain.shootTopWheelAverageVelocityDefault;
+        avgBottomVelocity = ShooterBrain.shootBottomWheelAverageVelocityDefault;
     }
-
-    //-----------------//
-    // Distance Sensor //
-    //-----------------//
-
-
 
     //---------//
     // Testing //
@@ -260,18 +241,6 @@ public class Shooter extends SubsystemBase {
     public void testMotor() {
         talonSrxShooterBottomWheel.set(0.3);
         talonSrxShooterTopWheel.set(0.3);
-    }
-
-    public void testMotorRotation(int rotations) {
-        int nativeRotation = rotations * ENCODER_TPR;
-        talonSrxShooterTopWheel.set(ControlMode.Position, nativeRotation);
-        talonSrxShooterBottomWheel.set(ControlMode.Position, nativeRotation);
-    }
-
-    public void testMotorVelocity(double velocity) {
-        double nativeVelocity = velocity * ENCODER_TPR / 10 * GEAR_RATIO;
-        talonSrxShooterTopWheel.set(ControlMode.Velocity, nativeVelocity);
-        talonSrxShooterBottomWheel.set(ControlMode.Velocity, nativeVelocity);
     }
 
 }

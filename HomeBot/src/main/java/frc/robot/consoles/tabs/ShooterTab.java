@@ -26,7 +26,6 @@ public class ShooterTab {
     private SimpleWidget m_shooterTopWheelMinVelocity;
 
     private SimpleWidget m_shooterDistance;
-    private SimpleWidget m_shooterTargetFPS;
     private SimpleWidget m_shooterTargetTPHMS;
 
     // Constructor
@@ -80,11 +79,6 @@ public class ShooterTab {
         m_shooterDistance = m_shootTargetLayout.add("Distance (Feet)", ShooterBrain.shootDistanceDefault);
         ShooterBrain.shootDistanceEntry = m_shooterDistance.getEntry();
         m_shooterDistance.withWidget(BuiltInWidgets.kTextView);
-
-        // Target velocity
-        m_shooterTargetFPS = m_shootTargetLayout.add("Velocity (FpS)", ShooterBrain.shootTargetFPSDefault);
-        ShooterBrain.shootTargetFPSEntry = m_shooterTargetFPS.getEntry();
-        m_shooterTargetFPS.withWidget(BuiltInWidgets.kTextView);
 
         // Target velocity
         m_shooterTargetTPHMS = m_shootTargetLayout.add("Velocity (TpHMS)", ShooterBrain.shootTargetTPHMSDefault);
