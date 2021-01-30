@@ -6,12 +6,12 @@ import frc.robot.consoles.Logger;
 import frc.robot.subsystems.TalonFXTest;
 
 // This command spins the Roller and moves the Conveyor forward.
-public class TalonFXTester extends CommandBase {
+public class TestTalonFX extends CommandBase {
 
     private TalonFXTest m_talonFXTest;
 
-    public TalonFXTester(TalonFXTest talonFXTest) {
-        Logger.setup("Constructing Command: TalonFXTester...");
+    public TestTalonFX(TalonFXTest talonFXTest) {
+        Logger.setup("Constructing Command: TestTalonFX...");
 
         // Add given subsystem requirements
         m_talonFXTest = talonFXTest;
@@ -20,7 +20,7 @@ public class TalonFXTester extends CommandBase {
 
     @Override
     public void initialize() {
-        Logger.action("Initializing Command: TalonFXTester...");
+        Logger.action("Initializing Command: TestTalonFX...");
     }
 
     @Override
@@ -38,9 +38,9 @@ public class TalonFXTester extends CommandBase {
     public void end(boolean interrupted) {
         if (interrupted) {
             System.out.println("--");
-            Logger.ending("Interrupting Command: TalonFXTester...");
+            Logger.ending("Interrupting Command: TestTalonFX...");
         } else {
-            Logger.ending("Ending Command: TalonFXTester...");
+            Logger.ending("Ending Command: TestTalonFX...");
         }
     }
 

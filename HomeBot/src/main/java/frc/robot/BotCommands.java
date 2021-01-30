@@ -2,6 +2,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.consoles.Logger;
 import frc.robot.commands.diffdriver.*;
+import frc.robot.commands.talonFXTester.*;
 
 
 
@@ -10,6 +11,8 @@ public class BotCommands {
     // DiffDriver
     public static RotateToDpadDirection rotateToDpadDirection;
     public static DriveDiffTank driveDiffTank;
+
+    public static TestTalonFX testTalonFX;
     
     // Initialize all robot commands
     public static void initializeCommands() {
@@ -17,6 +20,8 @@ public class BotCommands {
 
         // DiffDriver
         driveDiffTank = new DriveDiffTank(BotSubsystems.diffDriver, BotControllers.xbox);
+
+        testTalonFX = new 
     }
 
     // Return the command to run in autonomous mode
