@@ -23,6 +23,9 @@ public class Devices {
 
     static DevTalonSRX talonSrxShooterBottomWheel = new DevTalonSRX("talonSrxShooterBottomWheel", 0);
     static DevTalonSRX talonSrxShooterTopWheel = new DevTalonSRX("talonSrxShooterTopWheel", 0);
+
+    // TalonFX
+    static DevTalonFX talonFxTest = new DevTalonFX("talonFxTest", 1);
     
 
     /////////////////////
