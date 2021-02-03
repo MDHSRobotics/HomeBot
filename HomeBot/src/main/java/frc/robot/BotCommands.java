@@ -21,7 +21,7 @@ public class BotCommands {
         // DiffDriver
         driveDiffTank = new DriveDiffTank(BotSubsystems.diffDriver, BotControllers.xbox);
 
-        testTalonFX = new 
+        testTalonFX = new TestTalonFX(BotSubsystems.testTalonFX); 
     }
 
     // Return the command to run in autonomous mode

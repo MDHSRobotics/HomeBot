@@ -44,4 +44,7 @@ public class TestTalonFX extends CommandBase {
         }
     }
 
+	public static void setDefaultCommand(TestTalonFX testTalonFX) {
+	}
+
 }
