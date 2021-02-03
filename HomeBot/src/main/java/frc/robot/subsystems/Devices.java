@@ -26,6 +26,9 @@ public class Devices {
 
     // TalonFX
     static DevTalonFX talonFxTest = new DevTalonFX("talonFxTest", 1);
+    static DevTalonFX talonFxTest2 = new DevTalonFX("talonFxTest", 2);
+    static DevTalonFX talonFxTest3 = new DevTalonFX("talonFxTest", 3);
+    static DevTalonFX talonFxTest4 = new DevTalonFX("talonFxTest", 4);
     
 
     /////////////////////

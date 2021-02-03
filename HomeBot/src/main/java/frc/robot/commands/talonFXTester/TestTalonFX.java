@@ -36,6 +36,8 @@ public class TestTalonFX extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
+        m_talonFXTest.stop();
+
         if (interrupted) {
             System.out.println("--");
             Logger.ending("Interrupting Command: TestTalonFX...");
