@@ -5,8 +5,11 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import frc.robot.consoles.Logger;
 import frc.robot.brains.ShooterBrain;
 public class LimeLight {
-    private static enum ledMode{
-      mPipeline,mOff,mBlink,mOn;
+    public static enum ledMode{
+      PIPELINE,
+      OFF,
+      BLINK,
+      ON;
     }
 
     private static final double CAMERA_HEIGHT = 10.5; // height of lens (in)
@@ -32,8 +35,8 @@ public class LimeLight {
     private static boolean isTarget(){
         return m_tv.getDouble(0.0)==1;
     }
-    private static void setLedMode(ledMode mode){
-        m_ledMode.setNumber(mode.ordinal());
+    public static void setLedMode(int mode){
+        m_ledMode.forceSetNumber(mode);
     }
      // Uses the limelight to find the distance in feet
      public static void calculateDistanceToTarget() {

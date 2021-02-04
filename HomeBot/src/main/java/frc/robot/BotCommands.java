@@ -2,6 +2,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.consoles.Logger;
 import frc.robot.commands.diffdriver.*;
+import frc.robot.commands.sensors.TurnOffLed;
+import frc.robot.commands.sensors.TurnOnLed;
 
 
 
@@ -10,6 +12,9 @@ public class BotCommands {
     // DiffDriver
     public static RotateToDpadDirection rotateToDpadDirection;
     public static DriveDiffTank driveDiffTank;
+    //Sensors
+    public static TurnOffLed turnOffLed;
+    public static TurnOnLed turnOnLed;
     
     // Initialize all robot commands
     public static void initializeCommands() {
@@ -17,6 +22,9 @@ public class BotCommands {
 
         // DiffDriver
         driveDiffTank = new DriveDiffTank(BotSubsystems.diffDriver, BotControllers.xbox);
+        // Sensors 
+        turnOffLed = new TurnOffLed();
+        turnOnLed = new TurnOnLed();
     }
 
     // Return the command to run in autonomous mode
