@@ -1,6 +1,7 @@
 
 package frc.robot.subsystems.constants;
 
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 /**
  * The Constants class provides a convenient place for teams to hold
  * subsystem-wide numerical or boolean constants. This class should not be used
@@ -24,8 +25,7 @@ public final class PathConstants {
     public static final boolean kRightEncoderReversed = true;
 
     public static final double kTrackwidthMeters = 0.69;
-    // public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(
-    //         kTrackwidthMeters);
+    public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(kTrackwidthMeters);
 
     public static final int kEncoderCPR = 1024;
     public static final double kWheelDiameterMeters = 0.15;
@@ -51,15 +51,5 @@ public final class PathConstants {
 
     public static final class OIConstants {
         public static final int kDriverControllerPort = 1;
-    }
-
-    public static final class AutoConstants {
-        public static final double kMaxSpeedMetersPerSecond = 3;
-        public static final double kMaxAccelerationMetersPerSecondSquared = 3;
-
-        // Reasonable baseline values for a RAMSETE follower in units of meters and
-        // seconds
-        public static final double kRamseteB = 2;
-        public static final double kRamseteZeta = 0.7;
     }
 }

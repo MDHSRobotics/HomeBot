@@ -11,6 +11,9 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
+import edu.wpi.first.wpilibj.controller.RamseteController;
+import frc.robot.subsystems.constants.*;
+
 //
 
 import frc.robot.brains.DiffDriverBrain;
@@ -116,7 +119,7 @@ public class DiffDriver extends SubsystemBase {
 
     // returns the heading of the robot
     public double getHeading() {
-        return Math.IEEEremainder(BotSensors.gyro.getAngle(), 360) * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
+        return Math.IEEEremainder(BotSensors.gyro.getAngle(), 360) * (PathConstants.kGyroReversed ? -1.0 : 1.0);
     }
 
     // returns the turn rate of the robot
@@ -129,11 +132,11 @@ public class DiffDriver extends SubsystemBase {
 
         RamseteCommand ramseteCommand = new RamseteCommand(trajectory, m_robotDrive::getPose,
             new RamseteController(AutoConstants.kRamseteB, AutoConstants.kRamseteZeta),
-            new SimpleMotorFeedforward(DriveConstants.ksVolts,
-                    DriveConstants.kvVoltSecondsPerMeter,
-                    DriveConstants.kaVoltSecondsSquaredPerMeter),
-            DriveConstants.kDriveKinematics, m_robotDrive::getWheelSpeeds,
-            new PIDController(DriveConstants.kPDriveVel, 0, 0), new PIDController(DriveConstants.kPDriveVel, 0, 0),
+            new SimpleMotorFeedforward(PathConstants.ksVolts,
+                    PathConstants.kvVoltSecondsPerMeter,
+                    PathConstants.kaVoltSecondsSquaredPerMeter),
+            PathConstants.kDriveKinematics, m_robotDrive::getWheelSpeeds,
+            new PIDController(PathConstants.kPDriveVel, 0, 0), new PIDController(PathConstants.kPDriveVel, 0, 0),
             // RamseteCommand passes volts to the callback
             m_robotDrive::tankDriveVolts, m_robotDrive);
 
@@ -141,3 +144,4 @@ public class DiffDriver extends SubsystemBase {
 
 }
 
+a
