@@ -132,7 +132,6 @@ public class Shooter extends SubsystemBase {
         talonSrxShooterBottomWheel.set(ControlMode.Velocity, velocityTPHMS + velocityTPHMSOffsetBottom);
 
         // Update values for Shuffleboard
-        ShooterBrain.setTargetFPS(velocityFPS);
         ShooterBrain.setTargetTPHMS(velocityTPHMS);
     }
 
@@ -200,13 +199,13 @@ public class Shooter extends SubsystemBase {
 
     // Get the current Shooter BottomWheel motor velocity
     public int getBottomWheelVelocity() {
-        int velocity = talonSrxShooterBottomWheel.getSelectedSensorVelocity() / 10;
+        int velocity = talonSrxShooterBottomWheel.getSelectedSensorVelocity();
         return velocity;
     }
 
     // Get the current Shooter TopWheel motor velocity
     public int getTopWheelVelocity() {
-        int velocity = talonSrxShooterTopWheel.getSelectedSensorVelocity() / 10;
+        int velocity = talonSrxShooterTopWheel.getSelectedSensorVelocity();
         return velocity;
     }
 

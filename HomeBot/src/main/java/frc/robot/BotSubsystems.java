@@ -7,12 +7,14 @@ public class BotSubsystems {
 
     public static DiffDriver diffDriver;
     public static Delivery Delivery;
+    public static Shooter shooter;
 
     // Initialize all robot subsystems
     public static void initializeSubsystems() {
         Logger.setup("Initializing BotSubsystems...");
         diffDriver = new DiffDriverTalon();
         Delivery = new Delivery();
+        shooter = new Shooter();
     }
 
     // Set all the subsystem "teleop" default commands

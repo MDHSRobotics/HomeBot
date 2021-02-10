@@ -6,6 +6,7 @@ import java.util.Map;
 
 import frc.robot.brains.ShooterBrain;
 import frc.robot.consoles.ShuffleLogger;
+import frc.robot.BotCommands;
 
 // The Shuffleboard Shooter tab.
 public class ShooterTab {
@@ -16,14 +17,20 @@ public class ShooterTab {
     private ShuffleboardLayout m_topWheelLayout;
     private ShuffleboardLayout m_shootTargetLayout;
 
+    // Commands
+    private ComplexWidget m_shooterReset;
+    private ComplexWidget m_shootWithVelocity;
+
     // Widgets
     private SimpleWidget m_shooterTopWheelCurrentVelocity;
     private SimpleWidget m_shooterBottomWheelCurrentVelocity;
 
     private SimpleWidget m_shooterBottomWheelMaxVelocity;
     private SimpleWidget m_shooterBottomWheelMinVelocity;
+    private SimpleWidget m_shooterBottomWheelAverageVelocity;
     private SimpleWidget m_shooterTopWheelMaxVelocity;
     private SimpleWidget m_shooterTopWheelMinVelocity;
+    private SimpleWidget m_shooterTopWheelAverageVelocity;
 
     private SimpleWidget m_shooterDistance;
     private SimpleWidget m_shooterTargetTPHMS;
@@ -75,6 +82,17 @@ public class ShooterTab {
         ShooterBrain.shootTopWheelMaxVelocityEntry = m_shooterTopWheelMaxVelocity.getEntry();
         m_shooterTopWheelMaxVelocity.withWidget(BuiltInWidgets.kTextView);
 
+        // Average velocity
+        m_shooterBottomWheelAverageVelocity = m_bottomWheelLayout.add("Average Velocity (TpHMS)",
+                ShooterBrain.shootBottomWheelAverageVelocityDefault);
+        ShooterBrain.shootBottomWheelAverageVelocityEntry = m_shooterBottomWheelAverageVelocity.getEntry();
+        m_shooterBottomWheelAverageVelocity.withWidget(BuiltInWidgets.kTextView);
+
+        m_shooterTopWheelAverageVelocity = m_topWheelLayout.add("Average Velocity (TpHMS)",
+                ShooterBrain.shootTopWheelAverageVelocityDefault);
+        ShooterBrain.shootTopWheelAverageVelocityEntry = m_shooterTopWheelAverageVelocity.getEntry();
+        m_shooterTopWheelAverageVelocity.withWidget(BuiltInWidgets.kTextView);
+
         // Distance
         m_shooterDistance = m_shootTargetLayout.add("Distance (Feet)", ShooterBrain.shootDistanceDefault);
         ShooterBrain.shootDistanceEntry = m_shooterDistance.getEntry();
@@ -88,6 +106,11 @@ public class ShooterTab {
 
     // Create all other Widgets
     public void initialize() {
+        m_shooterReset = m_shootTargetLayout.add("RESET", BotCommands.resetShoot);
+        m_shooterReset.withWidget(BuiltInWidgets.kCommand);
+
+        m_shootWithVelocity = m_shootTargetLayout.add("Shoot With Velocity", BotCommands.shoot);
+        m_shootWithVelocity.withWidget(BuiltInWidgets.kCommand);
     }
 
     // Configure all Widgets

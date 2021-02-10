@@ -12,6 +12,8 @@ public class ButtonBindings {
         // Roller
         BotControllers.xbox.btnB.whileHeld(BotCommands.spinDelivery);
 
+        BotControllers.xbox.btnA.whenPressed(BotCommands.shoot);
+        BotControllers.xbox.btnB.whenPressed(BotCommands.stopShooter);
     }
 
 }

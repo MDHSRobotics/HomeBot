@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.consoles.Logger;
 import frc.robot.commands.diffdriver.*;
 import frc.robot.commands.Delivery.*;
+import frc.robot.commands.shooter.*;
 
 // Contains singleton instances of all the commands on the robot.
 public class BotCommands {
@@ -17,6 +18,12 @@ public class BotCommands {
     public static StopDelivery stopDelivery;
 
 
+
+    //Shooter
+    public static Shoot shoot;
+    public static StopShooter stopShooter;
+    public static ResetShoot resetShoot;
+    
     // Initialize all robot commands
     public static void initializeCommands() {
         Logger.setup("Initializing BotCommands...");
@@ -28,6 +35,12 @@ public class BotCommands {
         spinDelivery = new SpinDelivery(BotSubsystems.Delivery);
         stopDelivery = new StopDelivery(BotSubsystems.Delivery);
 
+
+        // Shooter
+        shoot = new Shoot(BotSubsystems.shooter);
+        stopShooter = new StopShooter(BotSubsystems.shooter);
+        resetShoot = new ResetShoot(BotSubsystems.shooter);
+        
     }
 
     // Return the command to run in autonomous mode
