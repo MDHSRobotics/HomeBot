@@ -61,10 +61,11 @@ public class Shooter extends SubsystemBase {
     public void periodic() {
         // This method will be called once per scheduler run
 
+        // Retrieve current top and bottom velocities
         topVelocity = getTopWheelVelocity();
         bottomVelocity = getBottomWheelVelocity();
 
-        // Current Velocity
+        // Post current top and bottom Velocities
         ShooterBrain.setTopWheelCurrentVelocity(topVelocity);
         ShooterBrain.setBottomWheelCurrentVelocity(bottomVelocity);
 
@@ -132,15 +133,6 @@ public class Shooter extends SubsystemBase {
 
         // Update values for Shuffleboard
         ShooterBrain.setTargetFPS(velocityFPS);
-        ShooterBrain.setTargetTPHMS(velocityTPHMS);
-    }
-
-    public void shootBasedOnVelocity() {
-        double velocityFPS = ShooterBrain.getTargetFPS();
-        double velocityTPHMS = translateFPSToTicksViaTable(velocityFPS);
-        talonSrxShooterBottomWheel.set(ControlMode.Velocity, velocityTPHMS);
-        talonSrxShooterTopWheel.set(ControlMode.Velocity, velocityTPHMS);
-
         ShooterBrain.setTargetTPHMS(velocityTPHMS);
     }
 

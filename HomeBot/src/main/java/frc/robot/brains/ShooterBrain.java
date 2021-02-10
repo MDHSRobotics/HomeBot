@@ -43,7 +43,6 @@ public class ShooterBrain {
     public static NetworkTableEntry shootTopWheelAverageVelocityEntry;
 
     public static NetworkTableEntry shootDistanceEntry;
-    public static NetworkTableEntry shootTargetFPSEntry;
     public static NetworkTableEntry shootTargetTPHMSEntry;
     public static NetworkTableEntry shootVelocityTPHMSOffsetTopEntry;
     public static NetworkTableEntry shootVelocityTPHMSOffsetBottomEntry;
@@ -84,10 +83,6 @@ public class ShooterBrain {
         shootTopWheelAverageVelocityEntry.setDouble(value);
     }
 
-    public static void setTargetFPS(double value) {
-        shootTargetFPSEntry.setDouble(value);
-    }
-
     public static void setTargetTPHMS(double value) {
         shootTargetTPHMSEntry.setDouble(value);
     }
@@ -98,10 +93,6 @@ public class ShooterBrain {
     //---------//
     // Getters //
     //---------//
-
-    public static double getTargetFPS() {
-        return shootTargetFPSEntry.getDouble(shootTargetFPSDefault);
-    }
 
     public static double getTargetTPHMS() {
         return shootTargetTPHMSEntry.getDouble(shootTargetTPHMSDefault);
