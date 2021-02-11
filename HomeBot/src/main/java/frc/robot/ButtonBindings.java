@@ -10,8 +10,6 @@ public class ButtonBindings {
     public static void configureXbox() {
         Logger.setup("Configure Buttons -> Xbox Controller...");
 
-        BotControllers.xbox.btnA.whileHeld(BotCommands.testTalonFX);
-
     }
 
 }

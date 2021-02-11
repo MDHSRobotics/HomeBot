@@ -25,10 +25,10 @@ public class Devices {
     static DevTalonSRX talonSrxShooterTopWheel = new DevTalonSRX("talonSrxShooterTopWheel", 0);
 
     // TalonFX
-    static DevTalonFX talonFxTest = new DevTalonFX("talonFxTest", 1);
-    static DevTalonFX talonFxTest2 = new DevTalonFX("talonFxTest", 2);
-    static DevTalonFX talonFxTest3 = new DevTalonFX("talonFxTest", 3);
-    static DevTalonFX talonFxTest4 = new DevTalonFX("talonFxTest", 4);
+    static DevTalonFX talonFxDiffWheelFrontLeft = new DevTalonFX("talonFxDiffWheelFrontLeft", 1);
+    static DevTalonFX talonFxDiffWheelFrontRight = new DevTalonFX("talonFxDiffWheelFrontRight", 2);
+    static DevTalonFX talonFxDiffWheelRearLeft = new DevTalonFX("talonFxDiffWheelRearLeft", 3);
+    static DevTalonFX talonFxDiffWheelRearRight = new DevTalonFX("talonFxDiffWheelRearRight", 4);
     
 
     /////////////////////
