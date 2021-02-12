@@ -49,10 +49,10 @@ public class Shooter extends SubsystemBase {
 
         if (isReal) {
             // Configure devices
-            PIDValues pidBottom = new PIDValues(0.087, 0.0, 0.0, 0.0);
+            PIDValues pidBottom = new PIDValues(0.0435, 0.0, 0.0, 0.0); // calibrate for 75,000 TpHMS
             TalonUtils.configureTalonWithEncoder(talonSrxShooterBottomWheel, SENSOR_PHASE_BOTTOM, MOTOR_INVERT_BOTTOM, pidBottom);
 
-            PIDValues pidTop = new PIDValues(0.0885, 0.0, 0.0, 0.0); // kF should be 0.0015 greater than the bottom kF
+            PIDValues pidTop = new PIDValues(0.04425, 0.0, 0.0, 0.0); // kF should be 0.0015 greater than the bottom kF
             TalonUtils.configureTalonWithEncoder(talonSrxShooterTopWheel, SENSOR_PHASE_TOP, MOTOR_INVERT_TOP, pidTop);
         }
     }
@@ -137,8 +137,8 @@ public class Shooter extends SubsystemBase {
 
     public void shootBasedOnTPHMS() {
         double velocityTPHMS = ShooterBrain.getTargetTPHMS() / GEAR_RATIO;
-        talonSrxShooterBottomWheel.set(velocityTPHMS);
-        talonSrxShooterTopWheel.set(velocityTPHMS);
+        talonSrxShooterBottomWheel.set(ControlMode.Velocity, velocityTPHMS);
+        talonSrxShooterTopWheel.set(ControlMode.Velocity, velocityTPHMS);
     }
 
     // Translate a desired target velocity in feet per second to a motor speed in Ticks per 100 ms.

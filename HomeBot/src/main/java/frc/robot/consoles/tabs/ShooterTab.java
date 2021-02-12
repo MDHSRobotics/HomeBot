@@ -20,6 +20,7 @@ public class ShooterTab {
     // Commands
     private ComplexWidget m_shooterReset;
     private ComplexWidget m_shootWithVelocity;
+    private ComplexWidget m_stopSHooter;
 
     // Widgets
     private SimpleWidget m_shooterTopWheelCurrentVelocity;
@@ -111,6 +112,9 @@ public class ShooterTab {
 
         m_shootWithVelocity = m_shootTargetLayout.add("Shoot With Velocity", BotCommands.shoot);
         m_shootWithVelocity.withWidget(BuiltInWidgets.kCommand);
+
+        m_stopSHooter = m_shootTargetLayout.add("Stop Shoot", BotCommands.stopShooter);
+        m_stopSHooter.withWidget(BuiltInWidgets.kCommand);
     }
 
     // Configure all Widgets
