@@ -2,13 +2,13 @@
 package frc.robot.subsystems;
 
 import frc.robot.consoles.Logger;
-import frc.robot.devices.DevTalonSRX;
+import frc.robot.devices.DevTalonFX;
 
 import static frc.robot.subsystems.Devices.diffDriveTalon;
-import static frc.robot.subsystems.Devices.talonSrxDiffWheelFrontLeft;
-import static frc.robot.subsystems.Devices.talonSrxDiffWheelFrontRight;
-import static frc.robot.subsystems.Devices.talonSrxDiffWheelRearLeft;
-import static frc.robot.subsystems.Devices.talonSrxDiffWheelRearRight;
+import static frc.robot.subsystems.Devices.talonFxDiffWheelFrontLeft;
+import static frc.robot.subsystems.Devices.talonFxDiffWheelFrontRight;
+import static frc.robot.subsystems.Devices.talonFxDiffWheelRearLeft;
+import static frc.robot.subsystems.Devices.talonFxDiffWheelRearRight;
 import static frc.robot.RobotManager.isReal;
 
 // Differential driver subsystem.
@@ -24,17 +24,17 @@ public class DiffDriverFalcon extends DiffDriver {
 
         if (isReal) {
             // Configure the subsystem devices
-            configureTalon(talonSrxDiffWheelFrontLeft);
-            configureTalon(talonSrxDiffWheelFrontRight);
-            configureTalon(talonSrxDiffWheelRearLeft);
-            configureTalon(talonSrxDiffWheelRearRight);
+            configureTalon(talonFxDiffWheelFrontLeft);
+            configureTalon(talonFxDiffWheelFrontRight);
+            configureTalon(talonFxDiffWheelRearLeft);
+            configureTalon(talonFxDiffWheelRearRight);
         }
-        talonSrxDiffWheelRearLeft.follow(talonSrxDiffWheelFrontLeft);
-        talonSrxDiffWheelRearRight.follow(talonSrxDiffWheelFrontRight);
+        talonFxDiffWheelRearLeft.follow(talonFxDiffWheelFrontLeft);
+        talonFxDiffWheelRearRight.follow(talonFxDiffWheelFrontRight);
     }
 
     // Configure the given talon
-    private void configureTalon(DevTalonSRX talon) {
+    private void configureTalon(DevTalonFX talon) {
         if (!talon.isConnected) return;
 
         // TODO: Investigate why these motor controllers have to be inverted.
