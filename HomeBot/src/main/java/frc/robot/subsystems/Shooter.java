@@ -49,10 +49,10 @@ public class Shooter extends SubsystemBase {
 
         if (isReal) {
             // Configure devices
-            PIDValues pidBottom = new PIDValues(0.0435, 0.0, 0.0, 0.0);
+            PIDValues pidBottom = new PIDValues(0.00835, 0.0, 0.0, 0.0); // Calibrated for 20,000 TpHMS
             TalonUtils.configureTalonWithEncoder(talonSrxShooterBottomWheel, SENSOR_PHASE_BOTTOM, MOTOR_INVERT_BOTTOM, pidBottom);
 
-            PIDValues pidTop = new PIDValues(0.04425, 0.0, 0.0, 0.0);
+            PIDValues pidTop = new PIDValues(0.00835, 0.0, 0.0, 0.0);
             TalonUtils.configureTalonWithEncoder(talonSrxShooterTopWheel, SENSOR_PHASE_TOP, MOTOR_INVERT_TOP, pidTop);
         }
     }
@@ -101,8 +101,8 @@ public class Shooter extends SubsystemBase {
         avgBottomVelocity /= sampleSize;
 
         // Post average velocities
-        ShooterBrain.setTopWheelAverageVelocity(avgBottomVelocity);
-        ShooterBrain.setBottomWheelAverageVelocity(avgTopVelocity);
+        ShooterBrain.setTopWheelAverageVelocity(avgTopVelocity);
+        ShooterBrain.setBottomWheelAverageVelocity(avgBottomVelocity);
     }
 
     // Stop the flywheels
