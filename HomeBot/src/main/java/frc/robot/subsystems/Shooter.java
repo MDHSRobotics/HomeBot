@@ -26,7 +26,7 @@ public class Shooter extends SubsystemBase {
     private static final boolean MOTOR_INVERT_TOP = false;
 
     // Position constants
-    private static final double GEAR_RATIO = 4.0;
+    private static final double GEAR_RATIO = 4.0; // Gear ratio bewteen Input Shaft : Output Shaft of a gearbox
 
     // Shuffleboard
     private double topVelocity = ShooterBrain.shootTopWheelCurrentVelocityDefault;
@@ -49,10 +49,10 @@ public class Shooter extends SubsystemBase {
 
         if (isReal) {
             // Configure devices
-            PIDValues pidBottom = new PIDValues(0.0435, 0.0, 0.0, 0.0); // calibrate for 75,000 TpHMS
+            PIDValues pidBottom = new PIDValues(0.0435, 0.0, 0.0, 0.0);
             TalonUtils.configureTalonWithEncoder(talonSrxShooterBottomWheel, SENSOR_PHASE_BOTTOM, MOTOR_INVERT_BOTTOM, pidBottom);
 
-            PIDValues pidTop = new PIDValues(0.04425, 0.0, 0.0, 0.0); // kF should be 0.0015 greater than the bottom kF
+            PIDValues pidTop = new PIDValues(0.04425, 0.0, 0.0, 0.0);
             TalonUtils.configureTalonWithEncoder(talonSrxShooterTopWheel, SENSOR_PHASE_TOP, MOTOR_INVERT_TOP, pidTop);
         }
     }
@@ -61,15 +61,15 @@ public class Shooter extends SubsystemBase {
     public void periodic() {
         // This method will be called once per scheduler run
 
-        // Retrieve current top and bottom velocities
+        // Retrieve current top and bottom flywheel velocities
         topVelocity = getTopWheelVelocity();
         bottomVelocity = getBottomWheelVelocity();
 
-        // Post current top and bottom Velocities
+        // Post current top and bottom flywheel velocities
         ShooterBrain.setTopWheelCurrentVelocity(topVelocity);
         ShooterBrain.setBottomWheelCurrentVelocity(bottomVelocity);
 
-        // Min and Max Velocity
+        // Capture min and max recorded flywheel velocity
         if (topVelocity < minTopVelocity) minTopVelocity = topVelocity;
         if (topVelocity > maxTopVelocity) maxTopVelocity = topVelocity;
         if (bottomVelocity < minBottomVelocity) minBottomVelocity = bottomVelocity;
@@ -80,7 +80,7 @@ public class Shooter extends SubsystemBase {
         ShooterBrain.setTopWheelMinVelocity(minTopVelocity);
         ShooterBrain.setTopWheelMaxVelocity(maxTopVelocity);
 
-        // Average Velocity
+        // Calculate average velocities
         for (int i = sampleSize - 2; i > 0; i--){
             averageTopVelocity[i] = averageTopVelocity[i - 1];
             averageBottomVelocity[i] = averageBottomVelocity[i - 1];
@@ -100,11 +100,12 @@ public class Shooter extends SubsystemBase {
         avgTopVelocity /= sampleSize;
         avgBottomVelocity /= sampleSize;
 
+        // Post average velocities
         ShooterBrain.setTopWheelAverageVelocity(avgBottomVelocity);
         ShooterBrain.setBottomWheelAverageVelocity(avgTopVelocity);
     }
 
-    // Stop the shooter
+    // Stop the flywheels
     public void stop() {
         talonSrxShooterBottomWheel.stopMotor();
         talonSrxShooterTopWheel.stopMotor();
@@ -135,19 +136,26 @@ public class Shooter extends SubsystemBase {
         ShooterBrain.setTargetTPHMS(velocityTPHMS);
     }
 
+    /**
+     * Spins both flywheels at a specified TpHMS velocity entered in Shuffleboard
+     */
     public void shootBasedOnTPHMS() {
-        double velocityTPHMS = ShooterBrain.getTargetTPHMS() / GEAR_RATIO;
+        double velocityTPHMS = ShooterBrain.getTargetTPHMS() * GEAR_RATIO;
         talonSrxShooterBottomWheel.set(ControlMode.Velocity, velocityTPHMS);
         talonSrxShooterTopWheel.set(ControlMode.Velocity, velocityTPHMS);
     }
 
-    // Translate a desired target velocity in feet per second to a motor speed in Ticks per 100 ms.
-    // The translation is done via a lookup table with values based on shooting experiments.
-    // Each entry in the table is the result of testing a particular motor speed (Ticks per 100ms) and
-    // then measuring the range that the ball is shot. From the range we can calculate the effective
-    // velocity of the ball (ft/sec). The lookup table correlates the ball velocity and motor speed
-    // for each test.  We can deduce the motor speed for other ball velocities by interpolating
-    // (or extrapolating) using the values in the lookup table.
+    /**
+     * Translate a desired target velocity in feet per second to a motor speed in Ticks per 100 ms.
+     * The translation is done via a lookup table with values based on shooting experiments.
+     * Each entry in the table is the result of testing a particular motor speed (Ticks per 100ms) and
+     * then measuring the range that the ball is shot. From the range we can calculate the effective
+     * velocity of the ball (ft/sec). The lookup table correlates the ball velocity and motor speed
+     * for each test.  We can deduce the motor speed for other ball velocities by interpolating
+     * (or extrapolating) using the values in the lookup table.
+     * @param targetFPS
+     * @return targetTPHMS
+     */
 
     public static double translateFPSToTicksViaTable(double targetFPS) {
 
@@ -197,15 +205,21 @@ public class Shooter extends SubsystemBase {
     // Getters //
     //---------//
 
-    // Get the current Shooter BottomWheel motor velocity
-    public int getBottomWheelVelocity() {
-        int velocity = talonSrxShooterBottomWheel.getSelectedSensorVelocity();
+    /**
+     * Get the current top flywheel velocity (TpHMS)
+     * @return velocity
+     */
+    public int getTopWheelVelocity() {
+        int velocity = (int)(talonSrxShooterTopWheel.getSelectedSensorVelocity() / GEAR_RATIO);
         return velocity;
     }
 
-    // Get the current Shooter TopWheel motor velocity
-    public int getTopWheelVelocity() {
-        int velocity = talonSrxShooterTopWheel.getSelectedSensorVelocity();
+    /**
+     * Get the current bottom flywheel velocity (TpHMS)
+     * @return velocity
+     */
+    public int getBottomWheelVelocity() {
+        int velocity = (int)(talonSrxShooterBottomWheel.getSelectedSensorVelocity() / GEAR_RATIO);
         return velocity;
     }
 
@@ -213,7 +227,9 @@ public class Shooter extends SubsystemBase {
     // Shuffleboard //
     //--------------//
 
-    // Resets the min/max velocity capture variables to their default values
+    /**
+     * Resets the min/max/avg velocity variables in Shuffleboard to their default values
+     */
     public void reset() {
         minTopVelocity = ShooterBrain.shootTopWheelMinVelocityDefault;
         maxTopVelocity = ShooterBrain.shootTopWheelMaxVelocityDefault;
