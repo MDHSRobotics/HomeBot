@@ -24,7 +24,11 @@ public class EncoderUtils {
         double rotationTicks = rotationCountMS * ENCODER_TPR; // Amount of ticks to rotate
         return rotationTicks;
     }
+    public static double translateTicksToDistance(double rotationTicks, double wheelCircumference){
+        double distance = (rotationTicks/360)*(wheelCircumference / 12.0);
+        return distance;
 
+    }
     // Computes an encoder velocity tick count based on the desired velocity in feet per second for a given wheel diameter and gearbox ratio (MS : GS)
     public static double translateFPSToTicksPerDecisecond(double fps, double wheelDiameter, double gearRatio) {
         double wheelCircumference = Math.PI * (wheelDiameter / 12.0);

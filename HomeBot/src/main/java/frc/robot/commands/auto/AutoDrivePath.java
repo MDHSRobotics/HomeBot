@@ -45,6 +45,8 @@ public class AutoDrivePath extends CommandBase {
 
     @Override
     public void execute() {
+
+        
         
     }
 
@@ -56,7 +58,7 @@ public class AutoDrivePath extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-                //TODO add log statement
+        Logger.info("AutoDrivePath interrupted");
     }
 
 

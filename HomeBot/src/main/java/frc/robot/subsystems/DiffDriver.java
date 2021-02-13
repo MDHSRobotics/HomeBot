@@ -15,6 +15,8 @@ import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import frc.robot.subsystems.constants.*;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
+
+import frc.robot.subsystems.utils.EncoderUtils;
 //
 
 import frc.robot.brains.DiffDriverBrain;
@@ -46,10 +48,15 @@ public class DiffDriver extends SubsystemBase {
         this.diffDrive = diffDrive;
         m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
     }
-
+    // This method will be called once per scheduler run
+    // Might change constant 6 depending on wheel's diameter 
     @Override
     public void periodic() {
-        // This method will be called once per scheduler run
+        double wheelCircumference = 6 * Math.PI;
+        double rightDistance = EncoderUtils.translateTicksToDistance(talonSrxDiffWheelFrontRight.getSelectedSensorPosition(0), wheelCircumference);
+        double leftDistance = EncoderUtils.translateTicksToDistance(talonSrxDiffWheelFrontLeft.getSelectedSensorPosition(0), wheelCircumference);
+        
+        m_odometry.update(BotSensors.gyro.getRotation2d(), leftDistance, rightDistance);
     }
 
     // Flip the control direction of the joystick in Y (or Y Left for Xbox thumbsticks)
@@ -125,11 +132,16 @@ public class DiffDriver extends SubsystemBase {
         return Math.IEEEremainder(BotSensors.gyro.getAngle(), 360) * (PathConstants.kGyroReversed ? -1.0 : 1.0);
     }
 
+    public double getTurnRate(){
+
+        return BotSensors.gyro.getRate();
+    }
+
     // returns the turn rate of the robot
     public Pose2d getPose() {
         return m_odometry.getPoseMeters();
     }
-    //TODO must change the value 20 to a pathconstant 
+    //TODO must change the value 20 to a pathconstant value 
     public void resetEncoders() {
         talonSrxDiffWheelFrontLeft.setSelectedSensorPosition(0, 0, 20);
         talonSrxDiffWheelFrontLeft.setSelectedSensorPosition(0, 0, 20);
@@ -139,6 +151,10 @@ public class DiffDriver extends SubsystemBase {
     public void resetOdometry(Pose2d pose) {
         resetEncoders();
         m_odometry.resetPosition(pose, Rotation2d.fromDegrees(getHeading()));
+    }
+
+    public void resetGyro(){
+        BotSensors.gyro.reset();
     }
 
     /**
