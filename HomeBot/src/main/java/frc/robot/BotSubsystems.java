@@ -6,13 +6,11 @@ import frc.robot.subsystems.*;
 public class BotSubsystems {
 
     public static DiffDriver diffDriver;
-    public static Delivery Delivery;
 
     // Initialize all robot subsystems
     public static void initializeSubsystems() {
         Logger.setup("Initializing BotSubsystems...");
         diffDriver = new DiffDriverTalon();
-        Delivery = new Delivery();
     }
 
     // Set all the subsystem "teleop" default commands
@@ -21,10 +19,6 @@ public class BotSubsystems {
         // DiffDriver
         Logger.setup("DiffDriver Teleop Default Command -> DriveDiffTank...");
         diffDriver.setDefaultCommand(BotCommands.driveDiffTank);
-
-        // Delivery
-        Logger.setup("Delivery Teleop Default Command -> StopDelivery...");
-        Delivery.setDefaultCommand(BotCommands.stopDelivery);
     }
 
 }

@@ -10,9 +10,6 @@ public class ButtonBindings {
     public static void configureXbox() {
         Logger.setup("Configure Buttons -> Xbox Controller...");
 
-        // Roller
-        BotControllers.xbox.btnB.whileHeld(BotCommands.spinDelivery);
-
     }
 
 }
