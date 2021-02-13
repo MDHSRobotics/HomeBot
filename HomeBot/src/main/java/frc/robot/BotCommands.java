@@ -12,6 +12,7 @@ public class BotCommands {
     // DiffDriver
     public static RotateToDpadDirection rotateToDpadDirection;
     public static DriveDiffTank driveDiffTank;
+    public static RotateTowardsTarget rotateTowardsTarget;
     //Sensors
     public static TurnOffLed turnOffLed;
     public static TurnOnLed turnOnLed;
@@ -22,6 +23,7 @@ public class BotCommands {
 
         // DiffDriver
         driveDiffTank = new DriveDiffTank(BotSubsystems.diffDriver, BotControllers.xbox);
+        rotateTowardsTarget = new RotateTowardsTarget(BotSubsystems.diffDriver);
         // Sensors 
         turnOffLed = new TurnOffLed();
         turnOnLed = new TurnOnLed();
