@@ -10,7 +10,7 @@ public class ButtonBindings {
         Logger.setup("Configure Buttons -> Xbox Controller...");
 
         // Roller
-        BotControllers.xbox.btnB.whileHeld(BotCommands.spinDelivery);
+        BotControllers.xbox.btnX.whileHeld(BotCommands.spinDelivery);
 
         BotControllers.xbox.btnA.whenPressed(BotCommands.shoot);
         BotControllers.xbox.btnB.whenPressed(BotCommands.stopShooter);
