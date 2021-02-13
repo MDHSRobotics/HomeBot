@@ -5,7 +5,6 @@ import frc.robot.consoles.Logger;
 import frc.robot.commands.diffdriver.*;
 import frc.robot.commands.Delivery.*;
 
-
 // Contains singleton instances of all the commands on the robot.
 public class BotCommands {
 

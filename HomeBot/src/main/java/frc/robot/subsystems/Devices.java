@@ -22,6 +22,12 @@ public class Devices {
 
     static DevTalonSRX talonSrxShooterBottomWheel = new DevTalonSRX("talonSrxShooterBottomWheel", 0);
     static DevTalonSRX talonSrxShooterTopWheel = new DevTalonSRX("talonSrxShooterTopWheel", 0);
+
+    // TalonFX
+    static DevTalonFX talonFxDiffWheelFrontLeft = new DevTalonFX("talonFxDiffWheelFrontLeft", 3);
+    static DevTalonFX talonFxDiffWheelFrontRight = new DevTalonFX("talonFxDiffWheelFrontRight", 1);
+    static DevTalonFX talonFxDiffWheelRearLeft = new DevTalonFX("talonFxDiffWheelRearLeft", 4);
+    static DevTalonFX talonFxDiffWheelRearRight = new DevTalonFX("talonFxDiffWheelRearRight", 2);
     
     static DevTalonSRX talonSrxDeliveryRight = new DevTalonSRX("talonSrxDeliveryRight", 3);
     static DevTalonSRX talonSrxDeliveryLeft = new DevTalonSRX("talonSrxDeliveryLeft", 16);
@@ -31,7 +37,7 @@ public class Devices {
     /////////////////////
 
     public static DevDifferentialDrive diffDriveTalon = new DevDifferentialDrive("diffDriveTalon",
-                                                                                talonSrxDiffWheelFrontLeft,
-                                                                                talonSrxDiffWheelFrontRight);
+                                                                                talonFxDiffWheelFrontLeft,
+                                                                                talonFxDiffWheelFrontRight);
 
 }
