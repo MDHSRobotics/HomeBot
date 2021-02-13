@@ -11,6 +11,8 @@ import static frc.robot.subsystems.Devices.talonSrxDeliveryLeft;
 // Delivery Subsytem, for sucking in balls.
 public class Delivery extends SubsystemBase {
 
+    private final double deliverySpeed = 0.5;
+
     public Delivery() {
          Logger.setup("Constructing Subsystem: Delivery...");
     }
@@ -28,8 +30,8 @@ public class Delivery extends SubsystemBase {
 
     // Spin the Delivery
     public void spin() {
-        talonSrxDeliveryRight.set(0.5);
-        talonSrxDeliveryLeft.set(0.5);
+        talonSrxDeliveryRight.set(deliverySpeed);
+        talonSrxDeliveryLeft.set(deliverySpeed);
     }
 
 }

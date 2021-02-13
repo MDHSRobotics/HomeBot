@@ -23,7 +23,7 @@ public class SpinDelivery extends CommandBase {
 
     @Override
     public void initialize() {
-        Logger.action("Initializing Command: SpinDeliveryAndConveyor...");
+        Logger.action("Initializing Command: SpinDelivery...");
     }
 
     @Override
@@ -41,9 +41,9 @@ public class SpinDelivery extends CommandBase {
     public void end(boolean interrupted) {
         if (interrupted) {
             System.out.println("--");
-            Logger.ending("Interrupting Command: SpinDeliveryAndConveyor...");
+            Logger.ending("Interrupting Command: SpinDelivery...");
         } else {
-            Logger.ending("Ending Command: SpinDeliveryAndConveyor...");
+            Logger.ending("Ending Command: SpinDelivery...");
         }
     }
 
