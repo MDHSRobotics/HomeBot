@@ -1,6 +1,7 @@
 
 package frc.robot.subsystems;
 
+import frc.robot.subsystems.Devices;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -10,16 +11,18 @@ import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
-import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj.controller.RamseteController;
+import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import frc.robot.subsystems.constants.*;
-
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 //
 
 import frc.robot.brains.DiffDriverBrain;
 import frc.robot.consoles.Logger;
 import frc.robot.sensors.Gyro;
 import frc.robot.BotSensors;
+import static frc.robot.subsystems.Devices.*;
+import frc.robot.BotSubsystems;
 
 // Differential driver subsystem base class
 public class DiffDriver extends SubsystemBase {
@@ -126,22 +129,35 @@ public class DiffDriver extends SubsystemBase {
     public Pose2d getPose() {
         return m_odometry.getPoseMeters();
     }
+    //TODO must change the value 20 to a pathconstant 
+    public void resetEncoders() {
+        talonSrxDiffWheelFrontLeft.setSelectedSensorPosition(0, 0, 20);
+        talonSrxDiffWheelFrontLeft.setSelectedSensorPosition(0, 0, 20);
+    }
 
-    public void driveAlongTrajectory(Trajectory trajectory) {
-        Logger.info("Driving along trajectory.");
+    // Resets the odometry to the specified pose.
+    public void resetOdometry(Pose2d pose) {
+        resetEncoders();
+        m_odometry.resetPosition(pose, Rotation2d.fromDegrees(getHeading()));
+    }
 
-        RamseteCommand ramseteCommand = new RamseteCommand(trajectory, m_robotDrive::getPose,
-            new RamseteController(AutoConstants.kRamseteB, AutoConstants.kRamseteZeta),
-            new SimpleMotorFeedforward(PathConstants.ksVolts,
-                    PathConstants.kvVoltSecondsPerMeter,
-                    PathConstants.kaVoltSecondsSquaredPerMeter),
-            PathConstants.kDriveKinematics, m_robotDrive::getWheelSpeeds,
-            new PIDController(PathConstants.kPDriveVel, 0, 0), new PIDController(PathConstants.kPDriveVel, 0, 0),
-            // RamseteCommand passes volts to the callback
-            m_robotDrive::tankDriveVolts, m_robotDrive);
+    /**
+     * Controls the left and right sides of the drive directly with voltages. Uses
+     * setVoltage() rather than set(), as this will automatically compensate
+     * for battery “voltage sag” during operation.
+     */
 
+    public DifferentialDriveWheelSpeeds getWheelSpeeds(){
+        double leftSpeed = (double)(talonSrxDiffWheelFrontLeft.getSelectedSensorVelocity());
+        double rightSpeed = (double)(talonSrxDiffWheelFrontRight.getSelectedSensorVelocity());
+        return new DifferentialDriveWheelSpeeds(leftSpeed, rightSpeed);
+     }
+
+    public void tankDriveVolts(double leftVolts, double rightVolts) {
+        talonSrxDiffWheelFrontLeft.setVoltage(leftVolts);
+        talonSrxDiffWheelFrontRight.setVoltage(-rightVolts);
+        diffDrive.feed();
     }
 
 }
 
-a

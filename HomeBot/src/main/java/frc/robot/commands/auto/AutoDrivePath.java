@@ -45,7 +45,7 @@ public class AutoDrivePath extends CommandBase {
 
     @Override
     public void execute() {
-
+        
     }
 
     // This command continues until
@@ -56,7 +56,9 @@ public class AutoDrivePath extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-
+                //TODO add log statement
     }
+
+
 
 }
