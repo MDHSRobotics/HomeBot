@@ -90,7 +90,7 @@ public class BotCommands {
             new RamseteController(AutoConstants.kRamseteB, AutoConstants.kRamseteZeta),
             new SimpleMotorFeedforward(PathConstants.ksVolts,
                                     PathConstants.kvVoltSecondsPerMeter,
-                                    PathConstants.kaVoltSecondsSquaredPer;Meter),
+                                    PathConstants.kaVoltSecondsSquaredPerMeter),
             PathConstants.kDriveKinematics,
             BotSubsystems.diffDriver::getWheelSpeeds,
             new PIDController(PathConstants.kPDriveVel, 0, 0),
@@ -106,13 +106,10 @@ public class BotCommands {
     
         // Run path following command, then stop at the end.
         return ramseteCommand.andThen(() -> BotSubsystems.diffDriver.tankDriveVolts(0, 0));
-    }
-
-    return autoDrivePath;
+    
 
     // Find the currently selected auto command in Shuffleboard and return it
     // Command autoCommand = RobotManager.autoCommandChooser.getSelected();
     // return autoCommand;
-}
-
+    }
 }
