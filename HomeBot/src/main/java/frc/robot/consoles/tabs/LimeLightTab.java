@@ -2,13 +2,11 @@ package frc.robot.consoles.tabs;
 import frc.robot.sensors.LimeLight;
 import edu.wpi.first.wpilibj.shuffleboard.*;
 import frc.robot.consoles.ShuffleLogger;
-import frc.robot.brains.ShooterBrain;
+
 public class LimeLightTab {
         // Tab & Layouts
         private ShuffleboardTab m_tab;
         
-      
-    
         // Widgets
         private SimpleWidget m_xOffSetWidget;
         private SimpleWidget m_yOffSetWidget;
@@ -34,7 +32,7 @@ public class LimeLightTab {
            
             // Distance
             m_distanceWidget = m_tab.add("Distance to target", 
-            LimeLight.getDistance());
+            LimeLight.calculateDistanceToTarget());
         }
     
         // Create all other Widgets
@@ -50,7 +48,9 @@ public class LimeLightTab {
     
         // This will be called in the robotPeriodic
         public void update() {
-    
+           LimeLight.getXOffset();
+           LimeLight.getYOffset();
+           LimeLight.calculateDistanceToTarget();
         }
     
 }
