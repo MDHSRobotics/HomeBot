@@ -48,7 +48,7 @@ public class BotCommands {
     }
 
     // Return the command to run in autonomous mode
-    public Command getAutonomousCommand() {
+    public static Command getAutonomousCommand() {
         // Create a voltage constraint to ensure we don't accelerate too fast
         var autoVoltageConstraint =
             new DifferentialDriveVoltageConstraint(
