@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.consoles.Logger;
 import frc.robot.commands.diffdriver.*;
 import frc.robot.commands.pickup.*;
+import frc.robot.commands.shooter.*;
 
 
 
@@ -16,6 +17,10 @@ public class BotCommands {
     // Pickup
     public static spinPickup SpinPickup;
     public static stopPickup StopPickup;
+
+    //Shoot
+    public static Shoot shoot;
+    public static StopShooter stopShooter;
     
     // Initialize all robot commands
     public static void initializeCommands() {
@@ -27,6 +32,10 @@ public class BotCommands {
         // Pickup
         SpinPickup = new spinPickup(BotSubsystems.Pickup);
         StopPickup = new stopPickup(BotSubsystems.Pickup);
+
+        //Shoot
+        shoot = new Shoot(BotSubsystems.shooter);
+        stopShooter = new StopShooter(BotSubsystems.shooter);
 
     }
 

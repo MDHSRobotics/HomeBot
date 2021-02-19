@@ -13,6 +13,9 @@ public class ButtonBindings {
         // Pickup
         BotControllers.xbox.btnX.whileHeld(BotCommands.SpinPickup);
 
+        //Shoot
+        BotControllers.xbox.btnA.whileHeld(BotCommands.shoot);
+
     }
 
 }

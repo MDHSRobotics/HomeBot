@@ -258,8 +258,8 @@ public class Shooter extends SubsystemBase {
     //---------//
 
     public void testMotor() {
-        talonSrxShooterBottomWheel.set(0.3);
-        talonSrxShooterTopWheel.set(0.3);
+        talonSrxShooterBottomWheel.set(-10);
+        talonSrxShooterTopWheel.set(10);
     }
 
     public void testMotorRotation(int rotations) {

@@ -27,7 +27,7 @@ public class Pickup extends SubsystemBase {
 
     // Spin the Pickup
     public void spin() {
-        talonSrxPickupRight.set(0.5);
+        talonSrxPickupRight.set(-0.5);
         talonSrxPickupLeft.set(0.5);
     }
 
