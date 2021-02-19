@@ -18,11 +18,9 @@ public class BotCommands {
     public static SpinDelivery spinDelivery;
     public static StopDelivery stopDelivery;
 
-
-
     // Pickup
-    public static spinPickup SpinPickup;
-    public static stopPickup StopPickup;
+    public static spinPickup spinPickup;
+    public static stopPickup stopPickup;
 
     //Shoot
     public static Shoot shoot;
@@ -38,6 +36,14 @@ public class BotCommands {
         // Delivery
         spinDelivery = new SpinDelivery(BotSubsystems.Delivery);
         stopDelivery = new StopDelivery(BotSubsystems.Delivery);
+
+        // Pickup
+        spinPickup = new spinPickup(BotSubsystems.Pickup);
+        stopPickup = new stopPickup(BotSubsystems.Pickup);
+
+        // Shooter
+        shoot = new Shoot(BotSubsystems.shooter);
+        stopShooter = new StopShooter(BotSubsystems.shooter);
 
     }
 

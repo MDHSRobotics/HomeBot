@@ -33,7 +33,7 @@ public class BotSubsystems {
 
         // Pickup
         Logger.setup("Pickup Teleop Default Command -> StopPickup...");
-        Pickup.setDefaultCommand(BotCommands.StopPickup);
+        Pickup.setDefaultCommand(BotCommands.stopPickup);
 
         //Shoot
         Logger.setup("Shooter Teleop Default Command -> Shoot...");

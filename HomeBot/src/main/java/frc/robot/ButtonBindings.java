@@ -13,7 +13,7 @@ public class ButtonBindings {
         BotControllers.xbox.btnB.whileHeld(BotCommands.spinDelivery);
 
         // Pickup
-        BotControllers.xbox.btnX.whileHeld(BotCommands.SpinPickup);
+        BotControllers.xbox.btnX.whileHeld(BotCommands.spinPickup);
 
         //Shoot
         BotControllers.xbox.btnA.whileHeld(BotCommands.shoot);
