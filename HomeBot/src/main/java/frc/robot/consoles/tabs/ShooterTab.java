@@ -50,16 +50,40 @@ public class ShooterTab {
     // Create Brain Widgets
     public void preInitialize() {
 
+        // Top Wheel Layout
+
+        // Current Velocity
+        m_shooterTopWheelCurrentVelocity = m_topWheelLayout.add("Current Velocity (TpHMS)",
+                ShooterBrain.shootTopWheelCurrentVelocityDefault);
+        ShooterBrain.shootTopWheelCurrentVelocityEntry = m_shooterTopWheelCurrentVelocity.getEntry();
+        m_shooterTopWheelCurrentVelocity.withWidget(BuiltInWidgets.kGraph);
+
+        // Min Velocity
+        m_shooterTopWheelMinVelocity = m_topWheelLayout.add("Min Velocity (TpHMS)",
+                ShooterBrain.shootTopWheelMinVelocityDefault);
+        ShooterBrain.shootTopWheelMinVelocityEntry = m_shooterTopWheelMinVelocity.getEntry();
+        m_shooterTopWheelMinVelocity.withWidget(BuiltInWidgets.kTextView);
+
+        // Max Velocity
+        m_shooterTopWheelMaxVelocity = m_topWheelLayout.add("Max Velocity (TpHMS)",
+                ShooterBrain.shootTopWheelMaxVelocityDefault);
+        ShooterBrain.shootTopWheelMaxVelocityEntry = m_shooterTopWheelMaxVelocity.getEntry();
+        m_shooterTopWheelMaxVelocity.withWidget(BuiltInWidgets.kTextView);
+
+        // Average velocity
+        m_shooterTopWheelAverageVelocity = m_topWheelLayout.add("Average Velocity (TpHMS)",
+                ShooterBrain.shootTopWheelAverageVelocityDefault);
+        ShooterBrain.shootTopWheelAverageVelocityEntry = m_shooterTopWheelAverageVelocity.getEntry();
+        m_shooterTopWheelAverageVelocity.withWidget(BuiltInWidgets.kTextView);
+
+
+        // Bottom Wheel Layout
+
         // Current velocity
         m_shooterBottomWheelCurrentVelocity = m_bottomWheelLayout.add("Current Velocity (TpHMS)",
                 ShooterBrain.shootBottomWheelCurrentVelocityDefault);
         ShooterBrain.shootBottomWheelCurrentVelocityEntry = m_shooterBottomWheelCurrentVelocity.getEntry();
         m_shooterBottomWheelCurrentVelocity.withWidget(BuiltInWidgets.kGraph);
-
-        m_shooterTopWheelCurrentVelocity = m_topWheelLayout.add("Current Velocity (TpHMS)",
-                ShooterBrain.shootTopWheelCurrentVelocityDefault);
-        ShooterBrain.shootTopWheelCurrentVelocityEntry = m_shooterTopWheelCurrentVelocity.getEntry();
-        m_shooterTopWheelCurrentVelocity.withWidget(BuiltInWidgets.kGraph);
 
         // Min velocity
         m_shooterBottomWheelMinVelocity = m_bottomWheelLayout.add("Min Velocity (TpHMS)",
@@ -67,32 +91,20 @@ public class ShooterTab {
         ShooterBrain.shootBottomWheelMinVelocityEntry = m_shooterBottomWheelMinVelocity.getEntry();
         m_shooterBottomWheelMinVelocity.withWidget(BuiltInWidgets.kTextView);
 
-        m_shooterTopWheelMinVelocity = m_topWheelLayout.add("Min Velocity (TpHMS)",
-                ShooterBrain.shootTopWheelMinVelocityDefault);
-        ShooterBrain.shootTopWheelMinVelocityEntry = m_shooterTopWheelMinVelocity.getEntry();
-        m_shooterTopWheelMinVelocity.withWidget(BuiltInWidgets.kTextView);
-
         // Max velocity
         m_shooterBottomWheelMaxVelocity = m_bottomWheelLayout.add("Max Velocity (TpHMS)",
                 ShooterBrain.shootBottomWheelMaxVelocityDefault);
         ShooterBrain.shootBottomWheelMaxVelocityEntry = m_shooterBottomWheelMaxVelocity.getEntry();
         m_shooterBottomWheelMaxVelocity.withWidget(BuiltInWidgets.kTextView);
 
-        m_shooterTopWheelMaxVelocity = m_topWheelLayout.add("Max Velocity (TpHMS)",
-                ShooterBrain.shootTopWheelMaxVelocityDefault);
-        ShooterBrain.shootTopWheelMaxVelocityEntry = m_shooterTopWheelMaxVelocity.getEntry();
-        m_shooterTopWheelMaxVelocity.withWidget(BuiltInWidgets.kTextView);
-
-        // Average velocity
+        // Avergage Velocity
         m_shooterBottomWheelAverageVelocity = m_bottomWheelLayout.add("Average Velocity (TpHMS)",
                 ShooterBrain.shootBottomWheelAverageVelocityDefault);
         ShooterBrain.shootBottomWheelAverageVelocityEntry = m_shooterBottomWheelAverageVelocity.getEntry();
         m_shooterBottomWheelAverageVelocity.withWidget(BuiltInWidgets.kTextView);
 
-        m_shooterTopWheelAverageVelocity = m_topWheelLayout.add("Average Velocity (TpHMS)",
-                ShooterBrain.shootTopWheelAverageVelocityDefault);
-        ShooterBrain.shootTopWheelAverageVelocityEntry = m_shooterTopWheelAverageVelocity.getEntry();
-        m_shooterTopWheelAverageVelocity.withWidget(BuiltInWidgets.kTextView);
+
+        // Target Layout
 
         // Distance
         m_shooterDistance = m_shootTargetLayout.add("Distance (Feet)", ShooterBrain.shootDistanceDefault);
