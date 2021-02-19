@@ -9,6 +9,9 @@ import frc.robot.subsystems.DiffDriver;
 import frc.robot.commands.auto.*;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -18,12 +21,17 @@ import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import java.nio.file.FileSystem;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.controller.PIDController;
+import frc.robot.BotSubsystems;
+
+
 // Contains singleton instances of all the commands on the robot.
 public class BotCommands {
     // DiffDriver
     public static RotateToDpadDirection rotateToDpadDirection;
     public static DriveDiffTank driveDiffTank;
+    private static Trajectory m_trajectory;
 
     // Autonomous
     public static AutoDrivePath autoDrivePath;
@@ -67,7 +75,7 @@ public class BotCommands {
         try {
             Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
             Trajectory trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-
+            m_trajectory = trajectory; 
             Logger.info("Trajectory created.");
         }
 
@@ -77,34 +85,31 @@ public class BotCommands {
         
     
         RamseteCommand ramseteCommand = new RamseteCommand(
-            trajectory,
-            m_odometry::getPose,
+            m_trajectory,
+            BotSubsystems.diffDriver::getPose,
             new RamseteController(AutoConstants.kRamseteB, AutoConstants.kRamseteZeta),
             new SimpleMotorFeedforward(PathConstants.ksVolts,
                                     PathConstants.kvVoltSecondsPerMeter,
                                     PathConstants.kaVoltSecondsSquaredPerMeter),
             PathConstants.kDriveKinematics,
-            m_odometry::getWheelSpeeds,
+            BotSubsystems.diffDriver::getWheelSpeeds,
             new PIDController(PathConstants.kPDriveVel, 0, 0),
             new PIDController(PathConstants.kPDriveVel, 0, 0),
             // RamseteCommand passes volts to the callback
-            m_odometry::tankDriveVolts,
-            m_odometry
+            BotSubsystems.diffDriver::tankDriveVolts,
+            BotSubsystems.diffDriver
         );
     
         // Reset odometry to the starting pose of the trajectory.
-        m_odometry.resetOdometry(trajectory.getInitialPose());
+        BotSubsystems.diffDriver.resetOdometry(paths.getInitialPose());
 
     
         // Run path following command, then stop at the end.
-        return ramseteCommand.andThen(() -> m_odometry.tankDriveVolts(0, 0));
-    }
-
-    return autoDrivePath;
+        return ramseteCommand.andThen(() -> BotSubsystems.diffDriver.tankDriveVolts(0, 0));
+    
 
     // Find the currently selected auto command in Shuffleboard and return it
     // Command autoCommand = RobotManager.autoCommandChooser.getSelected();
     // return autoCommand;
-}
-
+    }
 }
