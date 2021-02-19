@@ -35,6 +35,7 @@ public class ShooterTab {
 
     private SimpleWidget m_shooterDistance;
     private SimpleWidget m_shooterTargetTPHMS;
+    private SimpleWidget m_shootBallSpinOffset;
 
     // Constructor
     public ShooterTab() {
@@ -103,7 +104,7 @@ public class ShooterTab {
         ShooterBrain.shootBottomWheelAverageVelocityEntry = m_shooterBottomWheelAverageVelocity.getEntry();
         m_shooterBottomWheelAverageVelocity.withWidget(BuiltInWidgets.kTextView);
 
-
+        
         // Target Layout
 
         // Distance
@@ -115,6 +116,11 @@ public class ShooterTab {
         m_shooterTargetTPHMS = m_shootTargetLayout.add("Velocity (TpHMS)", ShooterBrain.shootTargetTPHMSDefault);
         ShooterBrain.shootTargetTPHMSEntry = m_shooterTargetTPHMS.getEntry();
         m_shooterTargetTPHMS.withWidget(BuiltInWidgets.kTextView);
+
+        // Ball Spin Offset
+        m_shootBallSpinOffset = m_shootTargetLayout.add("Velocity (TpHMS)", ShooterBrain.shootBallSpinOffsetDefault);
+        ShooterBrain.shootBallSpinOffsetEntry = m_shootBallSpinOffset.getEntry();
+        m_shootBallSpinOffset.withWidget(BuiltInWidgets.kTextView);
     }
 
     // Create all other Widgets

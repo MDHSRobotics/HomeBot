@@ -111,26 +111,19 @@ public class Shooter extends SubsystemBase {
         talonSrxShooterTopWheel.stopMotor();
     }
 
-    // Spin the shooter motors at a velocity to hit the target center based on a given distance
-    // Note: the distance is currently manually defined in Shuffleboard
+    /**
+     * Spin the shooter motors at a velocity to hit the target center based on a given distance
+     * Note: the distance is currently manually defined in Shuffleboard
+     */
     public void shootBasedOnDistance() {
-        double sHeight = RobotBrain.shooterHeightFeetDefault;
-        double sAngle = RobotBrain.shooterAngleDegreesDefault;
-        double fHeight = RobotBrain.fieldTargetHeightFeet;
-
-        double distanceFeet = ShooterBrain.getShootDistance();
-        double numerator = 32.174 * Math.pow(distanceFeet, 2);
-        double denominator = 2 * (distanceFeet * Math.sin(sAngle) * Math.cos(sAngle)
-                - (fHeight - sHeight) * Math.pow(Math.cos(sAngle), 2));
-        double velocityFPS = Math.sqrt(numerator) / Math.sqrt(denominator);
+        double shootDistance = ShooterBrain.getShootDistance();
 
         // Convert the desired ball velocity (ft/sec) into the required motor speed (Ticks per 100 ms)
-        double velocityTPHMS = translateFPSToTicksViaTable(velocityFPS);
-        double velocityTPHMSOffsetTop = ShooterBrain.getShooterVelocityTPHMSOffsetTop();
-        double velocityTPHMSOffsetBottom = ShooterBrain.getShooterVelocityTPHMSOffsetBottom();
+        double velocityTPHMS = translateDistanceToTicksViaTable(shootDistance);
+        double ballSpsinOffset = ShooterBrain.getBallSpinOffset();
 
-        talonSrxShooterTopWheel.set(ControlMode.Velocity, velocityTPHMS + velocityTPHMSOffsetTop);
-        talonSrxShooterBottomWheel.set(ControlMode.Velocity, velocityTPHMS + velocityTPHMSOffsetBottom);
+        talonSrxShooterTopWheel.set(ControlMode.Velocity, velocityTPHMS - ballSpsinOffset);
+        talonSrxShooterBottomWheel.set(ControlMode.Velocity, velocityTPHMS + ballSpsinOffset);
 
         // Update values for Shuffleboard
         ShooterBrain.setTargetTPHMS(velocityTPHMS);
@@ -141,35 +134,35 @@ public class Shooter extends SubsystemBase {
      */
     public void shootBasedOnTPHMS() {
         double velocityTPHMS = ShooterBrain.getTargetTPHMS() * GEAR_RATIO;
-        talonSrxShooterBottomWheel.set(ControlMode.Velocity, velocityTPHMS);
-        talonSrxShooterTopWheel.set(ControlMode.Velocity, velocityTPHMS);
+        double ballSpsinOffset = ShooterBrain.getBallSpinOffset();
+        talonSrxShooterTopWheel.set(ControlMode.Velocity, velocityTPHMS - ballSpsinOffset);
+        talonSrxShooterBottomWheel.set(ControlMode.Velocity, velocityTPHMS + ballSpsinOffset);
     }
 
     /**
-     * Translate a desired target velocity in feet per second to a motor speed in Ticks per 100 ms.
+     * Translate a desired target shoot distance (ft) to a motor velocity in Ticks per 100 ms.
      * The translation is done via a lookup table with values based on shooting experiments.
      * Each entry in the table is the result of testing a particular motor speed (Ticks per 100ms) and
-     * then measuring the range that the ball is shot. From the range we can calculate the effective
-     * velocity of the ball (ft/sec). The lookup table correlates the ball velocity and motor speed
-     * for each test.  We can deduce the motor speed for other ball velocities by interpolating
-     * (or extrapolating) using the values in the lookup table.
-     * @param targetFPS
+     * then measuring the range that the ball is shot. The lookup table correlates the ball velocity 
+     * and motor speed for each test. We can deduce target shoot distances for other ball velocities by 
+     * interpolating (or extrapolating) using the values in the lookup table.
+     * @param targetDistance
      * @return targetTPHMS
      */
 
-    public static double translateFPSToTicksViaTable(double targetFPS) {
+    public static double translateDistanceToTicksViaTable(double targetDistance) {
 
         // Initialize the lookup table; Key=Velocity in FPS; Value=Motor speed in Ticks/100ms
         SortedMap<Double, Double> luTable = new TreeMap<Double, Double>();
 
-        // The data below is based on shooting experiments conducted on March 5, 2020:
-        // (Feet per second, Ticks per 100ms)
-        luTable.put(22.676, 4671.); // 8
-        luTable.put(19.753, 4275.); // 10
-        luTable.put(27.878, 5425.); // 7
-        luTable.put(25.117, 4946.); // 7.5
-        luTable.put(33.766, 6402.); // 6.5
-        luTable.put(30.830, 5814.); // 6.75
+        // The data below is based on shooting experiments conducted on February 18, 2021:
+        // (Distance, Ticks per 100ms)
+        luTable.put(22.676, 4671.);
+        luTable.put(19.753, 4275.);
+        luTable.put(27.878, 5425.);
+        luTable.put(25.117, 4946.);
+        luTable.put(33.766, 6402.);
+        luTable.put(30.830, 5814.);
 
         boolean firstPass = true;
         double f1 = -99.;
@@ -180,7 +173,7 @@ public class Shooter extends SubsystemBase {
         for (Map.Entry<Double, Double> entry : luTable.entrySet()) {
             double f2 = entry.getKey();
             double t2 = entry.getValue();
-            Logger.debug(f2 + " (ft/sec) => " + t2 + " (Ticks/100ms");
+            Logger.debug(f2 + " (ft) => " + t2 + " (Ticks/100ms");
 
             // Skip over the first value because we can't compute a slope until we have read at least 2 values
             if (firstPass) {
@@ -188,9 +181,9 @@ public class Shooter extends SubsystemBase {
             }
             else {
                 double slope = (t2-t1) / (f2-f1);
-                targetTPHMS = t1 + (targetFPS-f1) * slope;
+                targetTPHMS = t1 + (targetDistance-f1) * slope;
 
-                if (targetFPS <= f2)
+                if (targetDistance <= f2)
                     break;
             }
 

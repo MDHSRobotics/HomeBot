@@ -25,8 +25,7 @@ public class ShooterBrain {
     public static double shootDistanceDefault = 11.38;
     public static double shootTargetFPSDefault = 0.;
     public static double shootTargetTPHMSDefault = 0.;
-    public static double shootVelocityTPHMSOffsetTopDefault = 0.;
-    public static double shootVelocityTPHMSOffsetBottomDefault = 0.;
+    public static double shootBallSpinOffsetDefault = 0.;
 
     //---------------------//
     // NetworkTableEntries //
@@ -44,8 +43,7 @@ public class ShooterBrain {
 
     public static NetworkTableEntry shootDistanceEntry;
     public static NetworkTableEntry shootTargetTPHMSEntry;
-    public static NetworkTableEntry shootVelocityTPHMSOffsetTopEntry;
-    public static NetworkTableEntry shootVelocityTPHMSOffsetBottomEntry;
+    public static NetworkTableEntry shootBallSpinOffsetEntry;
 
     //---------//
     // Setters //
@@ -101,12 +99,8 @@ public class ShooterBrain {
     public static double getShootDistance() {
         return shootDistanceEntry.getDouble(shootDistanceDefault);
     }
-    public static double getShooterVelocityTPHMSOffsetTop(){
-        return shootVelocityTPHMSOffsetTopEntry.getDouble(shootVelocityTPHMSOffsetTopDefault);
-    }
-
-    public static double getShooterVelocityTPHMSOffsetBottom() {
-        return shootVelocityTPHMSOffsetBottomEntry.getDouble(shootVelocityTPHMSOffsetBottomDefault);
+    public static double getBallSpinOffset() {
+        return shootBallSpinOffsetEntry.getDouble(shootBallSpinOffsetDefault);
     }
 
 }
