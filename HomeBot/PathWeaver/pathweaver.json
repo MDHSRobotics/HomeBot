@@ -2,8 +2,8 @@
   "lengthUnit": "Meter",
   "exportUnit": "Always Meters",
   "maxVelocity": 5.0,
-  "maxAcceleration": 2.0,
-  "wheelBase": 0.683,
+  "maxAcceleration": 5.0,
+  "wheelBase": 0.1016,
   "gameName": "Galactic Search A",
   "outputDir": ""
 }
