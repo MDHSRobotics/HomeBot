@@ -31,7 +31,7 @@ public class BotCommands {
     // DiffDriver
     public static RotateToDpadDirection rotateToDpadDirection;
     public static DriveDiffTank driveDiffTank;
-    private static Trajectory paths;
+    private static Trajectory m_trajectory;
 
     // Autonomous
     public static AutoDrivePath autoDrivePath;
@@ -75,7 +75,7 @@ public class BotCommands {
         try {
             Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
             Trajectory trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-            paths = trajectory; 
+            m_trajectory = trajectory; 
             Logger.info("Trajectory created.");
         }
 
@@ -85,7 +85,7 @@ public class BotCommands {
         
     
         RamseteCommand ramseteCommand = new RamseteCommand(
-            paths,
+            m_trajectory,
             BotSubsystems.diffDriver::getPose,
             new RamseteController(AutoConstants.kRamseteB, AutoConstants.kRamseteZeta),
             new SimpleMotorFeedforward(PathConstants.ksVolts,
