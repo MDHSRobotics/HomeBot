@@ -5,25 +5,25 @@ import frc.robot.consoles.Logger;
 import frc.robot.subsystems.constants.PathConstants;
 import frc.robot.subsystems.constants.AutoConstants;
 import frc.robot.commands.diffdriver.*;
-import frc.robot.subsystems.DiffDriver;
+
 import frc.robot.commands.auto.*;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
-import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
+
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
+
+
 import java.io.IOException;
 import java.nio.file.Path;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
-import java.nio.file.FileSystem;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.controller.PIDController;
-import frc.robot.BotSubsystems;
+
 
 
 // Contains singleton instances of all the commands on the robot.
@@ -58,7 +58,7 @@ public class BotCommands {
                 PathConstants.kDriveKinematics,
                 10);
     
-        // Create config for trajectory
+        // Create config for trajectory (might not need it)
         TrajectoryConfig config =
             new TrajectoryConfig(AutoConstants.kMaxSpeedMetersPerSecond,
                                 AutoConstants.kMaxAccelerationMetersPerSecondSquared)
@@ -101,13 +101,14 @@ public class BotCommands {
         );
     
         // Reset odometry to the starting pose of the trajectory.
-        BotSubsystems.diffDriver.resetOdometry(paths.getInitialPose());
+        BotSubsystems.diffDriver.resetOdometry(m_trajectory.getInitialPose());
 
     
         // Run path following command, then stop at the end.
         return ramseteCommand.andThen(() -> BotSubsystems.diffDriver.tankDriveVolts(0, 0));
     
 
+        
     // Find the currently selected auto command in Shuffleboard and return it
     // Command autoCommand = RobotManager.autoCommandChooser.getSelected();
     // return autoCommand;
