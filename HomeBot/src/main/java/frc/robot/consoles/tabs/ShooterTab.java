@@ -15,7 +15,7 @@ public class ShooterTab {
     private ShuffleboardTab m_tab;
     private ShuffleboardLayout m_bottomWheelLayout;
     private ShuffleboardLayout m_topWheelLayout;
-    private ShuffleboardLayout m_shootTargetLayout;
+    private ShuffleboardLayout m_shootConfigLayout;
 
     // Commands
     private ComplexWidget m_shooterReset;
@@ -36,6 +36,8 @@ public class ShooterTab {
     private SimpleWidget m_shooterDistance;
     private SimpleWidget m_shooterTargetTPHMS;
     private SimpleWidget m_shootBallSpinOffset;
+    private SimpleWidget m_pidkFTop;
+    private SimpleWidget m_pidkFBottom;
 
     // Constructor
     public ShooterTab() {
@@ -45,7 +47,7 @@ public class ShooterTab {
 
         m_bottomWheelLayout = m_tab.getLayout("Bottom Wheel", BuiltInLayouts.kList);
         m_topWheelLayout = m_tab.getLayout("Top Wheel", BuiltInLayouts.kList);
-        m_shootTargetLayout = m_tab.getLayout("Target", BuiltInLayouts.kList);
+        m_shootConfigLayout = m_tab.getLayout("Config", BuiltInLayouts.kList);
     }
 
     // Create Brain Widgets
@@ -105,55 +107,65 @@ public class ShooterTab {
         m_shooterBottomWheelAverageVelocity.withWidget(BuiltInWidgets.kTextView);
 
         
-        // Target Layout
+        // Config Layout
 
         // Distance
-        m_shooterDistance = m_shootTargetLayout.add("Distance (Feet)", ShooterBrain.shootDistanceDefault);
+        m_shooterDistance = m_shootConfigLayout.add("Distance (Feet)", ShooterBrain.shootDistanceDefault);
         ShooterBrain.shootDistanceEntry = m_shooterDistance.getEntry();
         m_shooterDistance.withWidget(BuiltInWidgets.kTextView);
 
         // Target velocity
-        m_shooterTargetTPHMS = m_shootTargetLayout.add("Velocity (TpHMS)", ShooterBrain.shootTargetTPHMSDefault);
+        m_shooterTargetTPHMS = m_shootConfigLayout.add("Velocity (TpHMS)", ShooterBrain.shootTargetTPHMSDefault);
         ShooterBrain.shootTargetTPHMSEntry = m_shooterTargetTPHMS.getEntry();
         m_shooterTargetTPHMS.withWidget(BuiltInWidgets.kTextView);
 
         // Ball Spin Offset
-        m_shootBallSpinOffset = m_shootTargetLayout.add("Velocity (TpHMS)", ShooterBrain.shootBallSpinOffsetDefault);
+        m_shootBallSpinOffset = m_shootConfigLayout.add("Velocity (TpHMS)", ShooterBrain.shootBallSpinOffsetDefault);
         ShooterBrain.shootBallSpinOffsetEntry = m_shootBallSpinOffset.getEntry();
         m_shootBallSpinOffset.withWidget(BuiltInWidgets.kTextView);
+
+        // pidkFTop
+        m_pidkFTop = m_shootConfigLayout.add("PID kF", ShooterBrain.pidkFTopDefault);
+        ShooterBrain.pidkFTopEntry = m_pidkFTop.getEntry();
+        m_pidkFTop.withWidget(BuiltInWidgets.kTextView);
+
+        // pidkFBottom
+        m_pidkFBottom = m_shootConfigLayout.add("PID kF", ShooterBrain.pidkFBottomDefault);
+        ShooterBrain.pidkFBottomEntry = m_pidkFBottom.getEntry();
+        m_pidkFBottom.withWidget(BuiltInWidgets.kTextView);
     }
 
     // Create all other Widgets
     public void initialize() {
-        m_shooterReset = m_shootTargetLayout.add("RESET", BotCommands.resetShoot);
+        m_shooterReset = m_shootConfigLayout.add("RESET", BotCommands.resetShoot);
         m_shooterReset.withWidget(BuiltInWidgets.kCommand);
 
-        m_shootWithVelocity = m_shootTargetLayout.add("Shoot With Velocity", BotCommands.shoot);
+        m_shootWithVelocity = m_shootConfigLayout.add("Shoot With Velocity", BotCommands.shoot);
         m_shootWithVelocity.withWidget(BuiltInWidgets.kCommand);
 
-        m_stopSHooter = m_shootTargetLayout.add("Stop Shoot", BotCommands.stopShooter);
+        m_stopSHooter = m_shootConfigLayout.add("Stop Shoot", BotCommands.stopShooter);
         m_stopSHooter.withWidget(BuiltInWidgets.kCommand);
     }
 
     // Configure all Widgets
     public void configure() {
         m_bottomWheelLayout.withPosition(0, 0);
-        m_bottomWheelLayout.withSize(2, 3);
+        m_bottomWheelLayout.withSize(2, 4);
         // m_bottomWheelLayout.withProperties(Map.of("Number of columns", 1));
         // m_bottomWheelLayout.withProperties(Map.of("Number of rows", 3));
         m_bottomWheelLayout.withProperties(Map.of("Label position", "TOP"));
 
         m_topWheelLayout.withPosition(2, 0);
-        m_topWheelLayout.withSize(2, 3);
+        m_topWheelLayout.withSize(2, 4);
         // m_topWheelLayout.withProperties(Map.of("Number of columns", 1));
         // m_topWheelLayout.withProperties(Map.of("Number of rows", 3));
         m_topWheelLayout.withProperties(Map.of("Label position", "TOP"));
 
-        m_shootTargetLayout.withPosition(4, 0);
-        m_shootTargetLayout.withSize(1, 3);
+        m_shootConfigLayout.withPosition(4, 0);
+        m_shootConfigLayout.withSize(2, 5);
         // m_shootTargetLayout.withProperties(Map.of("Number of columns", 1));
         // m_shootTargetLayout.withProperties(Map.of("Number of rows", 3));
-        m_shootTargetLayout.withProperties(Map.of("Label position", "TOP"));
+        m_shootConfigLayout.withProperties(Map.of("Label position", "TOP"));
     }
 
     // This will be called in the robotPeriodic

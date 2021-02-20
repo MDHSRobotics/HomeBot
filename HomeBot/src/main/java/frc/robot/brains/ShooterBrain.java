@@ -11,6 +11,9 @@ public class ShooterBrain {
     // Default Values //
     //----------------//
 
+    public static double pidkFTopDefault = 0;
+    public static double pidkFBottomDefault = 0;
+
     public static double shootTopWheelCurrentVelocityDefault = 0.;
     public static double shootBottomWheelCurrentVelocityDefault = 0.;
 
@@ -30,6 +33,9 @@ public class ShooterBrain {
     //---------------------//
     // NetworkTableEntries //
     //---------------------//
+
+    public static NetworkTableEntry pidkFTopEntry;
+    public static NetworkTableEntry pidkFBottomEntry;
 
     public static NetworkTableEntry shootBottomWheelCurrentVelocityEntry;
     public static NetworkTableEntry shootTopWheelCurrentVelocityEntry;
@@ -91,6 +97,14 @@ public class ShooterBrain {
     //---------//
     // Getters //
     //---------//
+
+    public static double getPidkFTop() {
+        return pidkFTopEntry.getDouble(pidkFTopDefault);
+    }
+
+    public static double getPidkFBottom() {
+        return pidkFBottomEntry.getDouble(pidkFBottomDefault);
+    }
 
     public static double getTargetTPHMS() {
         return shootTargetTPHMSEntry.getDouble(shootTargetTPHMSDefault);

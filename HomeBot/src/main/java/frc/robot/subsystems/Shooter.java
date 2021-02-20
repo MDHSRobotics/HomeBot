@@ -29,6 +29,9 @@ public class Shooter extends SubsystemBase {
     private static final double GEAR_RATIO = 4.0; // Gear ratio bewteen Input Shaft : Output Shaft of a gearbox
 
     // Shuffleboard
+    private double pidkFTop = ShooterBrain.pidkFTopDefault;
+    private double pidkFBottom = ShooterBrain.pidkFBottomDefault;
+
     private double topVelocity = ShooterBrain.shootTopWheelCurrentVelocityDefault;
     private double bottomVelocity = ShooterBrain.shootBottomWheelCurrentVelocityDefault;
 
@@ -49,17 +52,21 @@ public class Shooter extends SubsystemBase {
 
         if (isReal) {
             // Configure devices
-            PIDValues pidBottom = new PIDValues(0.00835, 0.0, 0.0, 0.0); // Calibrated for 20,000 TpHMS
-            TalonUtils.configureTalonWithEncoder(talonSrxShooterBottomWheel, SENSOR_PHASE_BOTTOM, MOTOR_INVERT_BOTTOM, pidBottom);
-
-            PIDValues pidTop = new PIDValues(0.00835, 0.0, 0.0, 0.0);
+            PIDValues pidTop = new PIDValues(pidkFTop, 0.0, 0.0, 0.0);
             TalonUtils.configureTalonWithEncoder(talonSrxShooterTopWheel, SENSOR_PHASE_TOP, MOTOR_INVERT_TOP, pidTop);
+
+            PIDValues pidBottom = new PIDValues(pidkFBottom, 0.0, 0.0, 0.0); // Calibrated for 20,000: TpHMS 0.00835
+            TalonUtils.configureTalonWithEncoder(talonSrxShooterBottomWheel, SENSOR_PHASE_BOTTOM, MOTOR_INVERT_BOTTOM, pidBottom);
         }
     }
 
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
+
+        // Retrieve PID values
+        pidkFTop = ShooterBrain.getPidkFTop();
+        pidkFBottom = ShooterBrain.getPidkFBottom();
 
         // Retrieve current top and bottom flywheel velocities
         topVelocity = getTopWheelVelocity();
@@ -157,12 +164,7 @@ public class Shooter extends SubsystemBase {
 
         // The data below is based on shooting experiments conducted on February 18, 2021:
         // (Distance, Ticks per 100ms)
-        luTable.put(22.676, 4671.);
-        luTable.put(19.753, 4275.);
-        luTable.put(27.878, 5425.);
-        luTable.put(25.117, 4946.);
-        luTable.put(33.766, 6402.);
-        luTable.put(30.830, 5814.);
+        luTable.put(22.25, 18650.);
 
         boolean firstPass = true;
         double f1 = -99.;
