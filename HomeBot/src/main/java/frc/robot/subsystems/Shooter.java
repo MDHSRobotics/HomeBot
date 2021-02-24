@@ -6,7 +6,6 @@ import java.util.*;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import frc.robot.brains.RobotBrain;
 import frc.robot.brains.ShooterBrain;
 import frc.robot.consoles.Logger;
 import frc.robot.subsystems.utils.*;
@@ -32,14 +31,14 @@ public class Shooter extends SubsystemBase {
     private double pidkFTop = ShooterBrain.pidkFTopDefault;
     private double pidkFBottom = ShooterBrain.pidkFBottomDefault;
 
-    private double topVelocity = ShooterBrain.shootTopWheelCurrentVelocityDefault;
-    private double bottomVelocity = ShooterBrain.shootBottomWheelCurrentVelocityDefault;
+    private double topVelocity = ShooterBrain.topWheelCurrentVelocityDefault;
+    private double bottomVelocity = ShooterBrain.bottomWheelCurrentVelocityDefault;
 
-    private double minTopVelocity = ShooterBrain.shootTopWheelMinVelocityDefault;
-    private double maxTopVelocity = ShooterBrain.shootTopWheelMaxVelocityDefault;
+    private double minTopVelocity = ShooterBrain.topWheelMinVelocityDefault;
+    private double maxTopVelocity = ShooterBrain.topWheelMaxVelocityDefault;
 
-    private double minBottomVelocity = ShooterBrain.shootBottomWheelMinVelocityDefault;
-    private double maxBottomVelocity = ShooterBrain.shootBottomWheelMaxVelocityDefault;
+    private double minBottomVelocity = ShooterBrain.bottomWheelMinVelocityDefault;
+    private double maxBottomVelocity = ShooterBrain.bottomWheelMaxVelocityDefault;
 
     private double avgTopVelocity = 0;
     private double avgBottomVelocity = 0;
@@ -127,13 +126,13 @@ public class Shooter extends SubsystemBase {
 
         // Convert the desired ball velocity (ft/sec) into the required motor speed (Ticks per 100 ms)
         double velocityTPHMS = translateDistanceToTicksViaTable(shootDistance);
-        double ballSpsinOffset = ShooterBrain.getBallSpinOffset();
+        double ballSpsinOffset = ShooterBrain.getBallSpinVelocity();
 
         talonSrxShooterTopWheel.set(ControlMode.Velocity, velocityTPHMS - ballSpsinOffset);
         talonSrxShooterBottomWheel.set(ControlMode.Velocity, velocityTPHMS + ballSpsinOffset);
 
         // Update values for Shuffleboard
-        ShooterBrain.setTargetTPHMS(velocityTPHMS);
+        ShooterBrain.setShootVelocity(velocityTPHMS);
     }
 
     /**
@@ -141,7 +140,7 @@ public class Shooter extends SubsystemBase {
      */
     public void shootBasedOnTPHMS() {
         double velocityTPHMS = ShooterBrain.getTargetTPHMS() * GEAR_RATIO;
-        double ballSpsinOffset = ShooterBrain.getBallSpinOffset();
+        double ballSpsinOffset = ShooterBrain.getBallSpinVelocity();
         talonSrxShooterTopWheel.set(ControlMode.Velocity, velocityTPHMS - ballSpsinOffset);
         talonSrxShooterBottomWheel.set(ControlMode.Velocity, velocityTPHMS + ballSpsinOffset);
     }
@@ -226,14 +225,14 @@ public class Shooter extends SubsystemBase {
      * Resets the min/max/avg velocity variables in Shuffleboard to their default values
      */
     public void reset() {
-        minTopVelocity = ShooterBrain.shootTopWheelMinVelocityDefault;
-        maxTopVelocity = ShooterBrain.shootTopWheelMaxVelocityDefault;
+        minTopVelocity = ShooterBrain.topWheelMinVelocityDefault;
+        maxTopVelocity = ShooterBrain.topWheelMaxVelocityDefault;
 
-        minBottomVelocity = ShooterBrain.shootBottomWheelMinVelocityDefault;
-        maxBottomVelocity = ShooterBrain.shootBottomWheelMaxVelocityDefault;
+        minBottomVelocity = ShooterBrain.bottomWheelMinVelocityDefault;
+        maxBottomVelocity = ShooterBrain.bottomWheelMaxVelocityDefault;
 
-        avgTopVelocity = ShooterBrain.shootTopWheelAverageVelocityDefault;
-        avgBottomVelocity = ShooterBrain.shootBottomWheelAverageVelocityDefault;
+        avgTopVelocity = ShooterBrain.topWheelAverageVelocityDefault;
+        avgBottomVelocity = ShooterBrain.bottomWheelAverageVelocityDefault;
     }
 
     //---------//
