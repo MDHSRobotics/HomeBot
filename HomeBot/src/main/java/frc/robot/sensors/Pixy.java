@@ -30,17 +30,17 @@ public class Pixy {
         }
     }
 
-    public static String detectColor() {
+    public static String detectFieldMode() {
         Pixy2CCC ccc = BotSensors.pixy.getCCC();
         int blockCount = ccc.getBlocks(true, Pixy2CCC.CCC_SIG7, 1);
         if (blockCount <= 0) {
-            Logger.problem("Pixy -> detectColor -> No block count");
+            Logger.problem("Pixy -> detectFieldMode -> No block count");
         }
 
         ArrayList<Block> blocks = ccc.getBlocks();
         Block largestBlock = null;
         if (blocks == null) {
-            Logger.info("Pixy -> detectColor -> No blocks");
+            Logger.info("Pixy -> detectFieldMode -> No blocks");
         }
         for (Block block : blocks) {
             if (block.getSignature() == blockSignature) {
@@ -52,8 +52,17 @@ public class Pixy {
                 }
             }
         }
-        // Pixy2Video video = BotSensors.pixy.getVideo();
-        return "none";
+        int blockX = largestBlock.getX();
+        Logger.info("Largest block x = " + blockX);
+    
+        if (blockX > 0){
+            return "left";
+        }
+        else{
+            return "right";
+        
+        }
+    
     }
 
 }
