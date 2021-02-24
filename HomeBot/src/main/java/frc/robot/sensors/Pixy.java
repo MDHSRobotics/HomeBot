@@ -42,65 +42,6 @@ public class Pixy {
                 }
             }
         }
-        Pixy2Video video = BotSensors.pixy.getVideo();
-        rgb = video.new RGB(0, 0, 0);
-        int detectedRGB = video.getRGB(5, 5, rgb, true);
-        Logger.info("Pixy -> detectColor -> RGB: " + "R: " + rgb.getR() + "G: " + rgb.getG() + "B: " + rgb.getB());
-        Logger.info("Pixy -> detectColor -> RGB: " + detectedRGB);
-
-        // TODO: check values
-        boolean redDetected = (detectedRGB == 1);
-        boolean yellowDetected = (detectedRGB == 2);
-        boolean greenDetected = (detectedRGB == 3);
-        boolean blueDetected = (detectedRGB == 4);
-
-        if (redDetected) {
-            detectedColor = "Red";
-        }
-        else if (yellowDetected) {
-            detectedColor = "Yellow";
-        }
-        else if (greenDetected) {
-            detectedColor = "Green";
-        }
-        else if (blueDetected) {
-            detectedColor = "Blue";
-        }
-        return detectedColor;
+        // Pixy2Video video = BotSensors.pixy.getVideo();
     }
-
-    public static String switchColor() {
-
-        String gameData = DriverStation.getInstance().getGameSpecificMessage();
-
-        if ((gameData.charAt(0)) == 'R') {
-            colorCounter = 1;
-        } else if ((gameData.charAt(0)) == 'Y') {
-            colorCounter = 2;
-        } else if ((gameData.charAt(0)) == 'G') {
-            colorCounter = 3;
-        } else if ((gameData.charAt(0)) == 'B') {
-            colorCounter = 4;
-        }
-
-        if (colorCounter == 1) {
-            colorMode = "Red";
-            Logger.action("Pixy -> switchColor -> Red");
-        }
-        else if (colorCounter == 2) {
-            colorMode = "Yellow";
-            Logger.action("Pixy -> switchColor -> Yellow");
-        }
-        else if (colorCounter == 3) {
-            colorMode = "Green";
-            Logger.action("Pixy -> switchColor -> Green");
-        }
-        else if (colorCounter == 4) {
-            colorMode = "Blue";
-            Logger.action("Pixy -> switchColor -> Blue");
-        }
-
-        return colorMode;
-    }
-
 }
