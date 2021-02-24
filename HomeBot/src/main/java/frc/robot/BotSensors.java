@@ -20,7 +20,7 @@ public class BotSensors {
 
     // Pixy
     public static final Pixy2 pixy = Pixy2.createInstance(LinkType.SPI);
-
+    
     // This initialization is called in RobotManager at startup.
     public static void initializeSensors() {
         Logger.setup("Initializing BotSensors...");
