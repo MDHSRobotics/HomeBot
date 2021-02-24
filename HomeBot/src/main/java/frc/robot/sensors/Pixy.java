@@ -1,11 +1,9 @@
+
 package frc.robot.sensors;
 
+import io.github.pseudoresonance.pixy2api.Pixy2;
 import io.github.pseudoresonance.pixy2api.Pixy2CCC;
 import io.github.pseudoresonance.pixy2api.Pixy2CCC.Block;
-import io.github.pseudoresonance.pixy2api.Pixy2Video;
-import io.github.pseudoresonance.pixy2api.Pixy2Video.RGB;
-import edu.wpi.first.wpilibj.DriverStation;
-
 import java.util.ArrayList;
 
 import frc.robot.consoles.Logger;
@@ -13,12 +11,24 @@ import frc.robot.BotSensors;
 
 public class Pixy {
 
-    private static String detectedColor;
-    private static RGB rgb;
     private static final int blockSignature = 1;
 
     public static int colorCounter = 0;
     public static String colorMode;
+
+    // Pixy
+    public static void initializePixy(Pixy2 pixy) {
+        int result = pixy.init();
+        if (result == Pixy2.PIXY_RESULT_ERROR) {
+            Logger.problem("Pixy2 failed to connect!");
+        }
+        else if (result == Pixy2.PIXY_RESULT_TIMEOUT) {
+            Logger.problem("Pixy2 timed out!");
+        }
+        else if (result < 0) {
+            Logger.problem("Pixy2 error code: " + result);
+        }
+    }
 
     public static String detectColor() {
         Pixy2CCC ccc = BotSensors.pixy.getCCC();
@@ -43,5 +53,7 @@ public class Pixy {
             }
         }
         // Pixy2Video video = BotSensors.pixy.getVideo();
+        return "none";
     }
+
 }
