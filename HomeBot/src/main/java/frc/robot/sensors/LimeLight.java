@@ -5,7 +5,6 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 
 import frc.robot.brains.ShooterBrain;
 public class LimeLight {
-    private static double distance = 0;
     private static final double CAMERA_HEIGHT = 10.5; // height of lens (in)
     private static final double TARGET_HEIGHT = 89.75; //height to the center of target(in)
     private static final double CAMERA_ANGLE= 60;// angle of the camera(deg)
@@ -36,15 +35,13 @@ public class LimeLight {
     }
     
      // Uses the limelight to find the distance in feet
-     public static void calculateDistanceToTarget() {
+     public static double calculateDistanceToTarget() {
         double yOffset = getYOffset();
         double angleInRadians = ((yOffset + CAMERA_ANGLE)/180.) * Math.PI;
 
-        distance = (TARGET_HEIGHT - CAMERA_HEIGHT) / Math.tan(angleInRadians);
+        double distance = (TARGET_HEIGHT - CAMERA_HEIGHT) / Math.tan(angleInRadians);
         distance /= 12.0; // converts inches to feet
         ShooterBrain.setShootDistance(distance);
-    }
-    public static double getDistance(){
         return distance;
     }
 
