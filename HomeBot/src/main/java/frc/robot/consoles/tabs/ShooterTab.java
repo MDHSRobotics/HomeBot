@@ -20,7 +20,7 @@ public class ShooterTab {
     // Commands
     private ComplexWidget m_shooterReset;
     private ComplexWidget m_shootWithVelocity;
-    private ComplexWidget m_stopSHooter;
+    private ComplexWidget m_stopShooter;
 
     // Widgets
     private SimpleWidget m_shooterTopWheelCurrentVelocity;
@@ -35,7 +35,7 @@ public class ShooterTab {
 
     private SimpleWidget m_shooterDistance;
     private SimpleWidget m_shooterTargetTPHMS;
-    private SimpleWidget m_shootBallSpinOffset;
+    private SimpleWidget m_shootBallSpinVelocity;
     private SimpleWidget m_pidkFTop;
     private SimpleWidget m_pidkFBottom;
 
@@ -110,27 +110,27 @@ public class ShooterTab {
         // Config Layout
 
         // Distance
-        m_shooterDistance = m_shootConfigLayout.add("Distance (Feet)", ShooterBrain.shootDistanceDefault);
+        m_shooterDistance = m_shootConfigLayout.add("Shoot Distance (Feet)", ShooterBrain.shootDistanceDefault);
         ShooterBrain.shootDistanceEntry = m_shooterDistance.getEntry();
         m_shooterDistance.withWidget(BuiltInWidgets.kTextView);
 
         // Target velocity
-        m_shooterTargetTPHMS = m_shootConfigLayout.add("Velocity (TpHMS)", ShooterBrain.shootTargetTPHMSDefault);
+        m_shooterTargetTPHMS = m_shootConfigLayout.add("Shoot Velocity (TpHMS)", ShooterBrain.shootTargetTPHMSDefault);
         ShooterBrain.shootTargetTPHMSEntry = m_shooterTargetTPHMS.getEntry();
         m_shooterTargetTPHMS.withWidget(BuiltInWidgets.kTextView);
 
         // Ball Spin Offset
-        m_shootBallSpinOffset = m_shootConfigLayout.add("Velocity (TpHMS)", ShooterBrain.shootBallSpinOffsetDefault);
-        ShooterBrain.shootBallSpinOffsetEntry = m_shootBallSpinOffset.getEntry();
-        m_shootBallSpinOffset.withWidget(BuiltInWidgets.kTextView);
+        m_shootBallSpinVelocity = m_shootConfigLayout.add("Ball Spin Velocity (TpHMS)", ShooterBrain.shootBallSpinVelocityDefault);
+        ShooterBrain.shootBallSpinVelocityEntry = m_shootBallSpinVelocity.getEntry();
+        m_shootBallSpinVelocity.withWidget(BuiltInWidgets.kTextView);
 
         // pidkFTop
-        m_pidkFTop = m_shootConfigLayout.add("PID kF", ShooterBrain.pidkFTopDefault);
+        m_pidkFTop = m_shootConfigLayout.add("Top PID kF", ShooterBrain.pidkFTopDefault);
         ShooterBrain.pidkFTopEntry = m_pidkFTop.getEntry();
         m_pidkFTop.withWidget(BuiltInWidgets.kTextView);
 
         // pidkFBottom
-        m_pidkFBottom = m_shootConfigLayout.add("PID kF", ShooterBrain.pidkFBottomDefault);
+        m_pidkFBottom = m_shootConfigLayout.add("Bottom PID kF", ShooterBrain.pidkFBottomDefault);
         ShooterBrain.pidkFBottomEntry = m_pidkFBottom.getEntry();
         m_pidkFBottom.withWidget(BuiltInWidgets.kTextView);
     }
@@ -140,11 +140,11 @@ public class ShooterTab {
         m_shooterReset = m_shootConfigLayout.add("RESET", BotCommands.resetShoot);
         m_shooterReset.withWidget(BuiltInWidgets.kCommand);
 
-        m_shootWithVelocity = m_shootConfigLayout.add("Shoot With Velocity", BotCommands.shoot);
+        m_shootWithVelocity = m_shootConfigLayout.add("SHOOT", BotCommands.shoot);
         m_shootWithVelocity.withWidget(BuiltInWidgets.kCommand);
 
-        m_stopSHooter = m_shootConfigLayout.add("Stop Shoot", BotCommands.stopShooter);
-        m_stopSHooter.withWidget(BuiltInWidgets.kCommand);
+        m_stopShooter = m_shootConfigLayout.add("STOP", BotCommands.stopShooter);
+        m_stopShooter.withWidget(BuiltInWidgets.kCommand);
     }
 
     // Configure all Widgets
