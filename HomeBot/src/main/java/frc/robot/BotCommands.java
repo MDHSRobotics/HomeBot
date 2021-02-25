@@ -26,6 +26,9 @@ public class BotCommands {
     public static Shoot shoot;
     public static StopShoot stopShoot;
     public static ResetShoot resetShoot;
+    public static DeliverAndShoot deliverAndShoot;
+    public static StopDeliverButShoot stopDeliverbutShoot;
+    
     // Initialize all robot commands
     public static void initializeCommands() {
         Logger.setup("Initializing BotCommands...");
@@ -45,6 +48,8 @@ public class BotCommands {
         shoot = new Shoot(BotSubsystems.shooter);
         stopShoot = new StopShoot(BotSubsystems.shooter);
         resetShoot = new ResetShoot(BotSubsystems.shooter);
+        deliverAndShoot = new DeliverAndShoot(BotSubsystems.delivery, BotSubsystems.shooter);
+        stopDeliverbutShoot = new StopDeliverButShoot(BotSubsystems.delivery, BotSubsystems.shooter);
     }
 
     // Return the command to run in autonomous mode
