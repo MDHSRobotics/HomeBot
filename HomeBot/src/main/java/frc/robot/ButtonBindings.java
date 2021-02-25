@@ -9,14 +9,13 @@ public class ButtonBindings {
     public static void configureXbox() {
         Logger.setup("Configure Buttons -> Xbox Controller...");
 
-        // Roller
-        BotControllers.xbox.btnX.whileHeld(BotCommands.spinDelivery);
-
-        // Pickup
-        BotControllers.xbox.btnX.whileHeld(BotCommands.spinPickup);
-
         //Shoot
-        BotControllers.xbox.btnA.whileHeld(BotCommands.shoot);
+        BotControllers.xbox.btnA.whileHeld(BotCommands.deliverAndShoot);
+        BotControllers.xbox.btnA.whileHeld(BotCommands.stopDeliverbutShoot);
+
+        // Delivery
+        BotControllers.xbox.btnX.whileHeld(BotCommands.spinDelivery);
+        BotControllers.xbox.btnY.whileHeld(BotCommands.stopDelivery);
 
     }
 
