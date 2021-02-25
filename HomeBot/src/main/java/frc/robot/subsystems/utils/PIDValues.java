@@ -1,6 +1,7 @@
 
 package frc.robot.subsystems.utils;
 
+// Class to assign PID values within Talon config
 public class PIDValues {
 
     public PIDValues(double kF, double kP, double kI, double kD) {
