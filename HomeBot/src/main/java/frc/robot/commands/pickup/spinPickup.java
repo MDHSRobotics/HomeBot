@@ -8,15 +8,14 @@ import frc.robot.subsystems.Pickup;
 // This command spins the Pickup
 public class SpinPickup extends CommandBase {
 
-    
-    private Pickup m_Pickup;
+    private Pickup m_pickup;
 
-    public SpinPickup(Pickup Pickup) {
+    public SpinPickup(Pickup pickup) {
         Logger.setup("Constructing Command: SpinPickup...");
 
         // Add given subsystem requirements
-        m_Pickup = Pickup;
-        addRequirements(m_Pickup);
+        m_pickup = pickup;
+        addRequirements(m_pickup);
 
     }
 
@@ -27,7 +26,7 @@ public class SpinPickup extends CommandBase {
 
     @Override
     public void execute() {
-        m_Pickup.spin();
+        m_pickup.spin();
     }
 
     // This command continues until interrupted

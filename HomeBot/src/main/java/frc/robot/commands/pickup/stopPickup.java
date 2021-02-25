@@ -8,14 +8,14 @@ import frc.robot.subsystems.Pickup;
 // This command stops the Pickup.
 public class StopPickup extends CommandBase {
 
-    private Pickup m_Pickup;
+    private Pickup m_pickup;
 
-    public StopPickup(Pickup Pickup) {
+    public StopPickup(Pickup pickup) {
         Logger.setup("Constructing Command: StopPickup...");
 
         // Add given subsystem requirements
-        m_Pickup = Pickup;
-        addRequirements(m_Pickup);
+        m_pickup = pickup;
+        addRequirements(m_pickup);
     }
 
     @Override
@@ -25,7 +25,7 @@ public class StopPickup extends CommandBase {
 
     @Override
     public void execute() {
-        m_Pickup.stop();
+        m_pickup.stop();
     }
 
     // This command continues until interrupted
@@ -42,7 +42,7 @@ public class StopPickup extends CommandBase {
         } else {
             Logger.ending("Ending Command: stopPickup...");
         }
-        m_Pickup.stop();
+        m_pickup.stop();
     }
 
 }
