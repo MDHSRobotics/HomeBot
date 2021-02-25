@@ -6,13 +6,13 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.consoles.Logger;
 import frc.robot.subsystems.Shooter;
 
-// This command stops the Shooter.
-public class StopShooter extends CommandBase {
+// This command stops the shoot motors.
+public class StopShoot extends CommandBase {
 
     private Shooter m_shooter;
 
-    public StopShooter(Shooter shooter) {
-        Logger.setup("Constructing Command: StopShooter...");
+    public StopShoot(Shooter shooter) {
+        Logger.setup("Constructing Command: StopShoot...");
 
         // Add given subsystem requirements
         m_shooter = shooter;
@@ -21,7 +21,7 @@ public class StopShooter extends CommandBase {
 
     @Override
     public void initialize() {
-        Logger.action("Initializing Command: StopShooter...");
+        Logger.action("Initializing Command: StopShoot...");
     }
 
     @Override
@@ -39,9 +39,9 @@ public class StopShooter extends CommandBase {
     public void end(boolean interrupted) {
         if (interrupted) {
             System.out.println("--");
-            Logger.ending("Interrupting Command: StopShooter...");
+            Logger.ending("Interrupting Command: StopShoot...");
         } else {
-            Logger.ending("Ending Command: StopShooter...");
+            Logger.ending("Ending Command: StopShoot...");
         }
     }
 

@@ -21,7 +21,7 @@ public class BotCommands {
 
     //Shooter
     public static Shoot shoot;
-    public static StopShooter stopShooter;
+    public static StopShoot stopShooter;
     public static ResetShoot resetShoot;
     
     // Initialize all robot commands
@@ -38,7 +38,7 @@ public class BotCommands {
 
         // Shooter
         shoot = new Shoot(BotSubsystems.shooter);
-        stopShooter = new StopShooter(BotSubsystems.shooter);
+        stopShooter = new StopShoot(BotSubsystems.shooter);
         resetShoot = new ResetShoot(BotSubsystems.shooter);
         
     }

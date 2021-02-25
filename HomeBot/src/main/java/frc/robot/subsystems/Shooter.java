@@ -42,9 +42,9 @@ public class Shooter extends SubsystemBase {
 
     private double avgTopVelocity = 0;
     private double avgBottomVelocity = 0;
-    private int sampleSize = 5;
-    private double[] averageTopVelocity = new double[sampleSize];
-    private double[] averageBottomVelocity = new double[sampleSize];
+    private int sampleSize = 20;
+    private double[] topVelocitySamples = new double[sampleSize];
+    private double[] bottomVelocitySamples = new double[sampleSize];
 
     public Shooter() {
         Logger.setup("Constructing Subsystem: Shooter...");
@@ -88,18 +88,18 @@ public class Shooter extends SubsystemBase {
 
         // Calculate average velocities
         for (int i = sampleSize - 2; i > 0; i--){
-            averageTopVelocity[i] = averageTopVelocity[i - 1];
-            averageBottomVelocity[i] = averageBottomVelocity[i - 1];
+            topVelocitySamples[i] = topVelocitySamples[i - 1];
+            bottomVelocitySamples[i] = bottomVelocitySamples[i - 1];
         }
 
-        averageTopVelocity[0] = topVelocity;
-        averageBottomVelocity[0] = bottomVelocity;
+        topVelocitySamples[0] = topVelocity;
+        bottomVelocitySamples[0] = bottomVelocity;
 
-        for (double sample : averageTopVelocity) {
+        for (double sample : topVelocitySamples) {
             avgTopVelocity += sample;
         }
 
-        for (double sample : averageBottomVelocity) {
+        for (double sample : bottomVelocitySamples) {
             avgBottomVelocity += sample;
         }
 
@@ -126,10 +126,10 @@ public class Shooter extends SubsystemBase {
 
         // Convert the desired ball velocity (ft/sec) into the required motor speed (Ticks per 100 ms)
         double velocityTPHMS = translateDistanceToTicksViaTable(shootDistance);
-        double ballSpsinOffset = ShooterBrain.getBallSpinVelocity();
+        double ballSpinVelocity = ShooterBrain.getBallSpinVelocity();
 
-        talonSrxShooterTopWheel.set(ControlMode.Velocity, velocityTPHMS - ballSpsinOffset);
-        talonSrxShooterBottomWheel.set(ControlMode.Velocity, velocityTPHMS + ballSpsinOffset);
+        talonSrxShooterTopWheel.set(ControlMode.Velocity, velocityTPHMS - ballSpinVelocity);
+        talonSrxShooterBottomWheel.set(ControlMode.Velocity, velocityTPHMS + ballSpinVelocity);
 
         // Update values for Shuffleboard
         ShooterBrain.setShootVelocity(velocityTPHMS);
@@ -140,9 +140,9 @@ public class Shooter extends SubsystemBase {
      */
     public void shootBasedOnTPHMS() {
         double velocityTPHMS = ShooterBrain.getTargetTPHMS() * GEAR_RATIO;
-        double ballSpsinOffset = ShooterBrain.getBallSpinVelocity();
-        talonSrxShooterTopWheel.set(ControlMode.Velocity, velocityTPHMS - ballSpsinOffset);
-        talonSrxShooterBottomWheel.set(ControlMode.Velocity, velocityTPHMS + ballSpsinOffset);
+        double ballSpinVelocity = ShooterBrain.getBallSpinVelocity() / 2;
+        talonSrxShooterTopWheel.set(ControlMode.Velocity, velocityTPHMS - ballSpinVelocity);
+        talonSrxShooterBottomWheel.set(ControlMode.Velocity, velocityTPHMS + ballSpinVelocity);
     }
 
     /**
