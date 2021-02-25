@@ -19,12 +19,12 @@ public class BotCommands {
     public static StopDelivery stopDelivery;
 
     // Pickup
-    public static spinPickup spinPickup;
-    public static stopPickup stopPickup;
+    public static SpinPickup spinPickup;
+    public static StopPickup stopPickup;
 
     //Shoot
     public static Shoot shoot;
-    public static StopShooter stopShooter;
+    public static StopShoot stopShoot;
     public static ResetShoot resetShoot;
     // Initialize all robot commands
     public static void initializeCommands() {
@@ -34,16 +34,16 @@ public class BotCommands {
         driveDiffTank = new DriveDiffTank(BotSubsystems.diffDriver, BotControllers.xbox);
 
         // Delivery
-        spinDelivery = new SpinDelivery(BotSubsystems.Delivery);
-        stopDelivery = new StopDelivery(BotSubsystems.Delivery);
+        spinDelivery = new SpinDelivery(BotSubsystems.delivery);
+        stopDelivery = new StopDelivery(BotSubsystems.delivery);
 
         // Pickup
-        spinPickup = new spinPickup(BotSubsystems.Pickup);
-        stopPickup = new stopPickup(BotSubsystems.Pickup);
+        spinPickup = new SpinPickup(BotSubsystems.pickup);
+        stopPickup = new StopPickup(BotSubsystems.pickup);
 
         // Shooter
         shoot = new Shoot(BotSubsystems.shooter);
-        stopShooter = new StopShooter(BotSubsystems.shooter);
+        stopShoot = new StopShoot(BotSubsystems.shooter);
         resetShoot = new ResetShoot(BotSubsystems.shooter);
     }
 

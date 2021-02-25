@@ -6,11 +6,11 @@ import frc.robot.consoles.Logger;
 import frc.robot.subsystems.Pickup;
 
 // This command stops the Pickup.
-public class stopPickup extends CommandBase {
+public class StopPickup extends CommandBase {
 
     private Pickup m_Pickup;
 
-    public stopPickup(Pickup Pickup) {
+    public StopPickup(Pickup Pickup) {
         Logger.setup("Constructing Command: StopPickup...");
 
         // Add given subsystem requirements

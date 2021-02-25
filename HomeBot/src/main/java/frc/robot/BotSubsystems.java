@@ -7,16 +7,16 @@ import frc.robot.subsystems.*;
 public class BotSubsystems {
 
     public static DiffDriver diffDriver;
-    public static Delivery Delivery;
-    public static Pickup Pickup;
+    public static Delivery delivery;
+    public static Pickup pickup;
     public static Shooter shooter;
 
     // Initialize all robot subsystems
     public static void initializeSubsystems() {
         Logger.setup("Initializing BotSubsystems...");
         diffDriver = new DiffDriverTalonSRX();
-        Delivery = new Delivery();
-        Pickup = new Pickup();
+        delivery = new Delivery();
+        pickup = new Pickup();
         shooter = new Shooter();
     }
 
@@ -29,15 +29,15 @@ public class BotSubsystems {
 
         // Delivery
         Logger.setup("Delivery Teleop Default Command -> StopDelivery...");
-        Delivery.setDefaultCommand(BotCommands.stopDelivery);
+        delivery.setDefaultCommand(BotCommands.stopDelivery);
 
         // Pickup
         Logger.setup("Pickup Teleop Default Command -> StopPickup...");
-        Pickup.setDefaultCommand(BotCommands.stopPickup);
+        pickup.setDefaultCommand(BotCommands.stopPickup);
 
         //Shoot
         Logger.setup("Shooter Teleop Default Command -> Shoot...");
-        shooter.setDefaultCommand(BotCommands.stopShooter);
+        shooter.setDefaultCommand(BotCommands.stopShoot);
 
     }
 
