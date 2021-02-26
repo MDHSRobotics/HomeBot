@@ -32,7 +32,7 @@ public class Pixy {
 
     public static String detectFieldMode() {
         Pixy2CCC ccc = BotSensors.pixy.getCCC();
-        int blockCount = ccc.getBlocks(true, Pixy2CCC.CCC_SIG7, 1);
+        int blockCount = ccc.getBlocks(true, Pixy2CCC.CCC_SIG2, 100);
         if (blockCount <= 0) {
             Logger.problem("Pixy -> detectFieldMode -> No block count");
         }
