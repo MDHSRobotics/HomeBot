@@ -45,8 +45,8 @@ public class Devices {
     // Drive Instances //
     /////////////////////
 
-    public static DevDifferentialDrive diffDriveTalon = new DevDifferentialDrive("diffDriveTalon",
-                                                                                talonFxDiffWheelFrontLeft,
-                                                                                talonFxDiffWheelFrontRight);
+    public static DevDifferentialDrive diffDriveTalonSRX = new DevDifferentialDrive("diffDriveTalon",
+                                                                                talonSrxDiffWheelFrontLeft,
+                                                                                talonSrxDiffWheelFrontRight);
 
 }

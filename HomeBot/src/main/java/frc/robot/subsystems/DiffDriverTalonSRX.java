@@ -5,7 +5,7 @@ import frc.robot.consoles.Logger;
 
 import frc.robot.subsystems.utils.TalonUtils;
 import static frc.robot.subsystems.constants.TalonConstants.*;
-import static frc.robot.subsystems.Devices.diffDriveTalon;
+import static frc.robot.subsystems.Devices.diffDriveTalonSRX;
 import static frc.robot.subsystems.Devices.talonSrxDiffWheelFrontLeft;
 import static frc.robot.subsystems.Devices.talonSrxDiffWheelFrontRight;
 import static frc.robot.subsystems.Devices.talonSrxDiffWheelRearLeft;
@@ -19,7 +19,7 @@ public class DiffDriverTalonSRX extends DiffDriver {
     private final double SECONDS_FROM_NEUTRAL_TO_FULL = 1.0;
 
     public DiffDriverTalonSRX() {
-        super(diffDriveTalon);
+        super(diffDriveTalonSRX);
         Logger.setup("Constructing Subsystem: DiffDriverTalonSRX...");
 
         if (isReal) {
