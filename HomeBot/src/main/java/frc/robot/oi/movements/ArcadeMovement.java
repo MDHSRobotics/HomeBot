@@ -1,9 +1,7 @@
 
 package frc.robot.oi.movements;
 
-import frc.robot.oi.controllers.JoystickPositionAccessible;
 import frc.robot.oi.controllers.XboxPositionAccessible;
-import frc.robot.oi.positions.JoystickPosition;
 import frc.robot.oi.positions.ThumbstickPosition;
 
 // The values needed to drive using arcade mode.
