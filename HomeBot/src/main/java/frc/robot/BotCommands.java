@@ -6,6 +6,8 @@ import frc.robot.commands.delivery.*;
 import frc.robot.commands.diffdriver.*;
 import frc.robot.commands.pickup.*;
 import frc.robot.commands.shooter.*;
+import frc.robot.commands.sensors.TurnOffLed;
+import frc.robot.commands.sensors.TurnOnLed;
 
 // Contains singleton instances of all the commands on the robot.
 public class BotCommands {
@@ -29,6 +31,10 @@ public class BotCommands {
     public static ResetShoot resetShoot;
     public static DeliverAndShoot deliverAndShoot;
     public static StopDeliverButShoot stopDeliverbutShoot;
+    //Sensors
+    public static TurnOffLed turnOffLed;
+    public static TurnOnLed turnOnLed;
+    public static RotateTowardsTarget rotateTowardsTarget;
     
     // Initialize all robot commands
     public static void initializeCommands() {
@@ -53,6 +59,10 @@ public class BotCommands {
         resetShoot = new ResetShoot(BotSubsystems.shooter);
         deliverAndShoot = new DeliverAndShoot(BotSubsystems.delivery, BotSubsystems.shooter);
         stopDeliverbutShoot = new StopDeliverButShoot(BotSubsystems.delivery, BotSubsystems.shooter);
+        rotateTowardsTarget = new RotateTowardsTarget(BotSubsystems.diffDriver);
+        // Sensors 
+        turnOffLed = new TurnOffLed();
+        turnOnLed = new TurnOnLed();
     }
 
     // Return the command to run in autonomous mode
