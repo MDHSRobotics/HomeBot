@@ -25,7 +25,7 @@ public class BotSubsystems {
 
         // DiffDriver
         Logger.setup("DiffDriver Teleop Default Command -> DriveDiffTank...");
-        diffDriver.setDefaultCommand(BotCommands.driveDiffTank);
+        diffDriver.setDefaultCommand(BotCommands.driveDiffArcade);
 
         // Delivery
         Logger.setup("Delivery Teleop Default Command -> StopDelivery...");
