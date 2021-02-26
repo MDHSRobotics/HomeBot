@@ -18,6 +18,9 @@ public class ButtonBindings {
         //Shoot
         BotControllers.xbox.btnA.whileHeld(BotCommands.shoot);
 
+        //Pixy
+        BotControllers.xbox.btnY.whileHeld(BotCommands.pixyTest);
+
     }
 
 }
