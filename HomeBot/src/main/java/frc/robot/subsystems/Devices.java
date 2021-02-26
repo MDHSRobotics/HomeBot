@@ -40,13 +40,16 @@ public class Devices {
     static DevTalonFX talonFxDiffWheelRearLeft = new DevTalonFX("talonFxDiffWheelRearLeft", 24);
     static DevTalonFX talonFxDiffWheelRearRight = new DevTalonFX("talonFxDiffWheelRearRight", 22);
 
-    
     /////////////////////
     // Drive Instances //
     /////////////////////
 
-    public static DevDifferentialDrive diffDriveTalonSRX = new DevDifferentialDrive("diffDriveTalon",
+    public static DevDifferentialDrive diffDriveTalonSRX = new DevDifferentialDrive("diffDriveTalonSrx",
                                                                                 talonSrxDiffWheelFrontLeft,
                                                                                 talonSrxDiffWheelFrontRight);
+
+    public static DevDifferentialDrive diffDriveTalonFX = new DevDifferentialDrive("diffDriveTalonFx",
+                                                                                talonFxDiffWheelFrontLeft,
+                                                                                talonFxDiffWheelFrontRight);
 
 }
