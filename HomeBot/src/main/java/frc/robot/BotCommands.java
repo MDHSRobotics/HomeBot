@@ -2,9 +2,10 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.consoles.Logger;
-import frc.robot.commands.delivery.*;
+import frc.robot.commands.Delivery.*;
 import frc.robot.commands.diffdriver.*;
 import frc.robot.commands.pickup.*;
+import frc.robot.commands.pixyCam.*;
 import frc.robot.commands.shooter.*;
 
 // Contains singleton instances of all the commands on the robot.
@@ -25,6 +26,10 @@ public class BotCommands {
     //Shoot
     public static Shoot shoot;
     public static StopShooter stopShooter;
+
+    // Pixy
+    public static PixyTest pixyTest;
+
     
     // Initialize all robot commands
     public static void initializeCommands() {
@@ -44,6 +49,9 @@ public class BotCommands {
         // Shooter
         shoot = new Shoot(BotSubsystems.shooter);
         stopShooter = new StopShooter(BotSubsystems.shooter);
+
+        // Pixy
+        pixyTest = new PixyTest();
 
     }
 

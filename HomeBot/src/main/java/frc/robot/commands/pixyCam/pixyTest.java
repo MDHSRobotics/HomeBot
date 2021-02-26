@@ -1,21 +1,21 @@
+
 package frc.robot.commands.pixyCam;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.consoles.Logger;
 import frc.robot.sensors.Pixy;
 
 // This command spins the Pickup
-public class pixyTest extends CommandBase {
+public class PixyTest extends CommandBase {
 
-    
-
-    public pixyTest(Pixy pixy) {
-        Logger.setup("Constructing Command: pixyTest...");
+    public PixyTest() {
+        Logger.setup("Constructing Command: PixyTest...");
     }
 
     @Override
     public void initialize() {
-        Logger.action("Initializing Command: pixyTest...");
+        Logger.action("Initializing Command: PixyTest...");
     }
 
     @Override
@@ -33,9 +33,9 @@ public class pixyTest extends CommandBase {
     public void end(boolean interrupted) {
         if (interrupted) {
             System.out.println("--");
-            Logger.ending("Interrupting Command: pixyTest...");
+            Logger.ending("Interrupting Command: PixyTest...");
         } else {
-            Logger.ending("Ending Command: pixyTest...");
+            Logger.ending("Ending Command: PixyTest...");
         }
     }
 

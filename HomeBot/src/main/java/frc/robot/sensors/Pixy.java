@@ -11,7 +11,7 @@ import frc.robot.BotSensors;
 
 public class Pixy {
 
-    private static final int blockSignature = 1;
+    private static final int blockSignature = 2;
 
     public static int colorCounter = 0;
     public static String colorMode;
@@ -52,17 +52,19 @@ public class Pixy {
                 }
             }
         }
-        int blockX = largestBlock.getX();
-        Logger.info("Largest block x = " + blockX);
-    
-        if (blockX > 0){
-            return "left";
+
+        if (largestBlock != null) {
+            int blockX = largestBlock.getX();
+            Logger.info("Largest block x = " + blockX);
+
+            if (blockX < 150) {
+                return "left";
+            }
+            else {
+                return "right";
+            }
         }
-        else{
-            return "right";
-        
-        }
-    
+        return "no blocks detected";
     }
 
 }
