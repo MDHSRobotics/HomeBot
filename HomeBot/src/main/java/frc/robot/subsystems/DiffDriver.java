@@ -1,19 +1,39 @@
 
 package frc.robot.subsystems;
 
+import frc.robot.subsystems.Devices;
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+//Pathweaver libraries 
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.wpilibj.trajectory.Trajectory;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
+import edu.wpi.first.wpilibj.controller.RamseteController;
+import edu.wpi.first.wpilibj2.command.RamseteCommand;
+import frc.robot.subsystems.constants.*;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
+
+import frc.robot.subsystems.utils.EncoderUtils;
+//
 
 import frc.robot.brains.DiffDriverBrain;
 import frc.robot.consoles.Logger;
 import frc.robot.sensors.Gyro;
 import frc.robot.BotSensors;
+import static frc.robot.subsystems.Devices.*;
+import frc.robot.BotSubsystems;
 
 // Differential driver subsystem base class
 public class DiffDriver extends SubsystemBase {
 
     // Motor constants
     private final double AUTO_PERIOD_SPEED = 0.5;
+
+    //Odometry class for tracking robot pose (PathWeaver)
+    private final DifferentialDriveOdometry m_odometry;
 
     // The direction of forward/backward via the controller
     public boolean controlStickDirectionFlipped = false;
@@ -26,11 +46,17 @@ public class DiffDriver extends SubsystemBase {
     // Constructor requires device instances
     public DiffDriver(DifferentialDrive diffDrive) {
         this.diffDrive = diffDrive;
+        m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
     }
-
+    // This method will be called once per scheduler run
+    // Might change constant 6 depending on wheel's diameter 
     @Override
     public void periodic() {
-        // This method will be called once per scheduler run
+        double wheelCircumference = 6 * Math.PI;
+        double rightDistance = EncoderUtils.translateTicksToDistance(talonSrxDiffWheelFrontRight.getSelectedSensorPosition(0), wheelCircumference);
+        double leftDistance = EncoderUtils.translateTicksToDistance(talonSrxDiffWheelFrontLeft.getSelectedSensorPosition(0), wheelCircumference);
+        
+        m_odometry.update(BotSensors.gyro.getRotation2d(), leftDistance, rightDistance);
     }
 
     // Flip the control direction of the joystick in Y (or Y Left for Xbox thumbsticks)
@@ -91,12 +117,62 @@ public class DiffDriver extends SubsystemBase {
     }
 
     // TODO: Use this to indicate to the driver that the robot is aligned with the target (lights? Shuffleboard?)
-    public static boolean isAligned(double targetAngle) {
+    public boolean isAligned(double targetAngle) {
         boolean straight = Gyro.isYawAligned(targetAngle);
         if (!straight) return false;
 
         Logger.info("DiffDriver -> Robot is fully aligned!");
         return true;
+    }
+
+    //---PathWeaver methods---//
+
+    // returns the heading of the robot
+    public double getHeading() {
+        return Math.IEEEremainder(BotSensors.gyro.getAngle(), 360) * (PathConstants.kGyroReversed ? -1.0 : 1.0);
+    }
+
+    public double getTurnRate(){
+
+        return BotSensors.gyro.getRate();
+    }
+
+    // returns the turn rate of the robot
+    public Pose2d getPose() {
+        return m_odometry.getPoseMeters();
+    }
+    //TODO must change the value 20 to a pathconstant value 
+    public void resetEncoders() {
+        talonSrxDiffWheelFrontLeft.setSelectedSensorPosition(0, 0, 20);
+        talonSrxDiffWheelFrontLeft.setSelectedSensorPosition(0, 0, 20);
+    }
+
+    // Resets the odometry to the specified pose.
+    public void resetOdometry(Pose2d pose) {
+        resetEncoders();
+        m_odometry.resetPosition(pose, Rotation2d.fromDegrees(getHeading()));
+    }
+
+    public void resetGyro(){
+        BotSensors.gyro.reset();
+    }
+
+    /**
+     * Controls the left and right sides of the drive directly with voltages. Uses
+     * setVoltage() rather than set(), as this will automatically compensate
+     * for battery “voltage sag” during operation.
+     */
+
+    public DifferentialDriveWheelSpeeds getWheelSpeeds(){
+        double leftSpeed = (double)(talonSrxDiffWheelFrontLeft.getSelectedSensorVelocity());
+        double rightSpeed = (double)(talonSrxDiffWheelFrontRight.getSelectedSensorVelocity());
+        return new DifferentialDriveWheelSpeeds(leftSpeed, rightSpeed);
+     }
+
+    public void tankDriveVolts(double leftVolts, double rightVolts) {
+        talonSrxDiffWheelFrontLeft.setVoltage(leftVolts);
+        talonSrxDiffWheelFrontRight.setVoltage(-rightVolts);
+        diffDrive.feed();
     }
 
 }
