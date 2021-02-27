@@ -1,5 +1,5 @@
 
-package frc.robot.commands.pickup;
+package frc.robot.commands.pickupper;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 

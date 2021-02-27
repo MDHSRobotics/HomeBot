@@ -2,11 +2,11 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.consoles.Logger;
-import frc.robot.commands.delivery.*;
+import frc.robot.commands.deliverer.*;
 import frc.robot.subsystems.constants.PathConstants;
 import frc.robot.subsystems.constants.AutoConstants;
 import frc.robot.commands.diffdriver.*;
-import frc.robot.commands.pickup.*;
+import frc.robot.commands.pickupper.*;
 import frc.robot.commands.shooter.*;
 import frc.robot.commands.sensors.TurnOffLed;
 import frc.robot.commands.sensors.TurnOnLed;
