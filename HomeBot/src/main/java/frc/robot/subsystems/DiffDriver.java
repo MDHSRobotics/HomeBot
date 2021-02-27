@@ -157,12 +157,8 @@ public class DiffDriver extends SubsystemBase {
         BotSensors.gyro.reset();
     }
 
-    /**
-     * Controls the left and right sides of the drive directly with voltages. Uses
-     * setVoltage() rather than set(), as this will automatically compensate
-     * for battery “voltage sag” during operation.
-     */
-
+    // Controls the left and right sides of the drive directly with voltages.
+    // Uses setVoltage() rather than set(), as this will automatically compensate for battery voltage sag during operation.
     public DifferentialDriveWheelSpeeds getWheelSpeeds(){
         double leftSpeed = (double)(talonSrxDiffWheelFrontLeft.getSelectedSensorVelocity());
         double rightSpeed = (double)(talonSrxDiffWheelFrontRight.getSelectedSensorVelocity());
