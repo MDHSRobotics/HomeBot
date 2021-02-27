@@ -14,7 +14,7 @@ public class BotSubsystems {
     // Initialize all robot subsystems
     public static void initializeSubsystems() {
         Logger.setup("Initializing BotSubsystems...");
-        diffDriver = new DiffDriverTalonSRX();
+        diffDriver = new DiffDriverTalonFX();
         delivery = new Delivery();
         pickup = new Pickup();
         shooter = new Shooter();

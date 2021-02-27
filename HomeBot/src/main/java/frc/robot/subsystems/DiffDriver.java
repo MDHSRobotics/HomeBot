@@ -53,8 +53,8 @@ public class DiffDriver extends SubsystemBase {
     @Override
     public void periodic() {
         double wheelCircumference = 6 * Math.PI;
-        double rightDistance = EncoderUtils.translateTicksToDistance(talonSrxDiffWheelFrontRight.getSelectedSensorPosition(0), wheelCircumference);
-        double leftDistance = EncoderUtils.translateTicksToDistance(talonSrxDiffWheelFrontLeft.getSelectedSensorPosition(0), wheelCircumference);
+        double rightDistance = EncoderUtils.translateTicksToDistance(talonFxDiffWheelFrontRight.getSelectedSensorPosition(0), wheelCircumference);
+        double leftDistance = EncoderUtils.translateTicksToDistance(talonFxDiffWheelFrontLeft.getSelectedSensorPosition(0), wheelCircumference);
         
         m_odometry.update(BotSensors.gyro.getRotation2d(), leftDistance, rightDistance);
     }
@@ -143,8 +143,8 @@ public class DiffDriver extends SubsystemBase {
     }
     //TODO must change the value 20 to a pathconstant value 
     public void resetEncoders() {
-        talonSrxDiffWheelFrontLeft.setSelectedSensorPosition(0, 0, 20);
-        talonSrxDiffWheelFrontLeft.setSelectedSensorPosition(0, 0, 20);
+        talonFxDiffWheelFrontLeft.setSelectedSensorPosition(0, 0, 20);
+        talonFxDiffWheelFrontLeft.setSelectedSensorPosition(0, 0, 20);
     }
 
     // Resets the odometry to the specified pose.
@@ -160,14 +160,14 @@ public class DiffDriver extends SubsystemBase {
     // Controls the left and right sides of the drive directly with voltages.
     // Uses setVoltage() rather than set(), as this will automatically compensate for battery voltage sag during operation.
     public DifferentialDriveWheelSpeeds getWheelSpeeds(){
-        double leftSpeed = (double)(talonSrxDiffWheelFrontLeft.getSelectedSensorVelocity());
-        double rightSpeed = (double)(talonSrxDiffWheelFrontRight.getSelectedSensorVelocity());
+        double leftSpeed = (double)(talonFxDiffWheelFrontLeft.getSelectedSensorVelocity());
+        double rightSpeed = (double)(talonFxDiffWheelFrontRight.getSelectedSensorVelocity());
         return new DifferentialDriveWheelSpeeds(leftSpeed, rightSpeed);
      }
 
     public void tankDriveVolts(double leftVolts, double rightVolts) {
-        talonSrxDiffWheelFrontLeft.setVoltage(leftVolts);
-        talonSrxDiffWheelFrontRight.setVoltage(-rightVolts);
+        talonFxDiffWheelFrontLeft.setVoltage(leftVolts);
+        talonFxDiffWheelFrontRight.setVoltage(-rightVolts);
         diffDrive.feed();
     }
 

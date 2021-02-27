@@ -60,6 +60,9 @@ public class TalonUtils {
 
         talon.setSensorPhase(sensorPhase);
 
+        SupplyCurrentLimitConfiguration currentLimitConfig = new SupplyCurrentLimitConfiguration(true, PEAK_CONTINUOUS_AMPERAGE, PEAK_AMPERAGE, PEAK_AMPERAGE_DURATION);
+        talon.configSupplyCurrentLimit(currentLimitConfig, TIMEOUT_MS);
+
         talon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, PID_LOOP_PRIMARY, TIMEOUT_MS);
         talon.configAllowableClosedloopError(PID_SLOT_0, 0, TIMEOUT_MS);
 
@@ -84,6 +87,9 @@ public class TalonUtils {
 
         talon.setSensorPhase(sensorPhase);
 
+        SupplyCurrentLimitConfiguration currentLimitConfig = new SupplyCurrentLimitConfiguration(true, PEAK_CONTINUOUS_AMPERAGE, PEAK_AMPERAGE, PEAK_AMPERAGE_DURATION);
+        talon.configSupplyCurrentLimit(currentLimitConfig, TIMEOUT_MS);
+
         talon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, PID_LOOP_PRIMARY, TIMEOUT_MS);
         talon.configAllowableClosedloopError(PID_SLOT_0, 0, TIMEOUT_MS);
 
@@ -104,6 +110,12 @@ public class TalonUtils {
     public static void configureBaseTalonMasterFollower(DevTalonSRX talonM, DevTalonSRX talonF, boolean motorInvertM, boolean motorInvertF) {
         if (!talonM.isConnected || !talonF.isConnected) return;
 
+        SupplyCurrentLimitConfiguration currentLimitConfigM = new SupplyCurrentLimitConfiguration(true, PEAK_CONTINUOUS_AMPERAGE, PEAK_AMPERAGE, PEAK_AMPERAGE_DURATION);
+        talonM.configSupplyCurrentLimit(currentLimitConfigM, TIMEOUT_MS);
+
+        SupplyCurrentLimitConfiguration currentLimitConfigF = new SupplyCurrentLimitConfiguration(true, PEAK_CONTINUOUS_AMPERAGE, PEAK_AMPERAGE, PEAK_AMPERAGE_DURATION);
+        talonF.configSupplyCurrentLimit(currentLimitConfigF, TIMEOUT_MS);
+
         configureBaseTalon(talonF, motorInvertF);
         configureBaseTalon(talonM, motorInvertM);
         talonF.follow(talonM);
@@ -112,6 +124,12 @@ public class TalonUtils {
     // Config the given TalonFX master and follower
     public static void configureBaseTalonMasterFollower(DevTalonFX talonM, DevTalonFX talonF, boolean motorInvertM, boolean motorInvertF) {
         if (!talonM.isConnected || !talonF.isConnected) return;
+
+        SupplyCurrentLimitConfiguration currentLimitConfigM = new SupplyCurrentLimitConfiguration(true, PEAK_CONTINUOUS_AMPERAGE, PEAK_AMPERAGE, PEAK_AMPERAGE_DURATION);
+        talonM.configSupplyCurrentLimit(currentLimitConfigM, TIMEOUT_MS);
+
+        SupplyCurrentLimitConfiguration currentLimitConfigF = new SupplyCurrentLimitConfiguration(true, PEAK_CONTINUOUS_AMPERAGE, PEAK_AMPERAGE, PEAK_AMPERAGE_DURATION);
+        talonF.configSupplyCurrentLimit(currentLimitConfigF, TIMEOUT_MS);
 
         configureBaseTalon(talonF, motorInvertF);
         configureBaseTalon(talonM, motorInvertM);

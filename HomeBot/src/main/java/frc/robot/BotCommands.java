@@ -88,8 +88,8 @@ public class BotCommands {
         stopDeliverbutShoot = new StopDeliverButShoot(BotSubsystems.delivery, BotSubsystems.shooter);
         rotateTowardsTarget = new RotateTowardsTarget(BotSubsystems.diffDriver);
         // Sensors 
-        turnOffLed = new TurnOffLed();
         turnOnLed = new TurnOnLed();
+        turnOffLed = new TurnOffLed();
 
         // Autonomous
         autoDrivePath = new AutoDrivePath(BotSubsystems.diffDriver);
