@@ -11,8 +11,10 @@ import frc.robot.commands.pixyCam.*;
 import frc.robot.commands.shooter.*;
 import frc.robot.commands.sensors.TurnOffLed;
 import frc.robot.commands.sensors.TurnOnLed;
-
 import frc.robot.commands.auto.*;
+import frc.robot.commands.autoBasic.*;
+
+
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 
@@ -67,6 +69,11 @@ public class BotCommands {
     // Autonomous
     public static AutoDrivePath autoDrivePath;
 
+    // Basic Autonomous
+    public static AutoDriveForward autoDriveForward;
+    public static AutoRotateLeft autoRotateLeft;
+    public static AutoRotateRight autoRotateRight;
+
     // Initialize all robot commands
     public static void initializeCommands() {
         Logger.setup("Initializing BotCommands...");
@@ -98,7 +105,12 @@ public class BotCommands {
 
         // Autonomous
         autoDrivePath = new AutoDrivePath(BotSubsystems.diffDriver);
-        
+
+        // Basic Autonomous
+        autoDriveForward = new AutoDriveForward(BotSubsystems.diffDriver);
+        autoRotateLeft = new AutoRotateLeft(BotSubsystems.diffDriver);
+        autoRotateRight = new AutoRotateRight(BotSubsystems.diffDriver);
+
         // Pixy
         pixyTest = new PixyTest();
 
