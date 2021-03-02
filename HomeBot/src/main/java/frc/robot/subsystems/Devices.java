@@ -12,23 +12,16 @@ public class Devices {
     // Device Instances //
     //////////////////////
 
-    // TalonSRX
-
-    // DiffDriver
-
     // Shooter
     static DevTalonSRX talonSrxShooterBottomWheel = new DevTalonSRX("talonSrxShooterBottomWheel", 4);
     static DevTalonSRX talonSrxShooterTopWheel = new DevTalonSRX("talonSrxShooterTopWheel", 10);
 
     // Pickup
-    static DevTalonSRX talonSrxPickupRight = new DevTalonSRX("talonSrxPickupRight", 6);
-    static DevTalonSRX talonSrxPickupLeft = new DevTalonSRX("talonSrxPickupLeft", 0);
+    static DevTalonSRX talonSrxPickup = new DevTalonSRX("talonSrxPickup", 6);
     
     // Delivery
     static DevTalonSRX talonSrxDeliveryRight = new DevTalonSRX("talonSrxDeliveryRight", 16);
     static DevTalonSRX talonSrxDeliveryLeft = new DevTalonSRX("talonSrxDeliveryLeft", 7);
-
-    // TalonFX
 
     // DiffDriver
     static DevTalonFX talonFxDiffWheelFrontLeft = new DevTalonFX("talonFxDiffWheelFrontLeft", 23);

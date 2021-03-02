@@ -143,7 +143,7 @@ public class ShooterTab {
         m_shootWithVelocity = m_shootConfigLayout.add("SHOOT", BotCommands.shoot);
         m_shootWithVelocity.withWidget(BuiltInWidgets.kCommand);
 
-        m_stopShooter = m_shootConfigLayout.add("STOP", BotCommands.stopShooter);
+        m_stopShooter = m_shootConfigLayout.add("STOP", BotCommands.stopShoot);
         m_stopShooter.withWidget(BuiltInWidgets.kCommand);
     }
 

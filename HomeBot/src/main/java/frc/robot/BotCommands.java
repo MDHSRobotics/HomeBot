@@ -53,7 +53,7 @@ public class BotCommands {
     public static StopShoot stopShoot;
     public static ResetShoot resetShoot;
     public static DeliverAndShoot deliverAndShoot;
-    public static StopDeliverButShoot stopDeliverbutShoot;
+    public static StopDeliverButShoot stopDeliverButShoot;
     //Sensors
     public static TurnOffLed turnOffLed;
     public static TurnOnLed turnOnLed;
@@ -89,14 +89,16 @@ public class BotCommands {
         stopShoot = new StopShoot(BotSubsystems.shooter);
         resetShoot = new ResetShoot(BotSubsystems.shooter);
         deliverAndShoot = new DeliverAndShoot(BotSubsystems.delivery, BotSubsystems.shooter);
-        stopDeliverbutShoot = new StopDeliverButShoot(BotSubsystems.delivery, BotSubsystems.shooter);
+        stopDeliverButShoot = new StopDeliverButShoot(BotSubsystems.delivery, BotSubsystems.shooter);
         rotateTowardsTarget = new RotateTowardsTarget(BotSubsystems.diffDriver);
+
         // Sensors 
         turnOnLed = new TurnOnLed();
         turnOffLed = new TurnOffLed();
 
         // Autonomous
         autoDrivePath = new AutoDrivePath(BotSubsystems.diffDriver);
+        
         // Pixy
         pixyTest = new PixyTest();
 
