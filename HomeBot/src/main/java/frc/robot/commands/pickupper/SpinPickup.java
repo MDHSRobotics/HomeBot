@@ -1,4 +1,5 @@
-package frc.robot.commands.pickup;
+
+package frc.robot.commands.pickupper;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -6,17 +7,16 @@ import frc.robot.consoles.Logger;
 import frc.robot.subsystems.Pickup;
 
 // This command spins the Pickup
-public class spinPickup extends CommandBase {
+public class SpinPickup extends CommandBase {
 
-    
-    private Pickup m_Pickup;
+    private Pickup m_pickup;
 
-    public spinPickup(Pickup Pickup) {
+    public SpinPickup(Pickup pickup) {
         Logger.setup("Constructing Command: SpinPickup...");
 
         // Add given subsystem requirements
-        m_Pickup = Pickup;
-        addRequirements(m_Pickup);
+        m_pickup = pickup;
+        addRequirements(m_pickup);
 
     }
 
@@ -27,7 +27,7 @@ public class spinPickup extends CommandBase {
 
     @Override
     public void execute() {
-        m_Pickup.spin();
+        m_pickup.spin();
     }
 
     // This command continues until interrupted

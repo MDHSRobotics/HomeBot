@@ -1,4 +1,5 @@
-package frc.robot.commands.Delivery;
+
+package frc.robot.commands.deliverer;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 

@@ -15,17 +15,13 @@ public class Devices {
     // TalonSRX
 
     // DiffDriver
-    static DevTalonSRX talonSrxDiffWheelFrontLeft = new DevTalonSRX("talonFxDiffWheelFrontLeft", 15);
-    static DevTalonSRX talonSrxDiffWheelFrontRight = new DevTalonSRX("talonFxDiffWheelFrontRight", 11);
-    static DevTalonSRX talonSrxDiffWheelRearLeft = new DevTalonSRX("talonFxDiffWheelRearLeft", 6);
-    static DevTalonSRX talonSrxDiffWheelRearRight = new DevTalonSRX("talonFxDiffWheelRearRight", 8);
 
     // Shooter
     static DevTalonSRX talonSrxShooterBottomWheel = new DevTalonSRX("talonSrxShooterBottomWheel", 4);
     static DevTalonSRX talonSrxShooterTopWheel = new DevTalonSRX("talonSrxShooterTopWheel", 10);
 
     // Pickup
-    static DevTalonSRX talonSrxPickupRight = new DevTalonSRX("talonSrxPickupRight", 13);
+    static DevTalonSRX talonSrxPickupRight = new DevTalonSRX("talonSrxPickupRight", 6);
     static DevTalonSRX talonSrxPickupLeft = new DevTalonSRX("talonSrxPickupLeft", 0);
     
     // Delivery
@@ -36,16 +32,15 @@ public class Devices {
 
     // DiffDriver
     static DevTalonFX talonFxDiffWheelFrontLeft = new DevTalonFX("talonFxDiffWheelFrontLeft", 23);
-    static DevTalonFX talonFxDiffWheelFrontRight = new DevTalonFX("talonFxDiffWheelFrontRight", 21);
+    static DevTalonFX talonFxDiffWheelFrontRight = new DevTalonFX("talonFxDiffWheelFrontRight", 20);
     static DevTalonFX talonFxDiffWheelRearLeft = new DevTalonFX("talonFxDiffWheelRearLeft", 24);
-    static DevTalonFX talonFxDiffWheelRearRight = new DevTalonFX("talonFxDiffWheelRearRight", 22);
+    static DevTalonFX talonFxDiffWheelRearRight = new DevTalonFX("talonFxDiffWheelRearRight", 21);
 
-    
     /////////////////////
     // Drive Instances //
     /////////////////////
 
-    public static DevDifferentialDrive diffDriveTalon = new DevDifferentialDrive("diffDriveTalon",
+    public static DevDifferentialDrive diffDriveTalonFX = new DevDifferentialDrive("diffDriveTalonFx",
                                                                                 talonFxDiffWheelFrontLeft,
                                                                                 talonFxDiffWheelFrontRight);
 

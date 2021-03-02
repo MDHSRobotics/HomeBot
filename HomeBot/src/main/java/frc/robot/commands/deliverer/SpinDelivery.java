@@ -1,4 +1,5 @@
-package frc.robot.commands.Delivery;
+
+package frc.robot.commands.deliverer;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -8,7 +9,6 @@ import frc.robot.subsystems.Delivery;
 // This command spins the Delivery
 public class SpinDelivery extends CommandBase {
 
-    
     private Delivery m_Delivery;
 
     public SpinDelivery(Delivery Delivery) {
