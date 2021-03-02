@@ -11,80 +11,83 @@ public class ShooterBrain {
     // Default Values //
     //----------------//
 
-    public static double shootTopWheelCurrentVelocityDefault = 0.;
-    public static double shootBottomWheelCurrentVelocityDefault = 0.;
+    public static double pidkFTopDefault = 0.;
+    public static double pidkFBottomDefault = 0.;
 
-    public static double shootBottomWheelMaxVelocityDefault = 0.;
-    public static double shootBottomWheelMinVelocityDefault = 1000000.;
-    public static double shootBottomWheelAverageVelocityDefault = 0;
-    public static double shootTopWheelMaxVelocityDefault = 0.;
-    public static double shootTopWheelMinVelocityDefault = 1000000.;
-    public static double shootTopWheelAverageVelocityDefault = 0;
+    public static double topWheelCurrentVelocityDefault = 0.;
+    public static double bottomWheelCurrentVelocityDefault = 0.;
+
+    public static double bottomWheelMaxVelocityDefault = 0.;
+    public static double bottomWheelMinVelocityDefault = 1000000.;
+    public static double bottomWheelAverageVelocityDefault = 0;
+    public static double topWheelMaxVelocityDefault = 0.;
+    public static double topWheelMinVelocityDefault = 1000000.;
+    public static double topWheelAverageVelocityDefault = 0.;
 
     // The ideal shooting distance is 11.38' which is where the apex is at the target center
-    public static double shootDistanceDefault = 11.38;
-    public static double shootTargetFPSDefault = 0.;
-    public static double shootTargetTPHMSDefault = 0.;
-    public static double shootVelocityTPHMSOffsetTopDefault = 0.;
-    public static double shootVelocityTPHMSOffsetBottomDefault = 0.;
+    public static double shootDistanceDefault = 0.;
+    public static double shootVelocityDefault = 0.;
+    public static double ballSpinVelocityDefault = 0.;
 
     //---------------------//
     // NetworkTableEntries //
     //---------------------//
 
-    public static NetworkTableEntry shootBottomWheelCurrentVelocityEntry;
-    public static NetworkTableEntry shootTopWheelCurrentVelocityEntry;
+    public static NetworkTableEntry pidkFTopEntry;
+    public static NetworkTableEntry pidkFBottomEntry;
 
-    public static NetworkTableEntry shootBottomWheelMaxVelocityEntry;
-    public static NetworkTableEntry shootBottomWheelMinVelocityEntry;
-    public static NetworkTableEntry shootBottomWheelAverageVelocityEntry;
-    public static NetworkTableEntry shootTopWheelMaxVelocityEntry;
-    public static NetworkTableEntry shootTopWheelMinVelocityEntry;
-    public static NetworkTableEntry shootTopWheelAverageVelocityEntry;
+    public static NetworkTableEntry bottomWheelCurrentVelocityEntry;
+    public static NetworkTableEntry topWheelCurrentVelocityEntry;
+
+    public static NetworkTableEntry bottomWheelMaxVelocityEntry;
+    public static NetworkTableEntry bottomWheelMinVelocityEntry;
+    public static NetworkTableEntry bottomWheelAverageVelocityEntry;
+    public static NetworkTableEntry topWheelMaxVelocityEntry;
+    public static NetworkTableEntry topWheelMinVelocityEntry;
+    public static NetworkTableEntry topWheelAverageVelocityEntry;
 
     public static NetworkTableEntry shootDistanceEntry;
-    public static NetworkTableEntry shootTargetTPHMSEntry;
-    public static NetworkTableEntry shootVelocityTPHMSOffsetTopEntry;
-    public static NetworkTableEntry shootVelocityTPHMSOffsetBottomEntry;
+    public static NetworkTableEntry shootVelocityEntry;
+    public static NetworkTableEntry shootBallSpinVelocityEntry;
 
     //---------//
     // Setters //
     //---------//
 
     public static void setTopWheelCurrentVelocity(double value) {
-        shootTopWheelCurrentVelocityEntry.setDouble(value);
+        topWheelCurrentVelocityEntry.setDouble(value);
     }
 
     public static void setBottomWheelCurrentVelocity(double value) {
-        shootBottomWheelCurrentVelocityEntry.setDouble(value);
+        bottomWheelCurrentVelocityEntry.setDouble(value);
     }
 
     public static void setBottomWheelMaxVelocity(double value) {
-        shootBottomWheelMaxVelocityEntry.setDouble(value);
+        bottomWheelMaxVelocityEntry.setDouble(value);
     }
 
     public static void setBottomWheelMinVelocity(double value) {
-        shootBottomWheelMinVelocityEntry.setDouble(value);
+        bottomWheelMinVelocityEntry.setDouble(value);
     }
 
     public static void setBottomWheelAverageVelocity(double value) {
-        shootBottomWheelAverageVelocityEntry.setDouble(value);
+        bottomWheelAverageVelocityEntry.setDouble(value);
     }
 
     public static void setTopWheelMaxVelocity(double value) {
-        shootTopWheelMaxVelocityEntry.setDouble(value);
+        topWheelMaxVelocityEntry.setDouble(value);
     }
 
     public static void setTopWheelMinVelocity(double value) {
-        shootTopWheelMinVelocityEntry.setDouble(value);
+        topWheelMinVelocityEntry.setDouble(value);
     }
 
     public static void setTopWheelAverageVelocity(double value) {
-        shootTopWheelAverageVelocityEntry.setDouble(value);
+        topWheelAverageVelocityEntry.setDouble(value);
     }
 
-    public static void setTargetTPHMS(double value) {
-        shootTargetTPHMSEntry.setDouble(value);
+    public static void setShootVelocity(double value) {
+        shootVelocityEntry.setDouble(value);
     }
 
     public static void setShootDistance(double value){
@@ -94,19 +97,23 @@ public class ShooterBrain {
     // Getters //
     //---------//
 
+    public static double getPidkFTop() {
+        return pidkFTopEntry.getDouble(pidkFTopDefault);
+    }
+
+    public static double getPidkFBottom() {
+        return pidkFBottomEntry.getDouble(pidkFBottomDefault);
+    }
+
     public static double getTargetTPHMS() {
-        return shootTargetTPHMSEntry.getDouble(shootTargetTPHMSDefault);
+        return shootVelocityEntry.getDouble(shootVelocityDefault);
     }
 
     public static double getShootDistance() {
         return shootDistanceEntry.getDouble(shootDistanceDefault);
     }
-    public static double getShooterVelocityTPHMSOffsetTop(){
-        return shootVelocityTPHMSOffsetTopEntry.getDouble(shootVelocityTPHMSOffsetTopDefault);
-    }
-
-    public static double getShooterVelocityTPHMSOffsetBottom() {
-        return shootVelocityTPHMSOffsetBottomEntry.getDouble(shootVelocityTPHMSOffsetBottomDefault);
+    public static double getBallSpinVelocity() {
+        return shootBallSpinVelocityEntry.getDouble(ballSpinVelocityDefault);
     }
 
 }
