@@ -24,6 +24,9 @@ public class ButtonBindings {
         //Pixy
         BotControllers.xbox.btnStart.whileHeld(BotCommands.pixyTest);
 
+        // Basic Autonomous
+        BotControllers.xbox.btnDpadLeft.whenPressed(BotCommands.autoDriveForward);
+
     }
 
 }

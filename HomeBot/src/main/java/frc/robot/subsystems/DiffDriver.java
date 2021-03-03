@@ -30,7 +30,7 @@ import frc.robot.BotSubsystems;
 public class DiffDriver extends SubsystemBase {
 
     // Motor constants
-    private final double AUTO_PERIOD_SPEED = 0.5;
+    private final double AUTO_PERIOD_SPEED = -0.40;
 
     //Odometry class for tracking robot pose (PathWeaver)
     private final DifferentialDriveOdometry m_odometry;
@@ -50,14 +50,14 @@ public class DiffDriver extends SubsystemBase {
     }
     // This method will be called once per scheduler run
     // Might change constant 6 depending on wheel's diameter 
-    @Override
-    public void periodic() {
-        double wheelCircumference = 6 * Math.PI;
-        double rightDistance = EncoderUtils.translateTicksToDistance(talonFxDiffWheelFrontRight.getSelectedSensorPosition(0), wheelCircumference);
-        double leftDistance = EncoderUtils.translateTicksToDistance(talonFxDiffWheelFrontLeft.getSelectedSensorPosition(0), wheelCircumference);
+    // @Override
+    // public void periodic() {
+    //     double wheelCircumference = 6 * Math.PI;
+    //     double rightDistance = EncoderUtils.translateTicksToDistance(talonFxDiffWheelFrontRight.getSelectedSensorPosition(0), wheelCircumference);
+    //     double leftDistance = EncoderUtils.translateTicksToDistance(talonFxDiffWheelFrontLeft.getSelectedSensorPosition(0), wheelCircumference);
         
-        m_odometry.update(BotSensors.gyro.getRotation2d(), leftDistance, rightDistance);
-    }
+    //     m_odometry.update(BotSensors.gyro.getRotation2d(), leftDistance, rightDistance);
+    // }
 
     // Flip the control direction of the joystick in Y (or Y Left for Xbox thumbsticks)
     public Boolean flipControlStickDirection() {
@@ -91,7 +91,7 @@ public class DiffDriver extends SubsystemBase {
 
     // Drive forward at a set speed
     public void moveForwardAuto() {
-        driveArcade(AUTO_PERIOD_SPEED, AUTO_PERIOD_SPEED); // drive towards heading 0
+        driveArcade(AUTO_PERIOD_SPEED, 0); // drive towards heading 0
     }
 
     // Drive to align the robot to a detected line at the given yaw

@@ -32,20 +32,7 @@ public class AutoRotateRight extends CommandBase {
 
     @Override
     public void execute() {
-
-        double currentAngle = BotSensors.gyro.getAngle();
-        double angleElapsed = currentAngle - INITIAL_ANGLE;
-
-        BotSensors.gyro.getAngle();
-
-        if (angleElapsed < RIGHT_ANGLE * timesTurned) {
-            m_diffDriver.driveTank(0.5, - 0.5);
-        }
-        else {
-            m_diffDriver.stop();
-            isTurned = true;
-
-        }
+            m_diffDriver.driveAlign(RIGHT_ANGLE);
     }
 
     @Override

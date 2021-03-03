@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.consoles.Logger;
 import frc.robot.subsystems.DiffDriver;
+import frc.robot.subsystems.Pickup;
 
 // This command auto drives the DiffDriver forward for a short time.
 public class AutoDriveForward extends CommandBase {
@@ -14,7 +15,7 @@ public class AutoDriveForward extends CommandBase {
     private Timer m_timer = new Timer();
     private double m_timeLastPrinted = 0.0;
 
-    private static final double MAX_DRIVE_SECONDS = 3.0;
+    private static final double MAX_DRIVE_SECONDS = 0.5;
 
     public AutoDriveForward(DiffDriver diffDriver) {
         Logger.setup("Constructing Command: AutoDriveForward...");
@@ -36,25 +37,77 @@ public class AutoDriveForward extends CommandBase {
     public void execute() {
         double currentTime = m_timer.get();
         double timeElapsedSincePrint = currentTime - m_timeLastPrinted;
-
-        if (timeElapsedSincePrint > 1.0) {
-            Logger.action("AutoDriveForward: -> Moved Forward for " + currentTime);
-            m_timeLastPrinted = currentTime;
+        if (currentTime < 0.5) {
+            m_diffDriver.moveForwardAuto();
+            if (timeElapsedSincePrint > 1.0) {
+                Logger.action("AutoDriveForward: -> Moved Forward for " + currentTime);
+                m_timeLastPrinted = currentTime;
+            }
         }
-        m_diffDriver.moveForwardAuto();
+
+        else if (currentTime > 0.5 && currentTime < 2.0){
+            m_diffDriver.stop();
+        }
+        
+        else if(currentTime > 3.0 && currentTime < 4.0){
+            m_diffDriver.driveAlign(48);
+        }
+
+        else if (currentTime > 4.0 && currentTime < 4.7){
+            m_diffDriver.moveForwardAuto();
+        }
+
+        else if (currentTime > 6.0 && currentTime < 7.0){
+            m_diffDriver.stop();
+        }
+
+        else if (currentTime > 7.0 && currentTime < 8.0){
+            m_diffDriver.driveAlign(-85);
+        }
+
+        else if (currentTime > 9.0 && currentTime < 9.7){
+            m_diffDriver.moveForwardAuto();
+        }
+
+        else if (currentTime > 9.7 && currentTime < 11.0){
+            m_diffDriver.stop();
+        }
+
+        else if (currentTime > 12.0 && currentTime < 13.0){
+            m_diffDriver.driveAlign(35);
+        }
+
+        else if (currentTime > 14.0 && currentTime < 15.5){
+            m_diffDriver.moveForwardAuto();
+        }
+
+        else if (currentTime > 15.5 && currentTime < 17.0){
+            m_diffDriver.stop();
+        }
+
+        else {
+            m_diffDriver.stop();
+            if (timeElapsedSincePrint > 1.0) {
+                Logger.action("AutoDriveForward: -> Stopped for " + currentTime);
+                m_timeLastPrinted = currentTime;
+            }
+        }
+
     }
 
     // This command continues until it MAX_DRIVE_SECONDS is reached
     @Override
     public boolean isFinished() {
-        double currentTime = m_timer.get();
+        return false;
+        // double currentTime = m_timer.get();
 
-        if (currentTime < MAX_DRIVE_SECONDS) {
-            return false;
-        } else {
-            Logger.action("AutoDriveForward: -> Stopped");
-            return true;
-        }
+        // if (currentTime < MAX_DRIVE_SECONDS) {
+        //     return false;
+        // } else {
+        //     m_diffDriver.stop();
+        //     // Logger.action("AutoDriveForward: -> Stopped");
+        //     return false;
+        // }
     }
 
     @Override

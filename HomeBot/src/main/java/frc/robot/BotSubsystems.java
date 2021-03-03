@@ -29,11 +29,11 @@ public class BotSubsystems {
 
         // Delivery
         Logger.setup("Delivery Teleop Default Command -> StopDelivery...");
-        delivery.setDefaultCommand(BotCommands.stopDelivery);
+        delivery.setDefaultCommand(BotCommands.spinDelivery);
 
         // Pickup
         Logger.setup("Pickup Teleop Default Command -> StopPickup...");
-        pickup.setDefaultCommand(BotCommands.stopPickup);
+        pickup.setDefaultCommand(BotCommands.spinPickup);
 
         //Shoot
         Logger.setup("Shooter Teleop Default Command -> Shoot...");

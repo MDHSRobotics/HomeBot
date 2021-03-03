@@ -11,8 +11,8 @@ public class DiffDriverBrain {
     // Default Values //
     //----------------//
 
-    public static double alignZSensitivityDefault = .7;
-    public static double alignZSpeedMinimumDefault = .5;
+    public static double alignZSensitivityDefault = .6;
+    public static double alignZSpeedMinimumDefault = .25;
     public static double alignZToleranceDefault = 3;
 
     //---------------------//
