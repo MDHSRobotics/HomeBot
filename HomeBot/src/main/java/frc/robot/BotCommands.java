@@ -70,9 +70,9 @@ public class BotCommands {
     public static AutoDrivePath autoDrivePath;
 
     // Basic Autonomous
-    public static AutoDriveForward autoDriveForward;
-    public static AutoRotateLeft autoRotateLeft;
-    public static AutoRotateRight autoRotateRight;
+    public static GalacticSearchRed galacticSearchRed;
+    public static GalacticSearchBlue galacticSearchBlue;
+    public static GalacticSearchPathChooser galacticSearchPathChooser;
 
     // Initialize all robot commands
     public static void initializeCommands() {
@@ -107,9 +107,9 @@ public class BotCommands {
         autoDrivePath = new AutoDrivePath(BotSubsystems.diffDriver);
 
         // Basic Autonomous
-        autoDriveForward = new AutoDriveForward(BotSubsystems.diffDriver);
-        autoRotateLeft = new AutoRotateLeft(BotSubsystems.diffDriver);
-        autoRotateRight = new AutoRotateRight(BotSubsystems.diffDriver);
+        galacticSearchRed = new GalacticSearchRed(BotSubsystems.diffDriver);
+        galacticSearchBlue = new GalacticSearchBlue(BotSubsystems.diffDriver);
+        galacticSearchPathChooser = new GalacticSearchPathChooser(BotSubsystems.diffDriver);
 
         // Pixy
         pixyTest = new PixyTest();

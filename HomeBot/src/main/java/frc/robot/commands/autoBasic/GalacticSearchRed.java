@@ -5,10 +5,9 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.consoles.Logger;
 import frc.robot.subsystems.DiffDriver;
-import frc.robot.subsystems.Pickup;
 
 // This command auto drives the DiffDriver forward for a short time.
-public class AutoDriveForward extends CommandBase {
+public class GalacticSearchRed extends CommandBase {
 
     private DiffDriver m_diffDriver;
 
@@ -17,7 +16,7 @@ public class AutoDriveForward extends CommandBase {
 
     private static final double MAX_DRIVE_SECONDS = 0.5;
 
-    public AutoDriveForward(DiffDriver diffDriver) {
+    public GalacticSearchRed(DiffDriver diffDriver) {
         Logger.setup("Constructing Command: AutoDriveForward...");
 
         // Add given subsystem requirements

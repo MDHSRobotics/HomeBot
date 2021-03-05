@@ -25,7 +25,7 @@ public class ButtonBindings {
         BotControllers.xbox.btnStart.whileHeld(BotCommands.pixyTest);
 
         // Basic Autonomous
-        BotControllers.xbox.btnDpadLeft.whenPressed(BotCommands.autoDriveForward);
+        BotControllers.xbox.btnDpadLeft.whenPressed(BotCommands.galacticSearchBlue);
 
     }
 

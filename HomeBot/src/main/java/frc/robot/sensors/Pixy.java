@@ -30,7 +30,7 @@ public class Pixy {
         }
     }
 
-    public static String detectFieldMode() {
+    public static int detectFieldMode() {
         Pixy2CCC ccc = BotSensors.pixy.getCCC();
         int blockCount = ccc.getBlocks(true, Pixy2CCC.CCC_SIG2, 100);
         if (blockCount <= 0) {
@@ -41,6 +41,7 @@ public class Pixy {
         Block largestBlock = null;
         if (blocks == null) {
             Logger.info("Pixy -> detectFieldMode -> No blocks");
+            return -1;
         }
         for (Block block : blocks) {
             if (block.getSignature() == blockSignature) {
@@ -57,14 +58,9 @@ public class Pixy {
             int blockX = largestBlock.getX();
             Logger.info("Largest block x = " + blockX);
 
-            if (blockX < 150) {
-                return "left";
-            }
-            else {
-                return "right";
-            }
+            return blockX;
         }
-        return "no blocks detected";
+        return -1;
     }
 
 }
