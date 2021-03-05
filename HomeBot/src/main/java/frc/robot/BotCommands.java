@@ -11,6 +11,7 @@ import frc.robot.commands.pixyCam.*;
 import frc.robot.commands.shooter.*;
 import frc.robot.commands.sensors.TurnOffLed;
 import frc.robot.commands.sensors.TurnOnLed;
+import frc.robot.commands.gate.*;
 
 import frc.robot.commands.auto.*;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
@@ -67,6 +68,10 @@ public class BotCommands {
     // Autonomous
     public static AutoDrivePath autoDrivePath;
 
+    //Gate
+    public static ToggleGate toggleGate;
+    public static FeedGate feedGate;
+
     // Initialize all robot commands
     public static void initializeCommands() {
         Logger.setup("Initializing BotCommands...");
@@ -101,6 +106,10 @@ public class BotCommands {
         
         // Pixy
         pixyTest = new PixyTest();
+
+        //Gate
+        toggleGate = new ToggleGate(BotSubsystems.gate);
+        feedGate = new FeedGate(BotSubsystems.gate);
 
     }
 

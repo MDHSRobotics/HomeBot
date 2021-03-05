@@ -24,6 +24,10 @@ public class ButtonBindings {
         //Pixy
         BotControllers.xbox.btnStart.whileHeld(BotCommands.pixyTest);
 
+        //Gate
+        BotControllers.xbox.btnDpadRight.whenPressed(BotCommands.toggleGate);
+
+
     }
 
 }

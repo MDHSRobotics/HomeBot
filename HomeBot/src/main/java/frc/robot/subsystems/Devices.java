@@ -2,6 +2,8 @@ package frc.robot.subsystems;
 
 import frc.robot.devices.*;
 
+import edu.wpi.first.wpilibj.Servo;
+
 // This class contains singleton (static) instances of id mapped subsystem components.
 // If a device is not connected at initialization, it should be set to null.
 // IMPORTANT: Only ONE subsystem should control any given device.
@@ -28,6 +30,9 @@ public class Devices {
     static DevTalonFX talonFxDiffWheelFrontRight = new DevTalonFX("talonFxDiffWheelFrontRight", 20);
     static DevTalonFX talonFxDiffWheelRearLeft = new DevTalonFX("talonFxDiffWheelRearLeft", 24);
     static DevTalonFX talonFxDiffWheelRearRight = new DevTalonFX("talonFxDiffWheelRearRight", 21);
+
+    //Sensors
+    static Servo servoGate = new Servo(1);
 
     /////////////////////
     // Drive Instances //
