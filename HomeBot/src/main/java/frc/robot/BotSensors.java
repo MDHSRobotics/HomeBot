@@ -27,6 +27,7 @@ public class BotSensors {
         if (isReal) {
             Gyro.initializeGyro(gyro);
             Pixy.initializePixy(pixy);
+
         } else {
             Logger.setup("Skipping initializion of sensors in Simulation mode...");
         }
