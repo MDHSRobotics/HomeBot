@@ -67,4 +67,21 @@ public class Pixy {
         return "no blocks detected";
     }
 
+    public String detectPath(char color) {
+        if (color == 'R') {
+            if (detectFieldMode().equals("left")) {
+                return "GSA-R.wpilib.json";
+            } else if (detectFieldMode().equals("right") {
+                return "GSB-R.wpilib.json";
+            }
+        } else if (color == 'B') {
+            if (detectFieldMode().equals("left")) {
+                return "GSA-B.wpilib.json";
+            } else if (detectFieldMode().equals("right") {
+                return "GSB-B.wpilib.json";
+            }
+        }
+        
+    }
+
 }

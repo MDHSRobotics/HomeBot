@@ -4,6 +4,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.sensors.Pixy;
+import frc.robot.commands.MoveForwardAuto;
 
 import frc.robot.consoles.Logger;
 
@@ -16,7 +18,9 @@ import frc.robot.consoles.Logger;
 public class Robot extends TimedRobot {
 
     // Autonomous variables
-    private Command m_autonomousCommand;
+    private Command m_autonomousCommandRed;
+    private Command m_autonomousCommandBlue;
+    private MoveForwardAuto m_moveForwardAuto;
 
     // Test variables
     private int m_numberOfTests;
@@ -96,9 +100,21 @@ public class Robot extends TimedRobot {
         CommandScheduler.getInstance().cancelAll();
 
         // Schedule the autonomous command
-        m_autonomousCommand = BotCommands.getAutonomousCommand();
-        if (m_autonomousCommand != null) {
-            m_autonomousCommand.schedule();
+        m_autonomousCommandRed = BotCommands.getAutonomousCommand('R');
+        m_autonomousCommandBlue = BotCommands.getAutonomousCommand('B');
+        m_moveForwardAuto = BotCommands.moveForwardAuto10Feet;
+        
+        if (Pixy.detectFieldMode() == -1) {
+            if (m_moveForwardAuto != null) {
+                m_moveForwardAuto.schedule();
+            }
+            if (m_autonomousCommand != null) {
+                m_autonomousCommandBlue.schedule();
+            }
+        } else {
+            if (m_autonomousCommand != null) {
+                m_autonomousCommandRed.schedule();
+            }
         }
     }
 

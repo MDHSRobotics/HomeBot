@@ -26,6 +26,7 @@ import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
+import frc.robot.sensors.Pixy;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
@@ -66,6 +67,7 @@ public class BotCommands {
 
     // Autonomous
     public static AutoDrivePath autoDrivePath;
+    public static MoveForwardAuto moveForwardAuto;
 
     //Gate
     public static ToggleGate toggleGate;
@@ -101,6 +103,7 @@ public class BotCommands {
 
         // Autonomous
         autoDrivePath = new AutoDrivePath(BotSubsystems.diffDriver);
+        moveForwardAuto10Feet = new MoveForwardAuto(BotSubsystems.diffDriver, 10.0);
         
         // Pixy
         pixyTest = new PixyTest();
@@ -112,7 +115,7 @@ public class BotCommands {
     }
 
     // Return the command to run in autonomous mode
-    public static Command getAutonomousCommand() {
+    public static Command getAutonomousCommand(char color) {
         // Create a voltage constraint to ensure we don't accelerate too fast
         var autoVoltageConstraint =
             new DifferentialDriveVoltageConstraint(
@@ -134,7 +137,7 @@ public class BotCommands {
     
     Logger.action("Initializing Command: AutoDrivePath...");
 
-        String trajectoryJSON = "paths/Practice.wpilib.json";
+        String trajectoryJSON = Pixy.detectPath(color);
 
         try {
             Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);

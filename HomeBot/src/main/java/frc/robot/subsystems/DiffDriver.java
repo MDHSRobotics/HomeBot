@@ -17,7 +17,7 @@ import frc.robot.subsystems.constants.*;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 
 import frc.robot.subsystems.utils.EncoderUtils;
-//
+import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import frc.robot.brains.DiffDriverBrain;
 import frc.robot.consoles.Logger;
@@ -97,6 +97,12 @@ public class DiffDriver extends SubsystemBase {
     // Drive forward at a set speed
     public void moveForwardAuto() {
         driveArcade(AUTO_PERIOD_SPEED, AUTO_PERIOD_SPEED); // drive towards heading 0
+    }
+    
+    public void moveForwardAuto(double feet) {
+        double ticks = EncoderUtils.translateDistanceToTicks(feet);
+        talonFxDiffWheelFrontLeft.set(ControlMode.Position, ticks);
+        talonFxDiffWheelFrontRight.set(ControlMode.Position, ticks);
     }
 
     // Drive to align the robot to a detected line at the given yaw
