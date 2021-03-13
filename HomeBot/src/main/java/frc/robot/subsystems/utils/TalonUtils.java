@@ -2,6 +2,7 @@
 package frc.robot.subsystems.utils;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SensorCollection;
 import com.ctre.phoenix.motorcontrol.TalonFXSensorCollection;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
@@ -39,6 +40,7 @@ public class TalonUtils {
         talon.configFactoryDefault();
 
         talon.setInverted(motorInvert);
+        talon.setNeutralMode(NeutralMode.Coast);
 
         SupplyCurrentLimitConfiguration currentLimitConfig = new SupplyCurrentLimitConfiguration(true, PEAK_CONTINUOUS_AMPERAGE, PEAK_AMPERAGE, PEAK_AMPERAGE_DURATION);
         talon.configSupplyCurrentLimit(currentLimitConfig, TIMEOUT_MS);
@@ -48,8 +50,8 @@ public class TalonUtils {
 
         talon.configNominalOutputForward(0);
         talon.configNominalOutputReverse(0);
-        talon.configPeakOutputForward(1);
-        talon.configPeakOutputReverse(-1);
+        talon.configPeakOutputForward(0.20);
+        talon.configPeakOutputReverse(-0.20);
     }
 
     // Configure the given TalonSRX

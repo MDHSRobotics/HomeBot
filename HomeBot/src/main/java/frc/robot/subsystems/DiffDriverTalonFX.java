@@ -16,7 +16,7 @@ import static frc.robot.RobotManager.isReal;
 public class DiffDriverTalonFX extends DiffDriver {
 
     // Motor constants
-    private final double SECONDS_FROM_NEUTRAL_TO_FULL = 1.0;
+    private final double SECONDS_FROM_NEUTRAL_TO_FULL = 0.1;
 
     public DiffDriverTalonFX() {
         super(diffDriveTalonFX);
