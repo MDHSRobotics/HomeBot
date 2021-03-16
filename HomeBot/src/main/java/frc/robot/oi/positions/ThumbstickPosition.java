@@ -52,6 +52,13 @@ public class ThumbstickPosition {
         if (Math.abs(yRight) <= yRightDeadZone) yRight = 0;
         if (Math.abs(xRight) <= xRightDeadZone) xRight = 0;
 
+        if (Math.abs(xLeft) >= 0.5 && yLeft >= 0) yLeft += 0.65;
+        if (Math.abs(xRight) >= 0.5 && yRight >= 0) yRight += 0.65;
+        // if (Math.abs(xLeft) >= 0.5 && yLeft <= 0) yLeft -= 0.65;
+        // if (Math.abs(xRight) >= 0.5 && yRight <= 0) yRight -= 0.65;
+        if (yLeft < 0) yLeft = 0.65;
+        if (yRight < 0) yRight = 0.65;
+
         if (yLeft > 0) yLeft = yLeft - yLeftDeadZone;
         if (yLeft < 0) yLeft = yLeft + yLeftDeadZone;
         if (xLeft > 0) xLeft = xLeft - xLeftDeadZone;
