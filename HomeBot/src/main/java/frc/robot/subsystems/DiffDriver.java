@@ -89,6 +89,31 @@ public class DiffDriver extends SubsystemBase {
         diffDrive.tankDrive(leftSpeed, rightSpeed);
     }
 
+    // Drives the robot with tank code using an arcade drive UI, allows for forward turning
+    public void driveTankLikeArcade(double xPos, double yPos){
+        double leftSpeed = 0;
+        double rightSpeed = 0;
+        double offset = 0.2;
+        
+        xPos*=2.25; // make turning more sensitive
+
+        if(xPos <= -offset) { leftSpeed = rightSpeed - rightSpeed * (xPos + offset);
+                        rightSpeed = yPos;}
+                        
+        if(xPos > -offset && xPos <= offset) { leftSpeed = 0.75 * yPos;
+                                                rightSpeed = 0.75 * yPos;}
+
+        if(xPos > offset) {  rightSpeed = leftSpeed - leftSpeed * (xPos - offset);
+                        leftSpeed = yPos;}
+
+        //if(leftSpeed < 0) leftSpeed = 0;
+        //if(rightSpeed < 0) rightSpeed = 0;
+
+        diffDrive.tankDrive(leftSpeed, rightSpeed);
+
+        Logger.info("xPos:" + (int)(xPos*100) + " yPos" + (int)(yPos*100) + " leftSpeed:" + leftSpeed + " rightSpeed" + rightSpeed);
+    }
+
     // Drive forward at a set speed
     public void moveForwardAuto() {
         driveArcade(AUTO_PERIOD_SPEED, AUTO_PERIOD_SPEED); // drive towards heading 0
