@@ -93,21 +93,19 @@ public class DiffDriver extends SubsystemBase {
     public void driveTankLikeArcade(double xPos, double yPos){
         double leftSpeed = 0;
         double rightSpeed = 0;
-        double offset = 0.2;
+        double offset = 0.2; // forward stick zone
         
         xPos*=2.25; // make turning more sensitive
+        xPos = 1 / xPos; // invert xPos growth
 
-        if(xPos <= -offset) { leftSpeed = rightSpeed - rightSpeed * (xPos + offset);
+        if(xPos <= -offset) { leftSpeed = rightSpeed - rightSpeed * (xPos + offset); // stick is moved to the left
                         rightSpeed = yPos;}
                         
-        if(xPos > -offset && xPos <= offset) { leftSpeed = 0.75 * yPos;
+        if(xPos > -offset && xPos <= offset) { leftSpeed = 0.75 * yPos; // stick is moved forward
                                                 rightSpeed = 0.75 * yPos;}
 
-        if(xPos > offset) {  rightSpeed = leftSpeed - leftSpeed * (xPos - offset);
+        if(xPos > offset) {  rightSpeed = leftSpeed - leftSpeed * (xPos - offset); // stick is moved to the right
                         leftSpeed = yPos;}
-
-        //if(leftSpeed < 0) leftSpeed = 0;
-        //if(rightSpeed < 0) rightSpeed = 0;
 
         diffDrive.tankDrive(leftSpeed, rightSpeed);
 
