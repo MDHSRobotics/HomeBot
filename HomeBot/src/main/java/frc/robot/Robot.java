@@ -108,11 +108,11 @@ public class Robot extends TimedRobot {
             if (m_moveForwardAuto != null) {
                 m_moveForwardAuto.schedule();
             }
-            if (m_autonomousCommand != null) {
+            if (m_autonomousCommandBlue != null) {
                 m_autonomousCommandBlue.schedule();
             }
         } else {
-            if (m_autonomousCommand != null) {
+            if (m_autonomousCommandRed != null) {
                 m_autonomousCommandRed.schedule();
             }
         }
