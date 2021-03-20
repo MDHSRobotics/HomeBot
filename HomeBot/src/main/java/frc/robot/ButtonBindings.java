@@ -26,8 +26,6 @@ public class ButtonBindings {
 
         //Gate
         BotControllers.xbox.btnDpadRight.whenPressed(BotCommands.toggleGate);
-
-
     }
 
 }

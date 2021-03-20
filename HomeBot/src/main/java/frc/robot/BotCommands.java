@@ -40,6 +40,7 @@ public class BotCommands {
     public static RotateToDpadDirection rotateToDpadDirection;
     public static DriveDiffTank driveDiffTank;
     public static DriveDiffArcade driveDiffArcade;
+    public static DriveTankForward driveTankForward;
 
     // Delivery
     public static SpinDelivery spinDelivery;
@@ -79,6 +80,7 @@ public class BotCommands {
         // DiffDriver
         driveDiffTank = new DriveDiffTank(BotSubsystems.diffDriver, BotControllers.xbox);
         driveDiffArcade = new DriveDiffArcade(BotSubsystems.diffDriver, BotControllers.xbox);
+        driveTankForward = new DriveTankForward(BotSubsystems.diffDriver, BotControllers.xbox);
 
 
         // Delivery

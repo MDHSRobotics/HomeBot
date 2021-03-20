@@ -40,7 +40,7 @@ public class TalonUtils {
         talon.configFactoryDefault();
 
         talon.setInverted(motorInvert);
-        talon.setNeutralMode(NeutralMode.Coast);
+        talon.setNeutralMode(NeutralMode.Brake);
 
         SupplyCurrentLimitConfiguration currentLimitConfig = new SupplyCurrentLimitConfiguration(true, PEAK_CONTINUOUS_AMPERAGE, PEAK_AMPERAGE, PEAK_AMPERAGE_DURATION);
         talon.configSupplyCurrentLimit(currentLimitConfig, TIMEOUT_MS);
