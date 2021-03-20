@@ -114,7 +114,84 @@ public class BotCommands {
 
     }
 
-    // Return the command to run in autonomous mode
+    // Return the command to run in autonomous mode (AutoNav)
+    public static Command getAutonomousCommand(String path) {
+        
+        //Pathweaver JSON
+        String trajectoryJSON = "";
+
+        // Create a voltage constraint to ensure we don't accelerate too fast
+        var autoVoltageConstraint =
+            new DifferentialDriveVoltageConstraint(
+                new SimpleMotorFeedforward(PathConstants.ksVolts,
+                                        PathConstants.kvVoltSecondsPerMeter,
+                                        PathConstants.kaVoltSecondsSquaredPerMeter),
+                PathConstants.kDriveKinematics,
+                10);
+    
+        // Create config for trajectory (might not need it)
+        TrajectoryConfig config =
+            new TrajectoryConfig(AutoConstants.kMaxSpeedMetersPerSecond,
+                                AutoConstants.kMaxAccelerationMetersPerSecondSquared)
+                // Add kinematics to ensure max speed is actually obeyed
+                .setKinematics(PathConstants.kDriveKinematics)
+                // Apply the voltage constraint
+                .addConstraint(autoVoltageConstraint);
+
+    
+    Logger.action("Initializing Command: AutoDrivePath...");
+
+        if (path.equals("barrel")) {
+            trajectoryJSON = "BarrelRacing.wpilib.json";
+        } else if (path.equals("bounce")) {
+            trajectoryJSON = "Bounce.wpilib.json";
+        } else if (path.equals("slalom")) {
+            trajectoryJSON = "Slalom.wpilib.json";
+        }
+
+        try {
+            Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
+            Trajectory trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+            m_trajectory = trajectory; 
+            Logger.info("Trajectory created.");
+        }
+
+        catch (IOException ex) {
+            DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
+        }
+        
+    
+        RamseteCommand ramseteCommand = new RamseteCommand(
+            m_trajectory,
+            BotSubsystems.diffDriver::getPose,
+            new RamseteController(AutoConstants.kRamseteB, AutoConstants.kRamseteZeta),
+            new SimpleMotorFeedforward(PathConstants.ksVolts,
+                                    PathConstants.kvVoltSecondsPerMeter,
+                                    PathConstants.kaVoltSecondsSquaredPerMeter),
+            PathConstants.kDriveKinematics,
+            BotSubsystems.diffDriver::getWheelSpeeds,
+            new PIDController(PathConstants.kPDriveVel, 0, 0),
+            new PIDController(PathConstants.kPDriveVel, 0, 0),
+            // RamseteCommand passes volts to the callback
+            BotSubsystems.diffDriver::tankDriveVolts,
+            BotSubsystems.diffDriver
+        );
+    
+        // Reset odometry to the starting pose of the trajectory.
+        BotSubsystems.diffDriver.resetOdometry(m_trajectory.getInitialPose());
+
+    
+        // Run path following command, then stop at the end.
+        return ramseteCommand.andThen(() -> BotSubsystems.diffDriver.tankDriveVolts(0, 0));
+    
+
+        
+    // Find the currently selected auto command in Shuffleboard and return it
+    // Command autoCommand = RobotManager.autoCommandChooser.getSelected();
+    // return autoCommand;
+    }
+
+    // Return the command to run in autonomous mode (Galactic Search)
     public static Command getAutonomousCommand(char color) {
         // Create a voltage constraint to ensure we don't accelerate too fast
         var autoVoltageConstraint =
