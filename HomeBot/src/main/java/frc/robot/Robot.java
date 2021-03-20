@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.sensors.Pixy;
-import frc.robot.commands.MoveForwardAuto;
+import frc.robot.commands.auto.MoveForwardAuto;
 
 import frc.robot.consoles.Logger;
 
@@ -104,7 +104,7 @@ public class Robot extends TimedRobot {
         m_autonomousCommandBlue = BotCommands.getAutonomousCommand('B');
         m_moveForwardAuto = BotCommands.moveForwardAuto10Feet;
         
-        if (Pixy.detectFieldMode() == -1) {
+        if (Pixy.detectFieldMode().equals("no blocks detected")) {
             if (m_moveForwardAuto != null) {
                 m_moveForwardAuto.schedule();
             }

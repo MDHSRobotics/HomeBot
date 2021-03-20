@@ -67,7 +67,7 @@ public class BotCommands {
 
     // Autonomous
     public static AutoDrivePath autoDrivePath;
-    public static MoveForwardAuto moveForwardAuto;
+    public static MoveForwardAuto moveForwardAuto10Feet;
 
     //Gate
     public static ToggleGate toggleGate;

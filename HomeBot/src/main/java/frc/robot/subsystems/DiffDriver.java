@@ -31,6 +31,8 @@ public class DiffDriver extends SubsystemBase {
 
     // Motor constants
     private final double AUTO_PERIOD_SPEED = 0.5;
+    private final double WHEEL_DIAMETER = 6.0;
+    private final double GEAR_RATIO = 0.25;
 
     //Odometry class for tracking robot pose (PathWeaver)
     private final DifferentialDriveOdometry m_odometry;
@@ -100,7 +102,7 @@ public class DiffDriver extends SubsystemBase {
     }
     
     public void moveForwardAuto(double feet) {
-        double ticks = EncoderUtils.translateDistanceToTicks(feet);
+        double ticks = EncoderUtils.translateDistanceToTicks(feet, WHEEL_DIAMETER, GEAR_RATIO);
         talonFxDiffWheelFrontLeft.set(ControlMode.Position, ticks);
         talonFxDiffWheelFrontRight.set(ControlMode.Position, ticks);
     }
