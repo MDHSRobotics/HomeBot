@@ -161,9 +161,12 @@ public class Shooter extends SubsystemBase {
         // Initialize the lookup table; Key=Velocity in FPS; Value=Motor speed in Ticks/100ms
         SortedMap<Double, Double> luTable = new TreeMap<Double, Double>();
 
-        // The data below is based on shooting experiments conducted on February 18, 2021:
+        // The data below is based on shooting experiments conducted on March 11, 2021:
         // (Distance, Ticks per 100ms)
-        luTable.put(22.25, 18650.);
+        luTable.put(10., 20000.);
+        luTable.put(12.5, 19500.);
+        luTable.put(15., 19800.);
+        luTable.put(17.5, 20300.);
 
         boolean firstPass = true;
         double f1 = -99.;
