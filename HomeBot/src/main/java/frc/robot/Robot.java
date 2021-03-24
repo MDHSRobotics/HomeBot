@@ -27,7 +27,7 @@ public class Robot extends TimedRobot {
      * AutoNav Paths: "barrel", "bounce", "slalom"
      * Enter "none" if running Galactic Search.
      */
-    private String autoNavPath = "none";
+    private String autoNavPath = "slalom";
 
     // Test variables
     private int m_numberOfTests;
