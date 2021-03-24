@@ -142,11 +142,11 @@ public class BotCommands {
     Logger.action("Initializing Command: AutoDrivePath...");
 
         if (path.equals("barrel")) {
-            trajectoryJSON = "BarrelRacing.wpilib.json";
+            trajectoryJSON = "path/BarrelRacing.wpilib.json";
         } else if (path.equals("bounce")) {
-            trajectoryJSON = "Bounce.wpilib.json";
+            trajectoryJSON = "path/Bounce.wpilib.json";
         } else if (path.equals("slalom")) {
-            trajectoryJSON = "Slalom.wpilib.json";
+            trajectoryJSON = "path/Slalom.wpilib.json";
         }
 
         try {
@@ -214,7 +214,7 @@ public class BotCommands {
     
     Logger.action("Initializing Command: AutoDrivePath...");
 
-        String trajectoryJSON = Pixy.detectPath(color);
+        String trajectoryJSON = "path/" + Pixy.detectPath(color);
 
         try {
             Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
