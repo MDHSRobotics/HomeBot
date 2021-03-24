@@ -142,11 +142,11 @@ public class BotCommands {
     Logger.action("Initializing Command: AutoDrivePath...");
 
         if (path.equals("barrel")) {
-            trajectoryJSON = "path/BarrelRacing.wpilib.json";
+            trajectoryJSON = "/home/lvuser/deploy/paths/BarrelRacing.wpilib.json";
         } else if (path.equals("bounce")) {
-            trajectoryJSON = "path/Bounce.wpilib.json";
+            trajectoryJSON = "/home/lvuser/deploy/paths/Bounce.wpilib.json";
         } else if (path.equals("slalom")) {
-            trajectoryJSON = "path/Slalom.wpilib.json";
+            trajectoryJSON = "/home/lvuser/deploy/paths/Slalom.wpilib.json";
         }
 
         try {
@@ -214,7 +214,7 @@ public class BotCommands {
     
     Logger.action("Initializing Command: AutoDrivePath...");
 
-        String trajectoryJSON = "path/" + Pixy.detectPath(color);
+        String trajectoryJSON = "/home/lvuser/deploy/paths/" + Pixy.detectPath(color);
 
         try {
             Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
@@ -225,6 +225,7 @@ public class BotCommands {
 
         catch (IOException ex) {
             DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
+            Logger.info("TracjectoryJSON:" + m_trajectory);
         }
         
     
