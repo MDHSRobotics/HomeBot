@@ -50,8 +50,8 @@ public class TalonUtils {
 
         talon.configNominalOutputForward(0);
         talon.configNominalOutputReverse(0);
-        talon.configPeakOutputForward(0.20);
-        talon.configPeakOutputReverse(-0.20);
+        talon.configPeakOutputForward(0.17);
+        talon.configPeakOutputReverse(-0.17);
     }
 
     // Configure the given TalonSRX
