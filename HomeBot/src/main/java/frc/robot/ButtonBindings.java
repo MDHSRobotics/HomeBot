@@ -19,6 +19,8 @@ public class ButtonBindings {
         // Delivery
         BotControllers.xbox.btnX.whenPressed(BotCommands.spinDelivery);
         BotControllers.xbox.btnY.whenPressed(BotCommands.stopDelivery);
+
+        BotControllers.xbox.btnDpadDown.whenPressed(BotCommands.toggleGate);
     }
 
 }
