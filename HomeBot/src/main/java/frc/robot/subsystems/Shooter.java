@@ -5,7 +5,7 @@ import java.util.*;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
+import frc.robot.brains.LimelightBrain;
 import frc.robot.brains.ShooterBrain;
 import frc.robot.consoles.Logger;
 import frc.robot.subsystems.utils.*;
@@ -122,7 +122,7 @@ public class Shooter extends SubsystemBase {
      * Note: the distance is currently manually defined in Shuffleboard
      */
     public void shootBasedOnDistance() {
-        double shootDistance = ShooterBrain.getShootDistance();
+        double shootDistance = LimelightBrain.getDistanceEntry();
 
         // Convert the desired ball velocity (ft/sec) into the required motor speed (Ticks per 100 ms)
         double velocityTPHMS = translateDistanceToTicksViaTable(shootDistance);
@@ -163,10 +163,14 @@ public class Shooter extends SubsystemBase {
 
         // The data below is based on shooting experiments conducted on March 11, 2021:
         // (Distance, Ticks per 100ms)
+        luTable.put(7.5, 22000.);
         luTable.put(10., 20000.);
         luTable.put(12.5, 19500.);
         luTable.put(15., 19800.);
         luTable.put(17.5, 20300.);
+        luTable.put(20., 21100.);
+        luTable.put(22.5, 21300.);
+        luTable.put(25., 21500.);
 
         boolean firstPass = true;
         double f1 = -99.;
