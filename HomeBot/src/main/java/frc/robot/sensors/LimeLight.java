@@ -6,13 +6,13 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import frc.robot.brains.ShooterBrain;
 public class LimeLight {
 
-    private double avgDistance = 0;
-    private int sampleSize = 20;
-    private double[] avgDistanceSamples = new double[sampleSize];
+    private static double avgDistance = 0;
+    private static int sampleSize = 20;
+    private static double[] avgDistanceSamples = new double[sampleSize];
 
     private static final double CAMERA_HEIGHT = 10.5; // height of lens (in)
     private static final double TARGET_HEIGHT = 89.75; //height to the center of target(in)
-    private static final double CAMERA_ANGLE= 60;// angle of the camera(deg)
+    private static final double CAMERA_ANGLE = 30.15;// angle of the camera(deg)
     
     
     private static NetworkTable m_limelight= NetworkTableInstance.getDefault().getTable("limelight");
@@ -40,7 +40,7 @@ public class LimeLight {
     }
     
      // Uses the limelight to find the distance in feet
-     public double calculateDistanceToTarget() {
+     public static double calculateDistanceToTarget() {
         double yOffset = getYOffset();
         double angleInRadians = ((yOffset + CAMERA_ANGLE)/180.) * Math.PI;
 
