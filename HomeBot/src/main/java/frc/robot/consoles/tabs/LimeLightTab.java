@@ -5,6 +5,7 @@ import frc.robot.consoles.ShuffleLogger;
 import frc.robot.brains.LimelightBrain;
 
 public class LimeLightTab {
+
         // Tab & Layouts
         private ShuffleboardTab m_tab;
         
@@ -12,7 +13,6 @@ public class LimeLightTab {
         private SimpleWidget m_xOffSetWidget;
         private SimpleWidget m_yOffSetWidget;
         private SimpleWidget m_distanceWidget;
-               
     
         // Constructor
         public LimeLightTab() {
