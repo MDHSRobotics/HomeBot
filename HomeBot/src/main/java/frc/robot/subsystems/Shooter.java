@@ -123,10 +123,13 @@ public class Shooter extends SubsystemBase {
      */
     public void shootBasedOnDistance() {
         double shootDistance = LimelightBrain.getDistanceEntry();
+        ShooterBrain.setShootDistance(shootDistance);
 
         // Convert the desired ball velocity (ft/sec) into the required motor speed (Ticks per 100 ms)
-        double velocityTPHMS = translateDistanceToTicksViaTable(shootDistance);
-        double ballSpinVelocity = ShooterBrain.getBallSpinVelocity();
+        double velocityTPHMS = translateDistanceToTicksViaTable(shootDistance) * GEAR_RATIO;
+        ShooterBrain.setShootVelocity(velocityTPHMS);
+
+        double ballSpinVelocity = 0; //ShooterBrain.getBallSpinVelocity();
 
         talonSrxShooterTopWheel.set(ControlMode.Velocity, velocityTPHMS - ballSpinVelocity);
         talonSrxShooterBottomWheel.set(ControlMode.Velocity, velocityTPHMS + ballSpinVelocity);
@@ -163,6 +166,7 @@ public class Shooter extends SubsystemBase {
 
         // The data below is based on shooting experiments conducted on March 11, 2021:
         // (Distance, Ticks per 100ms)
+        luTable.put(2.5, 24000.); // untested
         luTable.put(7.5, 22000.);
         luTable.put(10., 20000.);
         luTable.put(12.5, 19500.);
