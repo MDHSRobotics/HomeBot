@@ -5,7 +5,7 @@ import java.util.*;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
+import frc.robot.brains.LimelightBrain;
 import frc.robot.brains.ShooterBrain;
 import frc.robot.consoles.Logger;
 import frc.robot.subsystems.utils.*;
@@ -51,10 +51,10 @@ public class Shooter extends SubsystemBase {
 
         if (isReal) {
             // Configure devices
-            PIDValues pidTop = new PIDValues(pidkFTop, 0.0, 0.0, 0.0);
+            PIDValues pidTop = new PIDValues(0.00835, 0.0, 0.0, 0.0);
             TalonUtils.configureTalonWithEncoder(talonSrxShooterTopWheel, SENSOR_PHASE_TOP, MOTOR_INVERT_TOP, pidTop);
 
-            PIDValues pidBottom = new PIDValues(pidkFBottom, 0.0, 0.0, 0.0); // Calibrated for 20,000: TpHMS 0.00835
+            PIDValues pidBottom = new PIDValues(0.00835, 0.0, 0.0, 0.0); // Calibrated for 20,000: TpHMS 0.00835
             TalonUtils.configureTalonWithEncoder(talonSrxShooterBottomWheel, SENSOR_PHASE_BOTTOM, MOTOR_INVERT_BOTTOM, pidBottom);
         }
     }
@@ -122,7 +122,7 @@ public class Shooter extends SubsystemBase {
      * Note: the distance is currently manually defined in Shuffleboard
      */
     public void shootBasedOnDistance() {
-        double shootDistance = ShooterBrain.getShootDistance();
+        double shootDistance = LimelightBrain.getDistanceEntry();
 
         // Convert the desired ball velocity (ft/sec) into the required motor speed (Ticks per 100 ms)
         double velocityTPHMS = translateDistanceToTicksViaTable(shootDistance);
@@ -161,9 +161,16 @@ public class Shooter extends SubsystemBase {
         // Initialize the lookup table; Key=Velocity in FPS; Value=Motor speed in Ticks/100ms
         SortedMap<Double, Double> luTable = new TreeMap<Double, Double>();
 
-        // The data below is based on shooting experiments conducted on February 18, 2021:
+        // The data below is based on shooting experiments conducted on March 11, 2021:
         // (Distance, Ticks per 100ms)
-        luTable.put(22.25, 18650.);
+        luTable.put(7.5, 22000.);
+        luTable.put(10., 20000.);
+        luTable.put(12.5, 19500.);
+        luTable.put(15., 19800.);
+        luTable.put(17.5, 20300.);
+        luTable.put(20., 21100.);
+        luTable.put(22.5, 21300.);
+        luTable.put(25., 21500.);
 
         boolean firstPass = true;
         double f1 = -99.;

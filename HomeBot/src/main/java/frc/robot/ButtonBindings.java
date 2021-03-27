@@ -9,25 +9,18 @@ public class ButtonBindings {
     public static void configureXbox() {
         Logger.setup("Configure Buttons -> Xbox Controller...");
         
-        //Sensors 
-        BotControllers.xbox.btnX.whenPressed(BotCommands.spinDelivery);
-        BotControllers.xbox.btnY.whenPressed(BotCommands.stopDelivery);
-
         //Shoot
         BotControllers.xbox.btnA.whileHeld(BotCommands.shoot);
-        BotControllers.xbox.btnB.whenPressed(BotCommands.stopShoot);
 
         // Delivery
         BotControllers.xbox.btnBumperLeft.whenPressed(BotCommands.spinPickup);
         BotControllers.xbox.btnBumperRight.whenPressed(BotCommands.stopPickup);
 
-        //Pixy
-        BotControllers.xbox.btnStart.whileHeld(BotCommands.pixyTest);
+        // Delivery
+        BotControllers.xbox.btnX.whenPressed(BotCommands.spinDelivery);
+        BotControllers.xbox.btnY.whenPressed(BotCommands.stopDelivery);
 
-        //Gate
-        BotControllers.xbox.btnDpadRight.whenPressed(BotCommands.toggleGate);
-
-
+        BotControllers.xbox.btnDpadDown.whenPressed(BotCommands.toggleGate);
     }
 
 }
