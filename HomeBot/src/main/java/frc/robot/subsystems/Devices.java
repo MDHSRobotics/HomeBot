@@ -26,10 +26,16 @@ public class Devices {
     static DevTalonSRX talonSrxDeliveryLeft = new DevTalonSRX("talonSrxDeliveryLeft", 7);
 
     // DiffDriver
-    static DevTalonFX talonFxDiffWheelFrontLeft = new DevTalonFX("talonFxDiffWheelFrontLeft", 23);
-    static DevTalonFX talonFxDiffWheelFrontRight = new DevTalonFX("talonFxDiffWheelFrontRight", 20);
-    static DevTalonFX talonFxDiffWheelRearLeft = new DevTalonFX("talonFxDiffWheelRearLeft", 24);
-    static DevTalonFX talonFxDiffWheelRearRight = new DevTalonFX("talonFxDiffWheelRearRight", 21);
+    static DevTalonSRX talonSrxDiffWheelFrontLeft = new DevTalonSRX("talonSrxDiffWheelFrontLeft", 8);
+    static DevTalonSRX talonSrxDiffWheelFrontRight = new DevTalonSRX("talonSrxDiffWheelFrontRight", 15);
+    static DevTalonSRX talonSrxDiffWheelRearLeft = new DevTalonSRX("talonSrxDiffWheelRearLeft", 11);
+    static DevTalonSRX talonSrxDiffWheelRearRight = new DevTalonSRX("talonSrxDiffWheelRearRight", 6);
+
+    // DiffDriver
+    static DevTalonSRX talonFxDiffWheelFrontLeft = new DevTalonSRX("talonSrxDiffWheelFrontLeft", 8);
+    static DevTalonSRX talonFxDiffWheelFrontRight = new DevTalonSRX("talonSrxDiffWheelFrontRight", 15);
+    static DevTalonSRX talonFxDiffWheelRearLeft = new DevTalonSRX("talonSrxDiffWheelRearLeft", 11);
+    static DevTalonSRX talonFxDiffWheelRearRight = new DevTalonSRX("talonSrxDiffWheelRearRight", 6);
 
     //Sensors
     static Servo servoGate = new Servo(1);
@@ -38,8 +44,12 @@ public class Devices {
     // Drive Instances //
     /////////////////////
 
-    public static DevDifferentialDrive diffDriveTalonFX = new DevDifferentialDrive("diffDriveTalonFx",
-                                                                                talonFxDiffWheelFrontLeft,
-                                                                                talonFxDiffWheelFrontRight);
+    public static DevDifferentialDrive diffDriveTalonSRX = new DevDifferentialDrive("diffDriveTalonFx",
+                                                                                talonSrxDiffWheelFrontLeft,
+                                                                                talonSrxDiffWheelFrontRight);
+
+     public static DevDifferentialDrive diffDriveTalonFX = new DevDifferentialDrive("diffDriveTalonFx",
+                                                                              talonFxDiffWheelFrontLeft,
+                                                                              talonFxDiffWheelFrontRight);
 
 }
