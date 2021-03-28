@@ -1,22 +1,19 @@
 
 package frc.robot.subsystems;
 
-import frc.robot.subsystems.Devices;
-import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 //Pathweaver libraries 
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
-import edu.wpi.first.wpilibj.trajectory.Trajectory;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
-import edu.wpi.first.wpilibj.controller.RamseteController;
-import edu.wpi.first.wpilibj2.command.RamseteCommand;
+
 import frc.robot.subsystems.constants.*;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 
 import frc.robot.subsystems.utils.EncoderUtils;
+import frc.robot.subsystems.utils.TalonUtils;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import frc.robot.brains.DiffDriverBrain;
@@ -24,15 +21,15 @@ import frc.robot.consoles.Logger;
 import frc.robot.sensors.Gyro;
 import frc.robot.BotSensors;
 import static frc.robot.subsystems.Devices.*;
-import frc.robot.BotSubsystems;
+
+
+import frc.robot.subsystems.utils.PIDValues;
 
 // Differential driver subsystem base class
 public class DiffDriver extends SubsystemBase {
 
     // Motor constants
     private final double AUTO_PERIOD_SPEED = 0.5;
-    private final double WHEEL_DIAMETER = 6.0;
-    private final double GEAR_RATIO = 0.25;
 
     //Odometry class for tracking robot pose (PathWeaver)
     private final DifferentialDriveOdometry m_odometry;
@@ -47,6 +44,10 @@ public class DiffDriver extends SubsystemBase {
 
     // Constructor requires device instances
     public DiffDriver(DifferentialDrive diffDrive) {
+        PIDValues pidLeft = new PIDValues(0.0, 1.0, 0.0, 0.0);
+        PIDValues pidRight = new PIDValues(0.0, 1.0, 0.0, 0.0);
+        TalonUtils.configureTalonWithEncoder(talonFxDiffWheelFrontLeft, true, false, pidLeft);
+        TalonUtils.configureTalonWithEncoder(talonFxDiffWheelFrontRight, true, true, pidRight);
         this.diffDrive = diffDrive;
         m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
     }
@@ -102,9 +103,26 @@ public class DiffDriver extends SubsystemBase {
     }
     
     public void moveForwardAuto(double feet) {
-        double ticks = EncoderUtils.translateDistanceToTicks(feet, WHEEL_DIAMETER, GEAR_RATIO);
-        talonFxDiffWheelFrontLeft.set(ControlMode.Position, ticks);
-        talonFxDiffWheelFrontRight.set(ControlMode.Position, ticks);
+        Logger.info("Rotating wheel 5 times...");
+        // double ticks = EncoderUtils.translateDistanceToTicks(feet, WHEEL_DIAMETER, GEAR_RATIO);
+        talonFxDiffWheelFrontLeft.setSelectedSensorPosition(0);
+        talonFxDiffWheelFrontRight.setSelectedSensorPosition(0);
+
+        int leftPosition = getPositionLeft();
+        int rightPosition = getPositionRight();
+
+        //if (leftPosition != 0) {
+        Logger.debug("MoveForwardAutoInitialize: Left Wheel Position --> " + leftPosition);
+        //}
+
+        //if (rightPosition != 0) {
+            Logger.debug("MoveForwardAutoInitialize: Right Wheel Position --> " + rightPosition);
+        //}
+
+        talonFxDiffWheelFrontLeft.set(ControlMode.Velocity, 4000);
+        talonFxDiffWheelFrontRight.set(ControlMode.Velocity, 4000);
+        Logger.info("Finished...");
+
     }
 
     // Drive to align the robot to a detected line at the given yaw
@@ -184,5 +202,17 @@ public class DiffDriver extends SubsystemBase {
         diffDrive.feed();
     }
 
+    public void feed() {
+        diffDrive.feed();
+    }
+
+    public int getPositionLeft() {
+        return talonFxDiffWheelFrontLeft.getSelectedSensorPosition();
+    }
+
+    public int getPositionRight() {
+        return talonFxDiffWheelFrontRight.getSelectedSensorPosition();
+    }
+ 
 }
 

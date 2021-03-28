@@ -9,6 +9,10 @@ public class ButtonBindings {
     public static void configureXbox() {
         Logger.setup("Configure Buttons -> Xbox Controller...");
         
+        //Sensors 
+        BotControllers.xbox.btnX.whenPressed(BotCommands.moveForwardAuto10Feet);
+        BotControllers.xbox.btnY.whenPressed(BotCommands.driveDiffTank);
+
         //Shoot
         BotControllers.xbox.btnA.whileHeld(BotCommands.shoot);
 
