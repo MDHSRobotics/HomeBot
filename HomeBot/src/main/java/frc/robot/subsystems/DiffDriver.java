@@ -89,6 +89,11 @@ public class DiffDriver extends SubsystemBase {
         diffDrive.tankDrive(leftSpeed, rightSpeed);
     }
 
+    public void driveTankStraight(double leftSpeed, double rightSpeed) {
+        // Logger.info("DiffDriver.driveTank -> Left Speed: " + leftSpeed + "; Right Speed: " + rightSpeed);
+        diffDrive.tankDrive(leftSpeed, rightSpeed);
+    }
+
     // Drive forward at a set speed
     public void moveForwardAuto() {
         driveArcade(AUTO_PERIOD_SPEED, AUTO_PERIOD_SPEED); // drive towards heading 0

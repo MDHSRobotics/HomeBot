@@ -40,7 +40,7 @@ public class TalonUtils {
         talon.configFactoryDefault();
 
         talon.setInverted(motorInvert);
-        talon.setNeutralMode(NeutralMode.Coast);
+        talon.setNeutralMode(NeutralMode.Brake);
 
         SupplyCurrentLimitConfiguration currentLimitConfig = new SupplyCurrentLimitConfiguration(true, PEAK_CONTINUOUS_AMPERAGE, PEAK_AMPERAGE, PEAK_AMPERAGE_DURATION);
         talon.configSupplyCurrentLimit(currentLimitConfig, TIMEOUT_MS);
@@ -50,8 +50,8 @@ public class TalonUtils {
 
         talon.configNominalOutputForward(0);
         talon.configNominalOutputReverse(0);
-        talon.configPeakOutputForward(0.20);
-        talon.configPeakOutputReverse(-0.20);
+        talon.configPeakOutputForward(0.17);
+        talon.configPeakOutputReverse(-0.17);
     }
 
     // Configure the given TalonSRX
