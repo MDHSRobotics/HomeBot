@@ -23,11 +23,13 @@ public class Shoot extends CommandBase {
     public void initialize() {
         Logger.action("Initializing Command: Shoot...");
 
-        m_shooter.shootBasedOnTPHMS();
+        
     }
 
     @Override
     public void execute() {
+
+        m_shooter.shootBasedOnDistance();
     }
 
     // This command continues until interrupted
