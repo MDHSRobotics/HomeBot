@@ -144,10 +144,14 @@ public class Shooter extends SubsystemBase {
     public void shootBasedOnTPHMS() {
         double velocityTPHMS = ShooterBrain.getTargetTPHMS() * GEAR_RATIO;
         double ballSpinVelocity = ShooterBrain.getBallSpinVelocity() / 2;
-        talonSrxShooterTopWheel.set(ControlMode.Velocity, velocityTPHMS - ballSpinVelocity);
-        talonSrxShooterBottomWheel.set(ControlMode.Velocity, velocityTPHMS + ballSpinVelocity);
+        talonSrxShooterTopWheel.set(ControlMode.Velocity, 15000 - ballSpinVelocity);
+        talonSrxShooterBottomWheel.set(ControlMode.Velocity, 15000 + ballSpinVelocity);
     }
 
+    public void testEncoders(){
+        talonSrxShooterBottomWheel.set(ControlMode.Position, 10000);
+        talonSrxShooterTopWheel.set(ControlMode.Position, 10000);
+    }
     /**
      * Translate a desired target shoot distance (ft) to a motor velocity in Ticks per 100 ms.
      * The translation is done via a lookup table with values based on shooting experiments.
