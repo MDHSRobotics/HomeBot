@@ -21,8 +21,7 @@ public class Gate extends SubsystemBase {
         // This method will be called once per scheduler run
     }
 
-    //TODO: get location of servo on robot
-    public static void toggleGate() {
+    public void toggleGate() {
         if (servoGate.get() == 0.5) {
             servoGate.set(1.0);
         } else if (servoGate.get() == 1.0){ 
@@ -32,7 +31,7 @@ public class Gate extends SubsystemBase {
         
     }
 
-    public static void feedGate() {
+    public void feedGate() {
         
     }
 }

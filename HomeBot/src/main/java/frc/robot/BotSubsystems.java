@@ -10,7 +10,7 @@ public class BotSubsystems {
     public static Delivery delivery;
     public static Pickup pickup;
     public static Shooter shooter;
-  //  public static Gate gate;
+    public static Gate gate;
 
     // Initialize all robot subsystems
     public static void initializeSubsystems() {
@@ -19,7 +19,7 @@ public class BotSubsystems {
         delivery = new Delivery();
         pickup = new Pickup();
         shooter = new Shooter();
-     //   gate = new Gate();
+        gate = new Gate();
     }
 
     // Set all the subsystem "teleop" default commands
@@ -43,7 +43,7 @@ public class BotSubsystems {
 
         //Gate
         Logger.setup("Gate Teleop Default Command -> FeedGate...");
-      //gate.setDefaultCommand(BotCommands.feedGate);
+        gate.setDefaultCommand(BotCommands.feedGate);
 
     }
 
