@@ -139,8 +139,6 @@ public class BotCommands {
 
     // Return the command to run in autonomous mode (AutoNav)
     public static Command getAutonomousCommand(String game) {
-
-        // Pathweaver JSON
         String trajectoryJSON = "";
         if (game.equals("barrel")) {
             trajectoryJSON = "/home/lvuser/deploy/paths/BarrelRacing.wpilib.json";
@@ -151,13 +149,10 @@ public class BotCommands {
         }
 
         return getPathweaverCommand(trajectoryJSON);
-
-        
     }
 
     // Return the command to run in autonomous mode (Galactic Search)
     public static Command getAutonomousCommand(char color) {
-
         String trajectoryJSON = "/home/lvuser/deploy/paths/" + Pixy.detectPath(color);
 
         return getPathweaverCommand(trajectoryJSON);
