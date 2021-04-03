@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.sensors.Pixy;
 import frc.robot.commands.auto.MoveForwardAuto;
+import frc.robot.brains.DiffDriverBrain;
 
 import frc.robot.consoles.Logger;
 
@@ -22,12 +23,6 @@ public class Robot extends TimedRobot {
     private Command m_autonomousCommandBlue;
     private Command m_autonomousCommandAutoNav;
     private MoveForwardAuto m_moveForwardAuto;
-
-    /**
-     * AutoNav Paths: "barrel", "bounce", "slalom"
-     * Enter "none" if running Galactic Search.
-     */
-    private String m_autoNavGame = "slalom";
 
     // Test variables
     private int m_numberOfTests;
@@ -109,10 +104,10 @@ public class Robot extends TimedRobot {
         // Schedule the autonomous command
         m_autonomousCommandRed = BotCommands.getAutonomousCommand('R');
         m_autonomousCommandBlue = BotCommands.getAutonomousCommand('B');
-        m_autonomousCommandAutoNav = BotCommands.getAutonomousCommand(m_autoNavGame);
+        m_autonomousCommandAutoNav = BotCommands.getAutonomousCommand(DiffDriverBrain.getPathweaverGame());
         m_moveForwardAuto = BotCommands.moveForwardAuto10Feet;
         
-        if (m_autoNavGame.equals("none")) {
+        if (DiffDriverBrain.getPathweaverGame().equals("none")) {
             if (Pixy.detectFieldMode().equals("no blocks detected")) {
                 if (m_moveForwardAuto != null) {
                     m_moveForwardAuto.schedule();
