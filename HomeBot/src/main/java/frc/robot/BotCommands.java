@@ -110,28 +110,15 @@ public class BotCommands {
         moveForwardAuto10Feet = new MoveForwardAuto(BotSubsystems.diffDriver, 10.0);
     }
 
-    // Return the command to run in autonomous mode (AutoNav)
-    public static Command getAutonomousCommand(String game) {
-        Logger.action("Initializing Command: AutoDrivePath...");
-
-        // Pathweaver JSON
-        String trajectoryJSON = "";
-        if (game.equals("barrel")) {
-            trajectoryJSON = "/home/lvuser/deploy/paths/BarrelRacing.wpilib.json";
-        } else if (game.equals("bounce")) {
-            trajectoryJSON = "/home/lvuser/deploy/paths/Bounce.wpilib.json";
-        } else if (game.equals("slalom")) {
-            trajectoryJSON = "/home/lvuser/deploy/paths/Slalom.wpilib.json";
-        }
-
+    public static Command getPathweaverCommand(String pathweaverPath) {
         try {
-            Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
+            Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(pathweaverPath);
             Trajectory trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
             m_trajectory = trajectory;
             Logger.info("Trajectory created.");
         }
         catch (IOException ex) {
-            DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
+            DriverStation.reportError("Unable to open trajectory: " + pathweaverPath, ex.getStackTrace());
         }
 
         RamseteCommand ramseteCommand = new RamseteCommand(m_trajectory, BotSubsystems.diffDriver::getPose,
@@ -150,37 +137,30 @@ public class BotCommands {
         return ramseteCommand.andThen(() -> BotSubsystems.diffDriver.tankDriveVolts(0, 0));
     }
 
+    // Return the command to run in autonomous mode (AutoNav)
+    public static Command getAutonomousCommand(String game) {
+
+        // Pathweaver JSON
+        String trajectoryJSON = "";
+        if (game.equals("barrel")) {
+            trajectoryJSON = "/home/lvuser/deploy/paths/BarrelRacing.wpilib.json";
+        } else if (game.equals("bounce")) {
+            trajectoryJSON = "/home/lvuser/deploy/paths/Bounce.wpilib.json";
+        } else if (game.equals("slalom")) {
+            trajectoryJSON = "/home/lvuser/deploy/paths/Slalom.wpilib.json";
+        }
+
+        return getPathweaverCommand(trajectoryJSON);
+
+        
+    }
+
     // Return the command to run in autonomous mode (Galactic Search)
     public static Command getAutonomousCommand(char color) {
-        Logger.action("Initializing Command: AutoDrivePath...");
 
         String trajectoryJSON = "/home/lvuser/deploy/paths/" + Pixy.detectPath(color);
 
-        try {
-            Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
-            Trajectory trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-            m_trajectory = trajectory;
-            Logger.info("Trajectory created.");
-        }
-        catch (IOException ex) {
-            DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
-            Logger.info("TracjectoryJSON:" + m_trajectory);
-        }
-
-        RamseteCommand ramseteCommand = new RamseteCommand(m_trajectory, BotSubsystems.diffDriver::getPose,
-                new RamseteController(AutoConstants.kRamseteB, AutoConstants.kRamseteZeta),
-                new SimpleMotorFeedforward(PathConstants.ksVolts, PathConstants.kvVoltSecondsPerMeter,
-                        PathConstants.kaVoltSecondsSquaredPerMeter),
-                PathConstants.kDriveKinematics, BotSubsystems.diffDriver::getWheelSpeeds,
-                new PIDController(PathConstants.kPDriveVel, 0, 0), new PIDController(PathConstants.kPDriveVel, 0, 0),
-                // RamseteCommand passes volts to the callback
-                BotSubsystems.diffDriver::tankDriveVolts, BotSubsystems.diffDriver);
-
-        // Reset odometry to the starting pose of the trajectory.
-        BotSubsystems.diffDriver.resetOdometry(m_trajectory.getInitialPose());
-
-        // Run path following command, then stop at the end.
-        return ramseteCommand.andThen(() -> BotSubsystems.diffDriver.tankDriveVolts(0, 0));
+        return getPathweaverCommand(trajectoryJSON);
     }
 
 }
