@@ -31,8 +31,8 @@ public class Robot extends TimedRobot {
 
     // Test variables
     private int m_numberOfTests;
-    private int m_currentTestNumber;
-    private int m_testIteration;
+    // private int m_currentTestNumber;
+    // private int m_testIteration;
 
     // When connected to the RoboRio, use this constructor because it will use the
     // proper period duration
@@ -172,8 +172,8 @@ public class Robot extends TimedRobot {
 
         // Reset the test variables
         Logger.info("Number of tests registered: " + m_numberOfTests);
-        m_currentTestNumber = 0;
-        m_testIteration = 0;
+        // m_currentTestNumber = 0;
+        // m_testIteration = 0;
     }
 
     /**

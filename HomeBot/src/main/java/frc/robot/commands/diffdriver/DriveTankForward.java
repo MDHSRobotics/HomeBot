@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.consoles.Logger;
 import frc.robot.oi.controllers.XboxPositionAccessible;
-import frc.robot.oi.movements.TankMovement;
 import frc.robot.subsystems.DiffDriver;
 
 // This command uses the xbox input to differential drive using the tank method.

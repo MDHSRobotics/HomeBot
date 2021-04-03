@@ -1,25 +1,26 @@
 package frc.robot;
+
 import frc.robot.consoles.Logger;
 import frc.robot.subsystems.*;
-
 
 // Contains singleton instances of all the subsystems on the robot.
 public class BotSubsystems {
 
     public static DiffDriver diffDriver;
-    public static Delivery delivery;
     public static Pickup pickup;
-    public static Shooter shooter;
+    public static Delivery delivery;
     public static Gate gate;
+    public static Shooter shooter;
 
     // Initialize all robot subsystems
     public static void initializeSubsystems() {
         Logger.setup("Initializing BotSubsystems...");
+
         diffDriver = new DiffDriverTalonFX();
-        delivery = new Delivery();
         pickup = new Pickup();
-        shooter = new Shooter();
+        delivery = new Delivery();
         gate = new Gate();
+        shooter = new Shooter();
     }
 
     // Set all the subsystem "teleop" default commands
@@ -29,21 +30,21 @@ public class BotSubsystems {
         Logger.setup("DiffDriver Teleop Default Command -> DriveDiffTank...");
         diffDriver.setDefaultCommand(BotCommands.driveDiffArcade);
 
-        // Delivery
-        Logger.setup("Delivery Teleop Default Command -> StopDelivery...");
-        delivery.setDefaultCommand(BotCommands.stopDelivery);
-
         // Pickup
         Logger.setup("Pickup Teleop Default Command -> StopPickup...");
         pickup.setDefaultCommand(BotCommands.stopPickup);
 
-        //Shoot
-        Logger.setup("Shooter Teleop Default Command -> Shoot...");
-        shooter.setDefaultCommand(BotCommands.stopShoot);
+        // Delivery
+        Logger.setup("Delivery Teleop Default Command -> StopDelivery...");
+        delivery.setDefaultCommand(BotCommands.stopDelivery);
 
-        //Gate
+        // Gate
         Logger.setup("Gate Teleop Default Command -> FeedGate...");
         gate.setDefaultCommand(BotCommands.feedGate);
+        
+        // Shoot
+        Logger.setup("Shooter Teleop Default Command -> Shoot...");
+        shooter.setDefaultCommand(BotCommands.stopShoot);
 
     }
 

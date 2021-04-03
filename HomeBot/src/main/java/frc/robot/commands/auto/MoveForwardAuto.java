@@ -1,25 +1,17 @@
 package frc.robot.commands.auto;
 
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Filesystem;
-import edu.wpi.first.wpilibj.trajectory.Trajectory;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 
 import frc.robot.consoles.Logger;
 import frc.robot.subsystems.DiffDriver;
 
-import java.io.IOException;
-import java.nio.file.Path;
 
 // This command automatically a predetermined pathweaver path.
 public class MoveForwardAuto extends CommandBase {
 
     private DiffDriver m_diffDriver;
-    private boolean m_hasMoved = false;
+    // private boolean m_hasMoved = false;
     private double m_targetDistance = 0.0;
-
 
     public MoveForwardAuto(DiffDriver diffDriver, double targetDistance) {
         Logger.setup("Constructing Command: MoveForwardAuto...");
@@ -93,7 +85,5 @@ public class MoveForwardAuto extends CommandBase {
     public void end(boolean interrupted) {
         Logger.info("MoveForwardAuto interrupted");
     }
-
-
 
 }
