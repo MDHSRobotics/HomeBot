@@ -27,7 +27,7 @@ public class Robot extends TimedRobot {
      * AutoNav Paths: "barrel", "bounce", "slalom"
      * Enter "none" if running Galactic Search.
      */
-    private String autoNavPath = "slalom";
+    private String m_autoNavGame = "slalom";
 
     // Test variables
     private int m_numberOfTests;
@@ -109,10 +109,10 @@ public class Robot extends TimedRobot {
         // Schedule the autonomous command
         m_autonomousCommandRed = BotCommands.getAutonomousCommand('R');
         m_autonomousCommandBlue = BotCommands.getAutonomousCommand('B');
-        m_autonomousCommandAutoNav = BotCommands.getAutonomousCommand(autoNavPath);
+        m_autonomousCommandAutoNav = BotCommands.getAutonomousCommand(m_autoNavGame);
         m_moveForwardAuto = BotCommands.moveForwardAuto10Feet;
         
-        if (autoNavPath.equals("none")) {
+        if (m_autoNavGame.equals("none")) {
             if (Pixy.detectFieldMode().equals("no blocks detected")) {
                 if (m_moveForwardAuto != null) {
                     m_moveForwardAuto.schedule();

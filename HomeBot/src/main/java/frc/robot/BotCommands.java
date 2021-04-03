@@ -111,18 +111,16 @@ public class BotCommands {
     }
 
     // Return the command to run in autonomous mode (AutoNav)
-    public static Command getAutonomousCommand(String path) {
+    public static Command getAutonomousCommand(String game) {
+        Logger.action("Initializing Command: AutoDrivePath...");
 
         // Pathweaver JSON
         String trajectoryJSON = "";
-
-        Logger.action("Initializing Command: AutoDrivePath...");
-
-        if (path.equals("barrel")) {
+        if (game.equals("barrel")) {
             trajectoryJSON = "/home/lvuser/deploy/paths/BarrelRacing.wpilib.json";
-        } else if (path.equals("bounce")) {
+        } else if (game.equals("bounce")) {
             trajectoryJSON = "/home/lvuser/deploy/paths/Bounce.wpilib.json";
-        } else if (path.equals("slalom")) {
+        } else if (game.equals("slalom")) {
             trajectoryJSON = "/home/lvuser/deploy/paths/Slalom.wpilib.json";
         }
 
@@ -132,7 +130,6 @@ public class BotCommands {
             m_trajectory = trajectory;
             Logger.info("Trajectory created.");
         }
-
         catch (IOException ex) {
             DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
         }
@@ -165,7 +162,6 @@ public class BotCommands {
             m_trajectory = trajectory;
             Logger.info("Trajectory created.");
         }
-
         catch (IOException ex) {
             DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
             Logger.info("TracjectoryJSON:" + m_trajectory);
