@@ -16,7 +16,7 @@ public class BotSubsystems {
     public static void initializeSubsystems() {
         Logger.setup("Initializing BotSubsystems...");
 
-        diffDriver = new DiffDriverTalonFX();
+        diffDriver = new DiffDriver();
         pickup = new Pickup();
         delivery = new Delivery();
         gate = new Gate();
