@@ -4,6 +4,9 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.sensors.Pixy;
+import frc.robot.commands.auto.MoveForwardAuto;
+import frc.robot.brains.DiffDriverBrain;
 
 import frc.robot.consoles.Logger;
 
@@ -16,12 +19,15 @@ import frc.robot.consoles.Logger;
 public class Robot extends TimedRobot {
 
     // Autonomous variables
-    private Command m_autonomousCommand;
+    private Command m_autonomousCommandRed;
+    private Command m_autonomousCommandBlue;
+    private Command m_autonomousCommandAutoNav;
+    private MoveForwardAuto m_moveForwardAuto;
 
     // Test variables
     private int m_numberOfTests;
-    private int m_currentTestNumber;
-    private int m_testIteration;
+    // private int m_currentTestNumber;
+    // private int m_testIteration;
 
     // When connected to the RoboRio, use this constructor because it will use the
     // proper period duration
@@ -96,10 +102,30 @@ public class Robot extends TimedRobot {
         CommandScheduler.getInstance().cancelAll();
 
         // Schedule the autonomous command
-        m_autonomousCommand = BotCommands.getAutonomousCommand();
-        if (m_autonomousCommand != null) {
-            m_autonomousCommand.schedule();
+        m_autonomousCommandRed = BotCommands.getAutonomousCommand('R');
+        m_autonomousCommandBlue = BotCommands.getAutonomousCommand('B');
+        m_autonomousCommandAutoNav = BotCommands.getAutonomousCommand(DiffDriverBrain.getPathweaverGame());
+        m_moveForwardAuto = BotCommands.moveForwardAuto10Feet;
+        
+        if (DiffDriverBrain.getPathweaverGame().equals("none")) {
+            if (Pixy.detectFieldMode().equals("no blocks detected")) {
+                if (m_moveForwardAuto != null) {
+                    m_moveForwardAuto.schedule();
+                }
+                if (m_autonomousCommandBlue != null) {
+                    m_autonomousCommandBlue.schedule();
+                }
+            } else {
+                if (m_autonomousCommandRed != null) {
+                    m_autonomousCommandRed.schedule();
+                }
+            }
+        } else {
+            if (m_autonomousCommandAutoNav != null) {
+                m_autonomousCommandAutoNav.schedule();
+            }
         }
+        
     }
 
     /**
@@ -141,8 +167,8 @@ public class Robot extends TimedRobot {
 
         // Reset the test variables
         Logger.info("Number of tests registered: " + m_numberOfTests);
-        m_currentTestNumber = 0;
-        m_testIteration = 0;
+        // m_currentTestNumber = 0;
+        // m_testIteration = 0;
     }
 
     /**

@@ -28,8 +28,8 @@ public class Shooter extends SubsystemBase {
     private static final double GEAR_RATIO = 4.0; // Gear ratio bewteen Input Shaft : Output Shaft of a gearbox
 
     // Shuffleboard
-    private double pidkFTop = ShooterBrain.pidkFTopDefault;
-    private double pidkFBottom = ShooterBrain.pidkFBottomDefault;
+    // private double pidkFTop = ShooterBrain.pidkFTopDefault;
+    // private double pidkFBottom = ShooterBrain.pidkFBottomDefault;
 
     private double topVelocity = ShooterBrain.topWheelCurrentVelocityDefault;
     private double bottomVelocity = ShooterBrain.bottomWheelCurrentVelocityDefault;
@@ -64,8 +64,8 @@ public class Shooter extends SubsystemBase {
         // This method will be called once per scheduler run
 
         // Retrieve PID values
-        pidkFTop = ShooterBrain.getPidkFTop();
-        pidkFBottom = ShooterBrain.getPidkFBottom();
+        // pidkFTop = ShooterBrain.getPidkFTop();
+        // pidkFBottom = ShooterBrain.getPidkFBottom();
 
         // Retrieve current top and bottom flywheel velocities
         topVelocity = getTopWheelVelocity();
@@ -142,12 +142,16 @@ public class Shooter extends SubsystemBase {
      * Spins both flywheels at a specified TpHMS velocity entered in Shuffleboard
      */
     public void shootBasedOnTPHMS() {
-        double velocityTPHMS = ShooterBrain.getTargetTPHMS() * GEAR_RATIO;
+        // double velocityTPHMS = ShooterBrain.getTargetTPHMS() * GEAR_RATIO;
         double ballSpinVelocity = ShooterBrain.getBallSpinVelocity() / 2;
-        talonSrxShooterTopWheel.set(ControlMode.Velocity, velocityTPHMS - ballSpinVelocity);
-        talonSrxShooterBottomWheel.set(ControlMode.Velocity, velocityTPHMS + ballSpinVelocity);
+        talonSrxShooterTopWheel.set(ControlMode.Velocity, 15000 - ballSpinVelocity);
+        talonSrxShooterBottomWheel.set(ControlMode.Velocity, 15000 + ballSpinVelocity);
     }
 
+    public void testEncoders(){
+        talonSrxShooterBottomWheel.set(ControlMode.Position, 10000);
+        talonSrxShooterTopWheel.set(ControlMode.Position, 10000);
+    }
     /**
      * Translate a desired target shoot distance (ft) to a motor velocity in Ticks per 100 ms.
      * The translation is done via a lookup table with values based on shooting experiments.

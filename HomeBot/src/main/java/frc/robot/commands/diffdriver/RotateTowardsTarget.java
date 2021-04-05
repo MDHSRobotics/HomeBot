@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.consoles.Logger;
 import frc.robot.sensors.LimeLight;
 import frc.robot.subsystems.DiffDriver;
-import frc.robot.BotCommands;
 import frc.robot.BotSensors;
 
 // DiffDrive uses gyro and limelight to rotate to the target.

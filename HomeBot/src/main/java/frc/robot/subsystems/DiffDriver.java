@@ -1,36 +1,33 @@
 
 package frc.robot.subsystems;
 
-import frc.robot.subsystems.Devices;
-import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-//Pathweaver libraries 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
-import edu.wpi.first.wpilibj.trajectory.Trajectory;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
-import edu.wpi.first.wpilibj.controller.RamseteController;
-import edu.wpi.first.wpilibj2.command.RamseteCommand;
-import frc.robot.subsystems.constants.*;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
-
-import frc.robot.subsystems.utils.EncoderUtils;
-//
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.brains.DiffDriverBrain;
 import frc.robot.consoles.Logger;
 import frc.robot.sensors.Gyro;
+import frc.robot.subsystems.constants.*;
+import frc.robot.subsystems.utils.EncoderUtils;
+import frc.robot.subsystems.utils.PIDValues;
+import frc.robot.subsystems.utils.TalonUtils;
 import frc.robot.BotSensors;
+
+import static frc.robot.subsystems.constants.TalonConstants.*;
 import static frc.robot.subsystems.Devices.*;
-import frc.robot.BotSubsystems;
+import static frc.robot.RobotManager.isReal;
+
 
 // Differential driver subsystem base class
 public class DiffDriver extends SubsystemBase {
 
     // Motor constants
     private final double AUTO_PERIOD_SPEED = 0.5;
+    private final double SECONDS_FROM_NEUTRAL_TO_FULL = 0.1;
 
     //Odometry class for tracking robot pose (PathWeaver)
     private final DifferentialDriveOdometry m_odometry;
@@ -38,14 +35,25 @@ public class DiffDriver extends SubsystemBase {
     // The direction of forward/backward via the controller
     public boolean controlStickDirectionFlipped = false;
 
-    // The subsystem devices
-    public DifferentialDrive diffDrive;
-
     public static double distance;
 
     // Constructor requires device instances
-    public DiffDriver(DifferentialDrive diffDrive) {
-        this.diffDrive = diffDrive;
+    public DiffDriver() {
+        if (isReal) {
+            // Configure the TalonFX devices used for DiffDriver
+            TalonUtils.configureBaseTalonMasterFollower(talonFxDiffWheelFrontLeft, talonFxDiffWheelRearLeft, true, true);
+            TalonUtils.configureBaseTalonMasterFollower(talonFxDiffWheelFrontRight, talonFxDiffWheelRearRight, true, true);
+            talonFxDiffWheelFrontLeft.configOpenloopRamp(SECONDS_FROM_NEUTRAL_TO_FULL, TIMEOUT_MS);
+            talonFxDiffWheelFrontRight.configOpenloopRamp(SECONDS_FROM_NEUTRAL_TO_FULL, TIMEOUT_MS);
+            talonFxDiffWheelRearLeft.configOpenloopRamp(SECONDS_FROM_NEUTRAL_TO_FULL, TIMEOUT_MS);
+            talonFxDiffWheelRearRight.configOpenloopRamp(SECONDS_FROM_NEUTRAL_TO_FULL, TIMEOUT_MS);
+        }
+
+        PIDValues pidLeft = new PIDValues(0.0, 1.0, 0.0, 0.0);
+        PIDValues pidRight = new PIDValues(0.0, 1.0, 0.0, 0.0);
+        TalonUtils.configureTalonWithEncoder(talonFxDiffWheelFrontLeft, true, true, pidLeft);
+        TalonUtils.configureTalonWithEncoder(talonFxDiffWheelFrontRight, true, true, pidRight);
+
         m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
     }
     // This method will be called once per scheduler run
@@ -74,29 +82,52 @@ public class DiffDriver extends SubsystemBase {
 
     // Stop all the drive motors
     public void stop() {
-        diffDrive.stopMotor();
+        diffDriveTalonFX.stopMotor();
     }
 
     // Drive using the arcade method
     public void driveArcade(double xSpeed, double zRotation) {
         // Logger.info("DiffDriver.driveArcade -> xSpeed: " + xSpeed + "; zRotation: " + zRotation);
-        diffDrive.arcadeDrive(xSpeed, zRotation);
+        diffDriveTalonFX.arcadeDrive(xSpeed, zRotation);
     }
 
     // Drive using the tank method
     public void driveTank(double leftSpeed, double rightSpeed) {
         // Logger.info("DiffDriver.driveTank -> Left Speed: " + leftSpeed + "; Right Speed: " + rightSpeed);
-        diffDrive.tankDrive(leftSpeed, rightSpeed);
+        diffDriveTalonFX.tankDrive(leftSpeed, rightSpeed);
     }
 
     public void driveTankStraight(double leftSpeed, double rightSpeed) {
         // Logger.info("DiffDriver.driveTank -> Left Speed: " + leftSpeed + "; Right Speed: " + rightSpeed);
-        diffDrive.tankDrive(leftSpeed, rightSpeed);
+        diffDriveTalonFX.tankDrive(leftSpeed, rightSpeed);
     }
 
     // Drive forward at a set speed
     public void moveForwardAuto() {
         driveArcade(AUTO_PERIOD_SPEED, AUTO_PERIOD_SPEED); // drive towards heading 0
+    }
+    
+    public void moveForwardAuto(double feet) {
+        Logger.info("Rotating wheel 5 times...");
+        // double ticks = EncoderUtils.translateDistanceToTicks(feet, WHEEL_DIAMETER, GEAR_RATIO);
+        talonFxDiffWheelFrontLeft.setSelectedSensorPosition(0);
+        talonFxDiffWheelFrontRight.setSelectedSensorPosition(0);
+
+        int leftPosition = getPositionLeft();
+        int rightPosition = getPositionRight();
+
+        //if (leftPosition != 0) {
+            Logger.debug("MoveForwardAutoInitialize: Left Wheel Position --> " + leftPosition);
+        //}
+
+        //if (rightPosition != 0) {
+            Logger.debug("MoveForwardAutoInitialize: Right Wheel Position --> " + rightPosition);
+        //}
+
+        talonFxDiffWheelFrontLeft.set(ControlMode.Position, 4000);
+        talonFxDiffWheelFrontRight.set(ControlMode.Position, -4000);
+        Logger.info("Finished...");
+
     }
 
     // Drive to align the robot to a detected line at the given yaw
@@ -118,7 +149,7 @@ public class DiffDriver extends SubsystemBase {
         }
 
         Logger.action("DiffDriver -> Drive Tank: " + zRotation);
-        diffDrive.arcadeDrive(0, zRotation);
+        diffDriveTalonFX.arcadeDrive(0, zRotation);
     }
 
     // TODO: Use this to indicate to the driver that the robot is aligned with the target (lights? Shuffleboard?)
@@ -138,7 +169,6 @@ public class DiffDriver extends SubsystemBase {
     }
 
     public double getTurnRate(){
-
         return BotSensors.gyro.getRate();
     }
 
@@ -146,10 +176,11 @@ public class DiffDriver extends SubsystemBase {
     public Pose2d getPose() {
         return m_odometry.getPoseMeters();
     }
+
     //TODO must change the value 20 to a pathconstant value 
     public void resetEncoders() {
         talonFxDiffWheelFrontLeft.setSelectedSensorPosition(0, 0, 20);
-        talonFxDiffWheelFrontLeft.setSelectedSensorPosition(0, 0, 20);
+        talonFxDiffWheelFrontRight.setSelectedSensorPosition(0, 0, 20);
     }
 
     // Resets the odometry to the specified pose.
@@ -173,8 +204,19 @@ public class DiffDriver extends SubsystemBase {
     public void tankDriveVolts(double leftVolts, double rightVolts) {
         talonFxDiffWheelFrontLeft.setVoltage(leftVolts);
         talonFxDiffWheelFrontRight.setVoltage(-rightVolts);
-        diffDrive.feed();
+        diffDriveTalonFX.feed();
     }
 
-}
+    public void feed() {
+        diffDriveTalonFX.feed();
+    }
 
+    public int getPositionLeft() {
+        return talonFxDiffWheelFrontLeft.getSelectedSensorPosition();
+    }
+
+    public int getPositionRight() {
+        return talonFxDiffWheelFrontRight.getSelectedSensorPosition();
+    }
+ 
+}

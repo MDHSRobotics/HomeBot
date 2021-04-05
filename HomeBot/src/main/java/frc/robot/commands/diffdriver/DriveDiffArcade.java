@@ -31,7 +31,7 @@ public class DriveDiffArcade extends CommandBase {
     public void execute() {
         ArcadeMovement move = ArcadeMovement.getMovement(controller, m_diffDriver.controlStickDirectionFlipped);
         // TODO: This is not the right place to fix a wrong value, by making it negative.
-        //       Go to the source of the problem; don't just put a band-aid on it.
+        // Go to the source of the problem; don't just put a band-aid on it.
         m_diffDriver.driveArcade(move.straightSpeed, (move.rotationSpeed / 1.75));
     }
     
