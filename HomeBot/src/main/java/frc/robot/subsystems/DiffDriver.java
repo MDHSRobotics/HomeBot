@@ -39,6 +39,18 @@ public class DiffDriver extends SubsystemBase {
 
     // Constructor requires device instances
     public DiffDriver() {
+        TalonUtils.configureBaseTalon(talonFxDiffWheelFrontLeft, true);
+        TalonUtils.configureBaseTalon(talonFxDiffWheelFrontRight, true);
+        TalonUtils.configureBaseTalon(talonFxDiffWheelRearLeft, true);
+        TalonUtils.configureBaseTalon(talonFxDiffWheelRearRight, true);
+
+        PIDValues pidLeft = new PIDValues(0.0, 1.0, 0.0, 0.0);
+        PIDValues pidRight = new PIDValues(0.0, 1.0, 0.0, 0.0);
+        TalonUtils.configureTalonWithEncoder(talonFxDiffWheelFrontLeft, true, true, pidLeft);
+        TalonUtils.configureTalonWithEncoder(talonFxDiffWheelFrontRight, true, true, pidRight);
+
+        m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
+
         if (isReal) {
             // Configure the TalonFX devices used for DiffDriver
             TalonUtils.configureBaseTalonMasterFollower(talonFxDiffWheelFrontLeft, talonFxDiffWheelRearLeft, true, true);
@@ -48,14 +60,8 @@ public class DiffDriver extends SubsystemBase {
             talonFxDiffWheelRearLeft.configOpenloopRamp(SECONDS_FROM_NEUTRAL_TO_FULL, TIMEOUT_MS);
             talonFxDiffWheelRearRight.configOpenloopRamp(SECONDS_FROM_NEUTRAL_TO_FULL, TIMEOUT_MS);
         }
-
-        PIDValues pidLeft = new PIDValues(0.0, 1.0, 0.0, 0.0);
-        PIDValues pidRight = new PIDValues(0.0, 1.0, 0.0, 0.0);
-        TalonUtils.configureTalonWithEncoder(talonFxDiffWheelFrontLeft, true, true, pidLeft);
-        TalonUtils.configureTalonWithEncoder(talonFxDiffWheelFrontRight, true, true, pidRight);
-
-        m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
     }
+    
     // This method will be called once per scheduler run
     // Might change constant 6 depending on wheel's diameter 
     @Override
@@ -124,8 +130,8 @@ public class DiffDriver extends SubsystemBase {
             Logger.debug("MoveForwardAutoInitialize: Right Wheel Position --> " + rightPosition);
         //}
 
-        talonFxDiffWheelFrontLeft.set(ControlMode.Position, 4000);
-        talonFxDiffWheelFrontRight.set(ControlMode.Position, -4000);
+        talonFxDiffWheelFrontLeft.set(ControlMode.Position, 40000);
+        talonFxDiffWheelFrontRight.set(ControlMode.Position, -40000);
         Logger.info("Finished...");
 
     }

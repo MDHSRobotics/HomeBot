@@ -46,13 +46,13 @@ public class MoveForwardAuto extends CommandBase {
         m_diffDriver.feed();
         int leftPosition = m_diffDriver.getPositionLeft();
         int rightPosition = m_diffDriver.getPositionRight();
-        if (leftPosition != 0) {
+        // if (leftPosition != 0) {
             Logger.debug("MoveForwardAuto: Left Wheel Position --> " + leftPosition);
-        }
+        // }
 
-        if (rightPosition != 0) {
+        // if (rightPosition != 0) {
             Logger.debug("MoveForwardAuto: Right Wheel Position --> " + rightPosition);
-        }
+        // }
         
     }
 

@@ -80,7 +80,7 @@ public class TalonUtils {
 
         talon.setSensorPhase(sensorPhase);
 
-        talon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, PID_LOOP_PRIMARY, TIMEOUT_MS);
+        // talon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, PID_LOOP_PRIMARY, TIMEOUT_MS);
         talon.configAllowableClosedloopError(PID_SLOT_0, 0, TIMEOUT_MS);
 
         talon.config_kF(PID_SLOT_0, pid.kF, TIMEOUT_MS);
@@ -98,8 +98,8 @@ public class TalonUtils {
     public static void configureBaseTalonMasterFollower(DevTalonSRX talonM, DevTalonSRX talonF, boolean motorInvertM, boolean motorInvertF) {
         if (!talonM.isConnected || !talonF.isConnected) return;
 
-        configureBaseTalon(talonF, motorInvertF);
-        configureBaseTalon(talonM, motorInvertM);
+        // configureBaseTalon(talonF, motorInvertF);
+        // configureBaseTalon(talonM, motorInvertM);
         talonF.follow(talonM);
     }
 
@@ -107,8 +107,8 @@ public class TalonUtils {
     public static void configureBaseTalonMasterFollower(DevTalonFX talonM, DevTalonFX talonF, boolean motorInvertM, boolean motorInvertF) {
         if (!talonM.isConnected || !talonF.isConnected) return;
 
-        configureBaseTalon(talonF, motorInvertF);
-        configureBaseTalon(talonM, motorInvertM);
+        // configureBaseTalon(talonF, motorInvertF);
+        // configureBaseTalon(talonM, motorInvertM);
         talonF.follow(talonM);
     }
 
