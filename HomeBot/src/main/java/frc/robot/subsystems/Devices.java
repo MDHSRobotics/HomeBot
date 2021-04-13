@@ -15,11 +15,11 @@ public class Devices {
     //////////////////////
 
     // Shooter
-    static DevTalonSRX talonSrxShooterBottomWheel = new DevTalonSRX("talonSrxShooterBottomWheel", 4);
-    static DevTalonSRX talonSrxShooterTopWheel = new DevTalonSRX("talonSrxShooterTopWheel", 10);
+    static DevTalonSRX talonSrxShooterBottomWheel = new DevTalonSRX("talonSrxShooterBottomWheel", 14);
+    static DevTalonSRX talonSrxShooterTopWheel = new DevTalonSRX("talonSrxShooterTopWheel", 4);
 
     // Pickup
-    static DevTalonSRX talonSrxPickup = new DevTalonSRX("talonSrxPickup", 6);
+    static DevTalonSRX talonSrxPickup = new DevTalonSRX("talonSrxPickup", 13);
     
     // Delivery
     static DevTalonSRX talonSrxDeliveryRight = new DevTalonSRX("talonSrxDeliveryRight", 16);
@@ -32,10 +32,10 @@ public class Devices {
     static DevTalonSRX talonSrxDiffWheelRearRight = new DevTalonSRX("talonSrxDiffWheelRearRight", 6);
 
     // DiffDriver
-    static DevTalonSRX talonFxDiffWheelFrontLeft = new DevTalonSRX("talonSrxDiffWheelFrontLeft", 8);
-    static DevTalonSRX talonFxDiffWheelFrontRight = new DevTalonSRX("talonSrxDiffWheelFrontRight", 15);
-    static DevTalonSRX talonFxDiffWheelRearLeft = new DevTalonSRX("talonSrxDiffWheelRearLeft", 11);
-    static DevTalonSRX talonFxDiffWheelRearRight = new DevTalonSRX("talonSrxDiffWheelRearRight", 6);
+    static DevTalonFX talonFxDiffWheelFrontLeft = new DevTalonFX("talonSrxDiffWheelFrontLeft", 8);
+    static DevTalonFX talonFxDiffWheelFrontRight = new DevTalonFX("talonSrxDiffWheelFrontRight", 15);
+    static DevTalonFX talonFxDiffWheelRearLeft = new DevTalonFX("talonSrxDiffWheelRearLeft", 11);
+    static DevTalonFX talonFxDiffWheelRearRight = new DevTalonFX("talonSrxDiffWheelRearRight", 6);
 
     //Sensors
     static Servo servoGate = new Servo(1);
