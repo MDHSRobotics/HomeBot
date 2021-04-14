@@ -31,7 +31,15 @@ public class Gate extends SubsystemBase {
         
     }
 
-    public void feedGate() {
+    public void openGate(){
+        servoGate.set(1.0);
+    }
+
+    public void closeGate(){
+        servoGate.set(0.5);
+    }
+
+    public static void feedGate() {
         
     }
 }

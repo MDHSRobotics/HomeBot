@@ -27,7 +27,7 @@ public class ToggleGate extends CommandBase {
 
     @Override
     public void execute() {
-        m_gate.toggleGate();
+        m_gate.openGate();;
     }
 
     @Override

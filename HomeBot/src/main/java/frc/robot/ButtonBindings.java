@@ -8,6 +8,10 @@ public class ButtonBindings {
     // Configure xbox buttons
     public static void configureXbox() {
         Logger.setup("Configure Buttons -> Xbox Controller...");
+        
+        //Shoot
+        BotControllers.xbox.btnA.whileHeld(BotCommands.shoot);
+        BotControllers.xbox.btnA.whileHeld(BotCommands.toggleGate);
 
         // Drive
         BotControllers.xbox.btnStart.whenPressed(BotCommands.moveForwardAuto10Feet);
@@ -15,17 +19,13 @@ public class ButtonBindings {
 
         // Pickup
         BotControllers.xbox.btnBumperLeft.whenPressed(BotCommands.spinPickup);
-        BotControllers.xbox.btnBumperRight.whenPressed(BotCommands.stopPickup);
+        BotControllers.xbox.btnBumperLeft.whenPressed(BotCommands.spinDelivery);
 
         // Delivery
-        BotControllers.xbox.btnX.whenPressed(BotCommands.spinDelivery);
-        BotControllers.xbox.btnY.whenPressed(BotCommands.stopDelivery);
+        BotControllers.xbox.btnBumperRight.whenPressed(BotCommands.stopPickup);
+        BotControllers.xbox.btnBumperRight.whenPressed(BotCommands.stopDelivery);
 
-        // Gate
-        BotControllers.xbox.btnDpadDown.whenPressed(BotCommands.toggleGate);
-
-        // Shoot
-        BotControllers.xbox.btnA.whileHeld(BotCommands.shoot);
+        BotControllers.xbox.btnDpadUp.whenPressed(BotCommands.rotateTowardsTarget);
     }
 
 }

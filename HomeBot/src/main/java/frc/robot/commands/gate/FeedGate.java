@@ -27,7 +27,7 @@ public class FeedGate extends CommandBase {
 
     @Override
     public void execute() {
-        m_gate.feedGate();
+        m_gate.closeGate();
     }
 
     @Override

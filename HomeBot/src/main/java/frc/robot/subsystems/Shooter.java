@@ -129,10 +129,11 @@ public class Shooter extends SubsystemBase {
         double velocityTPHMS = translateDistanceToTicksViaTable(shootDistance) * GEAR_RATIO;
         ShooterBrain.setShootVelocity(velocityTPHMS);
 
-        double ballSpinVelocity = 0; //ShooterBrain.getBallSpinVelocity();
+        //double ballSpinVelocity = (velocityTPHMS > 25000) ? 60000 : 0; //ShooterBrain.getBallSpinVelocity();
+        double ballSpinVelocity = 0;
 
-        talonSrxShooterTopWheel.set(ControlMode.Velocity, velocityTPHMS - ballSpinVelocity);
-        talonSrxShooterBottomWheel.set(ControlMode.Velocity, velocityTPHMS + ballSpinVelocity);
+        talonSrxShooterTopWheel.set(ControlMode.Velocity, velocityTPHMS + ballSpinVelocity);
+        talonSrxShooterBottomWheel.set(ControlMode.Velocity, velocityTPHMS - ballSpinVelocity);
 
         // Update values for Shuffleboard
         ShooterBrain.setShootVelocity(velocityTPHMS);
@@ -170,13 +171,13 @@ public class Shooter extends SubsystemBase {
 
         // The data below is based on shooting experiments conducted on March 11, 2021:
         // (Distance, Ticks per 100ms)
-        luTable.put(2.5, 24000.); // untested
+        luTable.put(2.5, 500.); // untested
         luTable.put(7.5, 22000.);
         luTable.put(10., 20000.);
         luTable.put(12.5, 19500.);
         luTable.put(15., 19800.);
-        luTable.put(17.5, 20300.);
-        luTable.put(20., 21100.);
+        luTable.put(17.5, 20400.);
+        luTable.put(20., 21250.);
         luTable.put(22.5, 21300.);
         luTable.put(25., 21500.);
 
