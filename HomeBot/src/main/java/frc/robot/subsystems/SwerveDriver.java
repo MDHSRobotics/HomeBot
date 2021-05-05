@@ -14,6 +14,10 @@ import frc.robot.BotSensors;
 public class SwerveDriver extends SubsystemBase {
     public static final double kMaxSpeed = 3.0; // 3 meters per second
     public static final double kMaxAngularSpeed = Math.PI; // 1/2 rotation per second
+    public static final boolean fieldRelative = true;
+    public static final boolean isYLeftFlipped = false;
+    public static final boolean isXLeftFlipped = false;
+    public static final boolean isXRightFlipped = false;
 
     private final Translation2d m_frontLeftLocation = new Translation2d(0.381, 0.381);
     private final Translation2d m_frontRightLocation = new Translation2d(0.381, -0.381);
@@ -40,12 +44,8 @@ public class SwerveDriver extends SubsystemBase {
         return Rotation2d.fromDegrees(-m_gyro.getAngle());
     }
 
-    public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
-        var swerveModuleStates = m_kinematics.toSwerveModuleStates(
-            fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(
-                xSpeed, ySpeed, rot, getAngle())
-                : new ChassisSpeeds(xSpeed, ySpeed, rot)
-        );
+    public void drive(double xSpeed, double ySpeed, double rot) {
+        var swerveModuleStates = m_kinematics.toSwerveModuleStates(fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, getAngle()) : new ChassisSpeeds(xSpeed, ySpeed, rot));
         SwerveDriveKinematics.normalizeWheelSpeeds(swerveModuleStates, kMaxSpeed);
         m_frontLeft.setDesiredState(swerveModuleStates[0]);
         m_frontRight.setDesiredState(swerveModuleStates[1]);
@@ -54,12 +54,18 @@ public class SwerveDriver extends SubsystemBase {
     }
 
     public void updateOdometry() {
-        m_odometry.update(
-            getAngle(),
-            m_frontLeft.getState(),
-            m_frontRight.getState(),
-            m_backLeft.getState(),
-            m_backRight.getState()
-        );
-      }
+        m_odometry.update(getAngle(), m_frontLeft.getState(), m_frontRight.getState(), m_backLeft.getState(), m_backRight.getState());
+    }
+    
+    // Stop all the drive motors
+    public void stop() {
+        Devices.talonFxSwerveDriveWheelFrontLeft.stopMotor();
+        Devices.talonFxSwerveDriveWheelFrontRight.stopMotor();
+        Devices.talonFxSwerveDriveWheelRearLeft.stopMotor();
+        Devices.talonFxSwerveDriveWheelRearRight.stopMotor();
+        Devices.talonFxSwerveTurnWheelFrontLeft.stopMotor();
+        Devices.talonFxSwerveTurnWheelFrontRight.stopMotor();
+        Devices.talonFxSwerveTurnWheelRearLeft.stopMotor();
+        Devices.talonFxSwerveTurnWheelRearRight.stopMotor();
+    }
 }
