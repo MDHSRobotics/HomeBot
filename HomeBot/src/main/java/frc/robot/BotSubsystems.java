@@ -11,16 +11,17 @@ public class BotSubsystems {
     public static Delivery delivery;
     public static Gate gate;
     public static Shooter shooter;
+    public static SwerveDriver swerveDriver;
 
     // Initialize all robot subsystems
     public static void initializeSubsystems() {
         Logger.setup("Initializing BotSubsystems...");
 
-        diffDriver = new DiffDriver();
         pickup = new Pickup();
         delivery = new Delivery();
         gate = new Gate();
         shooter = new Shooter();
+        swerveDriver = new SwerveDriver();
     }
 
     // Set all the subsystem "teleop" default commands
