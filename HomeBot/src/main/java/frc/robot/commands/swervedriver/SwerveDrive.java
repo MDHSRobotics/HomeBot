@@ -8,7 +8,7 @@ import frc.robot.oi.controllers.XboxPositionAccessible;
 import frc.robot.oi.movements.SwerveMovement;
 import frc.robot.subsystems.SwerveDriver;
 
-// This command uses the xbox input to differential drive using the tank method.
+// This command uses the xbox inputs as parameters for the swerve drive() method
 public class SwerveDrive extends CommandBase {
 
     public XboxPositionAccessible controller;
