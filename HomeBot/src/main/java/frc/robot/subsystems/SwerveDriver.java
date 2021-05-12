@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveOdometry;
+import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import frc.robot.BotSensors;
 
 public class SwerveDriver extends SubsystemBase {
@@ -53,7 +54,20 @@ public class SwerveDriver extends SubsystemBase {
 
     //drive using a vertical speed, a horizontal speed, and a rotational speed
     public void drive(double xSpeed, double ySpeed, double rot) {
-        var swerveModuleStates = m_kinematics.toSwerveModuleStates(fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, getAngle()) : new ChassisSpeeds(xSpeed, ySpeed, rot));
+        double m_xSpeed = xSpeed;
+        double m_rotSpeed = rot;
+        if (isXLeftFlipped) {
+            m_xSpeed = -xSpeed;
+        }
+        if (isXRightFlipped) {
+            m_rotSpeed = -rot;
+        }
+        SwerveModuleState[] swerveModuleStates;
+        if (fieldRelative) {
+            swerveModuleStates = m_kinematics.toSwerveModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(m_xSpeed, ySpeed, m_rotSpeed, getAngle()));
+        } else {
+            swerveModuleStates = m_kinematics.toSwerveModuleStates(new ChassisSpeeds(m_xSpeed, ySpeed, m_rotSpeed));
+        }
         SwerveDriveKinematics.normalizeWheelSpeeds(swerveModuleStates, kMaxSpeed);
         m_frontLeft.setDesiredState(swerveModuleStates[0]);
         m_frontRight.setDesiredState(swerveModuleStates[1]);

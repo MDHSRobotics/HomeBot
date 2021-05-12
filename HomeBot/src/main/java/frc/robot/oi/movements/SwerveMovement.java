@@ -18,10 +18,10 @@ public class SwerveMovement {
         rotationSpeed = yRightSpeed;
     }
 
-    // Determines the tank movement (left-side straight speed, right-side straight speed)
+    // Determines the Swerve movement (straight speed, side speed, rotation speed)
     // from the given xbox thumbstick positions
     public static SwerveMovement getMovement(XboxPositionAccessible controller) {
-        ThumbstickPosition pos = ThumbstickPosition.getPositions(controller, SwerveDriver.isXLeftFlipped);
+        ThumbstickPosition pos = ThumbstickPosition.getPositions(controller, SwerveDriver.isYLeftFlipped);
         SwerveMovement move = new SwerveMovement(pos.leftForwardBackPosition, pos.leftSideToSidePosition, pos.rightSideToSidePosition);
         return move;
     }
