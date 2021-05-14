@@ -14,12 +14,23 @@ import static frc.robot.subsystems.Devices.talonSrxTurret;
 import static frc.robot.RobotManager.isReal;
 
 public class Turret extends SubsystemBase{
+    private boolean sensorPhase = false; 
+    private boolean motorInvert = true; 
+    public Turret(){
+        Logger.setup("Constructing Subsystem: Turret...");
+        
+        PIDValues pidturret = new PIDValues(0.1, 0.7 , 0, 30.0);
+        TalonUtils.configureTalonWithEncoder(talonSrxTurret, sensorPhase, motorInvert, pidturret);
+        
+    }
 
-
-
-
-
-
+    public void rotateTurretVelocity(int speed){
+          talonSrxTurret.set(ControlMode.Velocity, speed);
+    }
+    
+    public void rotateTurretPosition(int speedByRev){
+          talonSrxTurret.set(ControlMode.Position,speedByRev);
+    }
 
 
 }
