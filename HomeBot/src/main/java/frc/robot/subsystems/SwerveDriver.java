@@ -23,10 +23,10 @@ public class SwerveDriver extends SubsystemBase {
     public static final boolean isXRightFlipped = false;
 
     //translation objects that represent the respective distance a swerve module is to the center of the robot (in meters)
-    private final Translation2d m_frontLeftLocation = new Translation2d(0.381, 0.381);
-    private final Translation2d m_frontRightLocation = new Translation2d(0.381, -0.381);
-    private final Translation2d m_backLeftLocation = new Translation2d(-0.381, 0.381);
-    private final Translation2d m_backRightLocation = new Translation2d(-0.381, -0.381);
+    private final Translation2d m_frontLeftLocation = new Translation2d(0.3155, 0.3155);
+    private final Translation2d m_frontRightLocation = new Translation2d(0.3155, -0.3155);
+    private final Translation2d m_backLeftLocation = new Translation2d(-0.3155, 0.3155);
+    private final Translation2d m_backRightLocation = new Translation2d(-0.3155, -0.3155);
 
     //Each swerve module takes in two talonFXs for linear driving and rotation
     private final SwerveModule m_frontLeft = new SwerveModule(Devices.talonFxSwerveDriveWheelFrontLeft, Devices.talonFxSwerveTurnWheelFrontLeft);

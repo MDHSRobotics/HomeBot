@@ -47,6 +47,9 @@ public class BotSubsystems {
         Logger.setup("Shooter Teleop Default Command -> Shoot...");
         shooter.setDefaultCommand(BotCommands.stopShoot);
 
+        //SwerveDriver
+        Logger.setup("SwerveDriver Teleop Default Command -> SwerveDrive...");
+        swerveDriver.setDefaultCommand(BotCommands.swerveDrive);
     }
 
 }

@@ -27,6 +27,7 @@ import frc.robot.consoles.Logger;
 import frc.robot.sensors.Pixy;
 import frc.robot.subsystems.constants.AutoConstants;
 import frc.robot.subsystems.constants.PathConstants;
+import frc.robot.commands.swervedriver.*;
 
 
 // Contains singleton instances of all the commands on the robot.
@@ -38,6 +39,7 @@ public class BotCommands {
     public static DriveTankForward driveTankForward;
     public static RotateToDpadDirection rotateToDpadDirection;
     public static RotateTowardsTarget rotateTowardsTarget;
+    public static SwerveDrive swerveDrive;
 
     // Pickup
     public static SpinPickup spinPickup;
@@ -84,6 +86,9 @@ public class BotCommands {
         // Pickup
         spinPickup = new SpinPickup(BotSubsystems.pickup);
         stopPickup = new StopPickup(BotSubsystems.pickup);
+
+        // SwerveDriver
+        swerveDrive = new SwerveDrive(BotSubsystems.swerveDriver, BotControllers.xbox);
 
         // Delivery
         spinDelivery = new SpinDelivery(BotSubsystems.delivery);
