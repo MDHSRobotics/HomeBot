@@ -196,8 +196,8 @@ public class DiffDriver extends SubsystemBase {
     // Controls the left and right sides of the drive directly with voltages.
     // Uses setVoltage() rather than set(), as this will automatically compensate for battery voltage sag during operation.
     public DifferentialDriveWheelSpeeds getWheelSpeeds(){
-        double leftSpeed = (double)(talonFxDiffWheelFrontLeft.getSelectedSensorVelocity());
-        double rightSpeed = (double)(talonFxDiffWheelFrontRight.getSelectedSensorVelocity());
+        double leftSpeed = (double)(talonFxDiffWheelFrontLeft.getSelectedSensorVelocity()) / 4096 * (1.5 * Math.PI) * 1000 * .0254;
+        double rightSpeed = (double)(talonFxDiffWheelFrontRight.getSelectedSensorVelocity()) / 4096 * (1.5 * Math.PI) * 1000 * .0254;
         return new DifferentialDriveWheelSpeeds(leftSpeed, rightSpeed);
      }
 
