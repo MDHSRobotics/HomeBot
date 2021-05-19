@@ -1,7 +1,6 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
@@ -27,16 +26,14 @@ public class SwerveDriver extends SubsystemBase {
     //the odometry object takes the kinematics object and the current angle of the robot (the odometry should be updated)
     private final SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(m_kinematics, getAngle());
 
-    private final AHRS m_gyro = BotSensors.gyro;
-
     public SwerveDriver() {
-        m_gyro.reset();
+        BotSensors.gyro.reset();
     }
 
     //returns the negative angle that the gyro returns
     public Rotation2d getAngle() {
         // Negating the angle because WPILib gyros are CW positive.
-        return Rotation2d.fromDegrees(-m_gyro.getAngle());
+        return Rotation2d.fromDegrees(-BotSensors.gyro.getAngle());
     }
 
     //drive using a vertical speed, a horizontal speed, and a rotational speed
