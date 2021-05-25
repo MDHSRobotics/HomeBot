@@ -1,4 +1,5 @@
-package frc.robot.commands.Delivery;
+
+package frc.robot.commands.deliverer;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -38,9 +39,9 @@ public class StopDelivery extends CommandBase {
     public void end(boolean interrupted) {
         if (interrupted) {
             System.out.println("--");
-            Logger.ending("Interrupting Command: Stopdelivery...");
+            Logger.ending("Interrupting Command: StopDelivery...");
         } else {
-            Logger.ending("Ending Command: Stopdelivery...");
+            Logger.ending("Ending Command: StopDelivery...");
         }
         m_delivery.stop();
     }

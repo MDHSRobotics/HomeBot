@@ -1,4 +1,5 @@
 package frc.robot;
+
 import frc.robot.consoles.Logger;
 import frc.robot.subsystems.*;
 
@@ -6,13 +7,20 @@ import frc.robot.subsystems.*;
 public class BotSubsystems {
 
     public static DiffDriver diffDriver;
-    public static Delivery Delivery;
+    public static Pickup pickup;
+    public static Delivery delivery;
+    public static Gate gate;
+    public static Shooter shooter;
 
     // Initialize all robot subsystems
     public static void initializeSubsystems() {
         Logger.setup("Initializing BotSubsystems...");
-        diffDriver = new DiffDriverTalon();
-        Delivery = new Delivery();
+
+        diffDriver = new DiffDriver();
+        pickup = new Pickup();
+        delivery = new Delivery();
+        gate = new Gate();
+        shooter = new Shooter();
     }
 
     // Set all the subsystem "teleop" default commands
@@ -20,11 +28,24 @@ public class BotSubsystems {
 
         // DiffDriver
         Logger.setup("DiffDriver Teleop Default Command -> DriveDiffTank...");
-        diffDriver.setDefaultCommand(BotCommands.driveDiffTank);
+        diffDriver.setDefaultCommand(BotCommands.driveDiffArcade);
+
+        // Pickup
+        Logger.setup("Pickup Teleop Default Command -> StopPickup...");
+        pickup.setDefaultCommand(BotCommands.stopPickup);
 
         // Delivery
         Logger.setup("Delivery Teleop Default Command -> StopDelivery...");
-        Delivery.setDefaultCommand(BotCommands.stopDelivery);
+        delivery.setDefaultCommand(BotCommands.stopDelivery);
+
+        // Gate
+        Logger.setup("Gate Teleop Default Command -> FeedGate...");
+        gate.setDefaultCommand(BotCommands.feedGate);
+        
+        // Shoot
+        Logger.setup("Shooter Teleop Default Command -> Shoot...");
+        shooter.setDefaultCommand(BotCommands.stopShoot);
+
     }
 
 }

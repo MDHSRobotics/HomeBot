@@ -15,6 +15,8 @@ public class DiffDriverBrain {
     public static double alignZSpeedMinimumDefault = .5;
     public static double alignZToleranceDefault = 3;
 
+    public static String pathweaverGameDefault = "none";
+
     //---------------------//
     // NetworkTableEntries //
     //---------------------//
@@ -22,6 +24,8 @@ public class DiffDriverBrain {
     public static NetworkTableEntry alignZSensitivityEntry;
     public static NetworkTableEntry alignZSpeedMinimumEntry;
     public static NetworkTableEntry alignZToleranceEntry;
+
+    public static NetworkTableEntry pathweaverGame;
 
     //---------//
     // Setters //
@@ -41,6 +45,10 @@ public class DiffDriverBrain {
 
     public static double getAlignZTolerance() {
         return alignZToleranceEntry.getDouble(alignZToleranceDefault);
+    }
+
+    public static String getPathweaverGame() {
+        return pathweaverGame.getString(pathweaverGameDefault);
     }
 
 }
