@@ -42,6 +42,14 @@ public class Devices {
     static DevTalonFX talonFxSwerveTurnWheelFrontRight = new DevTalonFX("talonFxSwerveDriveWheelFrontLeft", 0);
     static DevTalonFX talonFxSwerveTurnWheelRearLeft = new DevTalonFX("talonFxSwerveDriveWheelFrontLeft", 0);
     static DevTalonFX talonFxSwerveTurnWheelRearRight = new DevTalonFX("talonFxSwerveDriveWheelFrontLeft", 0);
+    static DevTalonFX talonFxSwerveDriveWheelFrontLeft = new DevTalonFX("talonFxSwerveDriveWheelFrontLeft", 28);
+    static DevTalonFX talonFxSwerveDriveWheelFrontRight = new DevTalonFX("talonFxSwerveDriveWheelFrontLeft", 26);
+    static DevTalonFX talonFxSwerveDriveWheelRearLeft = new DevTalonFX("talonFxSwerveDriveWheelFrontLeft", 31);
+    static DevTalonFX talonFxSwerveDriveWheelRearRight = new DevTalonFX("talonFxSwerveDriveWheelFrontLeft", 25);
+    static DevTalonFX talonFxSwerveTurnWheelFrontLeft = new DevTalonFX("talonFxSwerveDriveWheelFrontLeft", 30);
+    static DevTalonFX talonFxSwerveTurnWheelFrontRight = new DevTalonFX("talonFxSwerveDriveWheelFrontLeft", 32);
+    static DevTalonFX talonFxSwerveTurnWheelRearLeft = new DevTalonFX("talonFxSwerveDriveWheelFrontLeft", 27);
+    static DevTalonFX talonFxSwerveTurnWheelRearRight = new DevTalonFX("talonFxSwerveDriveWheelFrontLeft", 29);
 
     /////////////////////
     // Drive Instances //

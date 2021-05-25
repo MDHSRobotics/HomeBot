@@ -41,7 +41,7 @@ public class DriveTab {
 
     // Create all other Widgets
     public void initialize() {
-        m_diffDriveWidget = m_tab.add("Differential Drive", Devices.diffDriveTalonFX);
+        m_diffDriveWidget = m_tab.add("Differential Drive", BotSubsystems.swerveDriver);
     }
 
     // Configure all Widgets

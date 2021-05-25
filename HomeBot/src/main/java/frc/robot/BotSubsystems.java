@@ -16,6 +16,7 @@ public class BotSubsystems {
     // Initialize all robot subsystems
     public static void initializeSubsystems() {
         Logger.setup("Initializing BotSubsystems...");
+        Delivery = new Delivery();
 
         pickup = new Pickup();
         delivery = new Delivery();

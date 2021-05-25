@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import frc.robot.BotSensors;
 
 public class SwerveDriver extends SubsystemBase {
-    public static final double kMaxSpeed = 3.0; // 3 meters per second
+    public static final double kMaxSpeed = 1.0; // 3 meters per second
     public static final double kMaxAngularSpeed = Math.PI; // 1/2 rotation per second
 
     //control if you want to move from the point of view of the robot or from the point of view of the field
