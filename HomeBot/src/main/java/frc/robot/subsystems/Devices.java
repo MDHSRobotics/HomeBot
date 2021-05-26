@@ -20,6 +20,9 @@ public class Devices {
 
     static DevTalonSRX talonSrxTurret = new DevTalonSRX("talonSrxTurret", 2); 
     static DevTalonSRX talonSrxShooterHood = new DevTalonSRX("talonSrxShooterHood", 0);
+
+    // Pickup
+    static DevTalonSRX talonSrxPickup = new DevTalonSRX("talonSrxPickup", 6);
     
     // Delivery
     public static DevTalonSRX talonSrxDeliveryRight = new DevTalonSRX("talonSrxDeliveryRight", 16);

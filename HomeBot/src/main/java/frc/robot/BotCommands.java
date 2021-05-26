@@ -19,12 +19,12 @@ import frc.robot.commands.deliverer.*;
 import frc.robot.commands.diffdriver.*;
 import frc.robot.commands.gate.*;
 import frc.robot.commands.pickupper.*;
-import frc.robot.commands.pixyCam.*;
+
 import frc.robot.commands.sensors.TurnOffLed;
 import frc.robot.commands.sensors.TurnOnLed;
 import frc.robot.commands.shooter.*;
 import frc.robot.consoles.Logger;
-import frc.robot.sensors.Pixy;
+
 import frc.robot.subsystems.constants.AutoConstants;
 import frc.robot.subsystems.constants.PathConstants;
 
@@ -60,8 +60,7 @@ public class BotCommands {
     public static TurnOffLed turnOffLed;
     public static TurnOnLed turnOnLed;
 
-    // Pixy
-    public static PixyTest pixyTest;
+    
 
     // Autonomous
     public static AutoDrivePath autoDrivePath;
@@ -102,8 +101,7 @@ public class BotCommands {
         turnOnLed = new TurnOnLed();
         turnOffLed = new TurnOffLed();
 
-        // Pixy
-        pixyTest = new PixyTest();
+        
 
         // Autonomous
         autoDrivePath = new AutoDrivePath(BotSubsystems.diffDriver);
@@ -153,7 +151,7 @@ public class BotCommands {
 
     // Return the command to run in autonomous mode (Galactic Search)
     public static Command getAutonomousCommand(char color) {
-        String trajectoryJSON = "/home/lvuser/deploy/paths/" + Pixy.detectPath(color);
+        String trajectoryJSON = "/home/lvuser/deploy/paths/" ;
 
         return getPathweaverCommand(trajectoryJSON);
     }
