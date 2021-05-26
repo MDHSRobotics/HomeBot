@@ -14,12 +14,9 @@ import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import java.io.IOException;
 import java.nio.file.Path;
 
-import frc.robot.commands.auto.*;
 import frc.robot.commands.deliverer.*;
-import frc.robot.commands.diffdriver.*;
 import frc.robot.commands.gate.*;
 import frc.robot.commands.pickupper.*;
-import frc.robot.commands.pixyCam.*;
 import frc.robot.commands.sensors.TurnOffLed;
 import frc.robot.commands.sensors.TurnOnLed;
 import frc.robot.commands.shooter.*;
@@ -34,12 +31,6 @@ import frc.robot.commands.swervedriver.*;
 public class BotCommands {
 
 	// DiffDriver
-    // DiffDriver
-    public static DriveDiffArcade driveDiffArcade;
-    public static DriveDiffTank driveDiffTank;
-    public static DriveTankForward driveTankForward;
-    public static RotateToDpadDirection rotateToDpadDirection;
-    public static RotateTowardsTarget rotateTowardsTarget;
     public static SwerveDrive swerveDrive;
 
     // Pickup
@@ -63,13 +54,6 @@ public class BotCommands {
     public static TurnOffLed turnOffLed;
     public static TurnOnLed turnOnLed;
 
-    // Pixy
-    public static PixyTest pixyTest;
-
-    // Autonomous
-    public static AutoDrivePath autoDrivePath;
-    public static MoveForwardAuto moveForwardAuto10Feet;
-
     // Pathweaver
     private static Trajectory m_trajectory;
 
@@ -77,12 +61,6 @@ public class BotCommands {
     // Initialize all robot commands
     public static void initializeCommands() {
         Logger.setup("Initializing BotCommands...");
-
-        // DiffDriver
-        driveDiffTank = new DriveDiffTank(BotSubsystems.diffDriver, BotControllers.xbox);
-        driveDiffArcade = new DriveDiffArcade(BotSubsystems.diffDriver, BotControllers.xbox);
-        driveTankForward = new DriveTankForward(BotSubsystems.diffDriver, BotControllers.xbox);
-        rotateTowardsTarget = new RotateTowardsTarget(BotSubsystems.diffDriver);
 
         // Pickup
         spinPickup = new SpinPickup(BotSubsystems.pickup);
@@ -107,15 +85,8 @@ public class BotCommands {
         // Limelight
         turnOnLed = new TurnOnLed();
         turnOffLed = new TurnOffLed();
-
-        // Pixy
-        pixyTest = new PixyTest();
-
-        // Autonomous
-        autoDrivePath = new AutoDrivePath(BotSubsystems.diffDriver);
-        moveForwardAuto10Feet = new MoveForwardAuto(BotSubsystems.diffDriver, 10.0);
     }
-
+/*
     public static Command getPathweaverCommand(String pathweaverPath) {
         try {
             Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(pathweaverPath);
@@ -140,7 +111,7 @@ public class BotCommands {
         BotSubsystems.diffDriver.resetOdometry(m_trajectory.getInitialPose());
 
         // Run path following command, then stop at the end.
-        return ramseteCommand.andThen(() -> BotSubsystems.diffDriver.tankDriveVolts(0, 0));
+        return ramseteCommand.andThen(() -> BotSubsystems.diffDriver.tankDriveVolts(0, 0)); 
     }
 
     // Return the command to run in autonomous mode (AutoNav)
@@ -162,6 +133,6 @@ public class BotCommands {
         String trajectoryJSON = "/home/lvuser/deploy/paths/" + Pixy.detectPath(color);
 
         return getPathweaverCommand(trajectoryJSON);
-    }
+    }*/
 
 }

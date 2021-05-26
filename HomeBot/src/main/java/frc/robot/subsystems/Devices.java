@@ -34,14 +34,6 @@ public class Devices {
     //Sensors
     public static Servo servoGate = new Servo(1);
 
-    static DevTalonFX talonFxSwerveDriveWheelFrontLeft = new DevTalonFX("talonFxSwerveDriveWheelFrontLeft", 0);
-    static DevTalonFX talonFxSwerveDriveWheelFrontRight = new DevTalonFX("talonFxSwerveDriveWheelFrontLeft", 0);
-    static DevTalonFX talonFxSwerveDriveWheelRearLeft = new DevTalonFX("talonFxSwerveDriveWheelFrontLeft", 0);
-    static DevTalonFX talonFxSwerveDriveWheelRearRight = new DevTalonFX("talonFxSwerveDriveWheelFrontLeft", 0);
-    static DevTalonFX talonFxSwerveTurnWheelFrontLeft = new DevTalonFX("talonFxSwerveDriveWheelFrontLeft", 0);
-    static DevTalonFX talonFxSwerveTurnWheelFrontRight = new DevTalonFX("talonFxSwerveDriveWheelFrontLeft", 0);
-    static DevTalonFX talonFxSwerveTurnWheelRearLeft = new DevTalonFX("talonFxSwerveDriveWheelFrontLeft", 0);
-    static DevTalonFX talonFxSwerveTurnWheelRearRight = new DevTalonFX("talonFxSwerveDriveWheelFrontLeft", 0);
     static DevTalonFX talonFxSwerveDriveWheelFrontLeft = new DevTalonFX("talonFxSwerveDriveWheelFrontLeft", 28);
     static DevTalonFX talonFxSwerveDriveWheelFrontRight = new DevTalonFX("talonFxSwerveDriveWheelFrontLeft", 26);
     static DevTalonFX talonFxSwerveDriveWheelRearLeft = new DevTalonFX("talonFxSwerveDriveWheelFrontLeft", 31);

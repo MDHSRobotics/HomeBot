@@ -6,7 +6,6 @@ import frc.robot.subsystems.*;
 // Contains singleton instances of all the subsystems on the robot.
 public class BotSubsystems {
 
-    public static DiffDriver diffDriver;
     public static Pickup pickup;
     public static Delivery delivery;
     public static Gate gate;
@@ -16,7 +15,6 @@ public class BotSubsystems {
     // Initialize all robot subsystems
     public static void initializeSubsystems() {
         Logger.setup("Initializing BotSubsystems...");
-        Delivery = new Delivery();
 
         pickup = new Pickup();
         delivery = new Delivery();
@@ -27,10 +25,6 @@ public class BotSubsystems {
 
     // Set all the subsystem "teleop" default commands
     public static void setTeleopDefaultCommands() {
-
-        // DiffDriver
-        Logger.setup("DiffDriver Teleop Default Command -> DriveDiffTank...");
-        diffDriver.setDefaultCommand(BotCommands.driveDiffArcade);
 
         // Pickup
         Logger.setup("Pickup Teleop Default Command -> StopPickup...");

@@ -36,6 +36,7 @@ public class EncoderUtils {
     public static double translateTicksToDistance(double rotationTicks, double wheelCircumference){
         double distance = (rotationTicks/360)*(wheelCircumference / 12.0);
         return distance;
+    }
 
     /** Computes an encoder velocity tick count based on the desired velocity in feet per second for a given wheel diameter and gearbox ratio (MS : GS)
      * @param fps The velocity in feet per second
