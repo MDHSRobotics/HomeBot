@@ -1,12 +1,14 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import frc.robot.BotSensors;
+import frc.robot.consoles.Logger;
 
 public class SwerveDriver extends SubsystemBase {
     public static final double kMaxSpeed = 1.0; // 3 meters per second
@@ -19,6 +21,11 @@ public class SwerveDriver extends SubsystemBase {
     public static final boolean isYLeftFlipped = false;
     public static final boolean isXLeftFlipped = false;
     public static final boolean isXRightFlipped = false;
+
+    //controller thresholds
+    public static final double xThreshold = 0.03;
+    public static final double yThreshold = 0.03;
+    public static final double rotThreshold = 0.03;
 
     //the kinematics object is created from the locations of the swerve modules
     private final SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(Devices.frontLeftSwerveModule.getLocation(), Devices.frontRightSwerveModule.getLocation(), Devices.rearLeftSwerveModule.getLocation(), Devices.rearRightSwerveModule.getLocation());
@@ -40,15 +47,18 @@ public class SwerveDriver extends SubsystemBase {
     public void drive(double xSpeed, double ySpeed, double rot) {
         double m_xSpeed = xSpeed;
         double m_rotSpeed = rot;
+        
         if (isXLeftFlipped) {
             m_xSpeed = -xSpeed;
         }
         if (isXRightFlipped) {
             m_rotSpeed = -rot;
         }
+
         SwerveModuleState[] swerveModuleStates;
         if (fieldRelative) {
             swerveModuleStates = m_kinematics.toSwerveModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(m_xSpeed, ySpeed, m_rotSpeed, getAngle()));
+            // Logger.info("xSpeed : " + m_xSpeed + "ySpeed : " + ySpeed + "rotSpeed : " + m_rotSpeed);
         } else {
             swerveModuleStates = m_kinematics.toSwerveModuleStates(new ChassisSpeeds(m_xSpeed, ySpeed, m_rotSpeed));
         }
@@ -61,7 +71,8 @@ public class SwerveDriver extends SubsystemBase {
 
     //the odometry object updates its current angle and swerveModuleStates
     public void updateOdometry() {
-        m_odometry.update(getAngle(), Devices.frontLeftSwerveModule.getState(), Devices.frontRightSwerveModule.getState(), Devices.rearLeftSwerveModule.getState(), Devices.rearRightSwerveModule.getState());
+        Pose2d pose = m_odometry.update(getAngle(), Devices.frontLeftSwerveModule.getState(), Devices.frontRightSwerveModule.getState(), Devices.rearLeftSwerveModule.getState(), Devices.rearRightSwerveModule.getState());
+        Logger.info(pose.toString());
     }
     
     // Stop all the drive motors directly
