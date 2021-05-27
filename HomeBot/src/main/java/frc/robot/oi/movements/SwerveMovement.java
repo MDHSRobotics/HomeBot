@@ -21,7 +21,7 @@ public class SwerveMovement {
     // Determines the Swerve movement (straight speed, side speed, rotation speed)
     // from the given xbox thumbstick positions
     public static SwerveMovement getMovement(XboxPositionAccessible controller) {
-        ThumbstickPosition pos = ThumbstickPosition.getPositions(controller, SwerveDriver.isYLeftFlipped);
+        ThumbstickPosition pos = ThumbstickPosition.getPositions(controller, SwerveDriver.isYFlipped);
         SwerveMovement move = new SwerveMovement(pos.leftForwardBackPosition, pos.leftSideToSidePosition, pos.rightSideToSidePosition);
         return move;
     }

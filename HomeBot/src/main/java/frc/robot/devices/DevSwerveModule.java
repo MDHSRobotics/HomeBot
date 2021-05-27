@@ -15,9 +15,9 @@ public class DevSwerveModule {
     // Typical battery voltage
     public static final double BATTERY_VOLTAGE = 12.0;
 
-    // Module objects
+    // Accessible module objects
     private final DevTalonFX m_driveTalon;
-    private final DevTalonFX m_turnTalon;
+    private final DevTalonFX m_steerTalon;
     private final Translation2d location;
     
     // PID initialization
@@ -26,7 +26,7 @@ public class DevSwerveModule {
     private final PIDController m_drivePIDController = new PIDController(1, 0, 0);          // initialize PID profile
     private final ProfiledPIDController m_turningPIDController = new ProfiledPIDController(1, 0, 0, new TrapezoidProfile.Constraints(kModuleMaxAngularVelocity, kModuleMaxAngularAcceleration));
     
-    // Gains are for example purposes only - must be determined for your own robot!
+    // Configure feed forward gains (experimentally found)
     private final SimpleMotorFeedforward m_driveFeedforward = new SimpleMotorFeedforward(1, 3);
     private final SimpleMotorFeedforward m_turnFeedforward = new SimpleMotorFeedforward(1, 0.5);
     
@@ -34,18 +34,17 @@ public class DevSwerveModule {
      * Constructs a SwerveModule device.
      * 
      * @param driveTalon talonFX object of the drive motor
-     * @param turnTalon talonFX object of the turn motor
+     * @param steerTalon talonFX object of the steer motor
      * @param xpos horizontal position of the module (in meters) from the center of the robot
      * @param ypos vertical position of the module (in meters) from the center of the robot
      */
-    public DevSwerveModule(DevTalonFX driveTalon, DevTalonFX turnTalon, double xpos, double ypos, boolean SENSOR_PHASE, boolean MOTOR_INVERT) {
+    public DevSwerveModule(DevTalonFX driveTalon, DevTalonFX steerTalon, double xpos, double ypos, boolean SENSOR_PHASE, boolean MOTOR_INVERT) {
         m_driveTalon = driveTalon;
-        m_turnTalon = turnTalon;
+        m_steerTalon = steerTalon;
+        location = new Translation2d(xpos, ypos);
 
         m_driveTalon.setSensorPhase(SENSOR_PHASE);
         m_driveTalon.setInverted(MOTOR_INVERT);
-
-        location = new Translation2d(xpos, ypos);
 
         // Limit the PID Controller's input range between -pi and pi and set the input to be continuous
         m_turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
@@ -58,7 +57,7 @@ public class DevSwerveModule {
      */
     public void setDesiredState(SwerveModuleState state) {
         int driveVelocity = m_driveTalon.getSelectedSensorVelocity();
-        int turnPosition = m_turnTalon.getSelectedSensorPosition();
+        int turnPosition = m_steerTalon.getSelectedSensorPosition();
         double turnPositionRadians = EncoderUtils.translateTicksToRadians(turnPosition);
 
         double driveOutput = m_drivePIDController.calculate(driveVelocity, state.speedMetersPerSecond); // Calculate the drive output from the current velocity and a velocity setpoint
@@ -69,17 +68,17 @@ public class DevSwerveModule {
 
         // Creates a percentage value for set by adding the voltages required for the respective motors and dividing by the current maximum battery voltage
         m_driveTalon.set((driveOutput + driveFeedforward) / BATTERY_VOLTAGE);
-        m_turnTalon.set((turnOutput + turnFeedforward) / BATTERY_VOLTAGE);
+        m_steerTalon.set((turnOutput + turnFeedforward) / BATTERY_VOLTAGE);
     }
 
     /**
-     * Returns the current state of the module.
+     * Gets the current state of the module.
      *
      * @return The current state of the module
      */
-    public SwerveModuleState getState() {
+    public SwerveModuleState getCurrentState() {
         int velocity = m_driveTalon.getSelectedSensorVelocity();
-        int position = m_turnTalon.getSelectedSensorPosition();
+        int position = m_steerTalon.getSelectedSensorPosition();
         double positionRadians = EncoderUtils.translateTicksToRadians(position);
         return new SwerveModuleState(velocity, new Rotation2d(positionRadians));
     }
@@ -91,6 +90,11 @@ public class DevSwerveModule {
      */
     public Translation2d getLocation() {
         return location;
+    }
+
+    public void stopModule(){
+        m_driveTalon.stopMotor();
+        m_steerTalon.stopMotor();
     }
     
 }
