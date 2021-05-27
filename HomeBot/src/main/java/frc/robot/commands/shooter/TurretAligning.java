@@ -23,7 +23,7 @@ public class TurretAligning extends CommandBase {
     @Override
     public void execute() {
 
-        m_turret.rotateTurretVelocity();
+        m_turret.rotateTurretPercent();
     }
 
     // This command continues until interrupted
