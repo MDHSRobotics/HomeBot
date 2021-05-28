@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
+import frc.robot.consoles.Logger;
 import frc.robot.subsystems.SwerveDriver;
 import frc.robot.subsystems.utils.EncoderUtils;
 
@@ -21,14 +22,14 @@ public class DevSwerveModule {
     private final Translation2d location;
     
     // PID initialization
-    private static final double kModuleMaxAngularVelocity = SwerveDriver.kMaxAngularSpeed;  // radians per second squared
-    private static final double kModuleMaxAngularAcceleration = 2 * Math.PI;                // radians per second squared
-    private final PIDController m_drivePIDController = new PIDController(1, 0, 0);          // initialize PID profile
-    private final ProfiledPIDController m_turningPIDController = new ProfiledPIDController(1, 0, 0, new TrapezoidProfile.Constraints(kModuleMaxAngularVelocity, kModuleMaxAngularAcceleration));
+    private static final double kModuleMaxAngularVelocity = 0.5;//SwerveDriver.kMaxAngularSpeed;  // radians per second squared
+    private static final double kModuleMaxAngularAcceleration = 0.5;//2 * Math.PI;                // radians per second squared
+    private final PIDController m_drivePIDController = new PIDController(0.2, 0, 0);          // initialize PID profile
+    private final ProfiledPIDController m_turningPIDController = new ProfiledPIDController(0.2, 0, 0, new TrapezoidProfile.Constraints(kModuleMaxAngularVelocity, kModuleMaxAngularAcceleration));
     
     // Configure feed forward gains (experimentally found)
-    private final SimpleMotorFeedforward m_driveFeedforward = new SimpleMotorFeedforward(1, 3);
-    private final SimpleMotorFeedforward m_turnFeedforward = new SimpleMotorFeedforward(1, 0.5);
+    private final SimpleMotorFeedforward m_driveFeedforward = new SimpleMotorFeedforward(0, 0.45);
+    private final SimpleMotorFeedforward m_turnFeedforward = new SimpleMotorFeedforward(0, 0.45);
     
     /**
      * Constructs a SwerveModule device.
@@ -67,8 +68,12 @@ public class DevSwerveModule {
         double turnFeedforward = m_turnFeedforward.calculate(m_turningPIDController.getSetpoint().velocity); // Calculate the turn feed forward from a velocity setpoint
 
         // Creates a percentage value for set by adding the voltages required for the respective motors and dividing by the current maximum battery voltage
-        m_driveTalon.set((driveOutput + driveFeedforward) / BATTERY_VOLTAGE);
-        m_steerTalon.set((turnOutput + turnFeedforward) / BATTERY_VOLTAGE);
+        double driveTalonVoltage = (driveOutput + driveFeedforward) / BATTERY_VOLTAGE;
+        double steerTalonVOltage = (turnOutput + turnFeedforward) / BATTERY_VOLTAGE;
+        Logger.info(driveTalonVoltage);
+        Logger.info(steerTalonVOltage);
+        m_driveTalon.set(driveTalonVoltage);
+        m_steerTalon.set(steerTalonVOltage);
     }
 
     /**

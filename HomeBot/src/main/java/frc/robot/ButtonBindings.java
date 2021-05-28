@@ -10,7 +10,7 @@ public class ButtonBindings {
         Logger.setup("Configure Buttons -> Xbox Controller...");
         
         //Shoot
-        BotControllers.xbox.btnA.whileHeld(BotCommands.shoot);
+        //BotControllers.xbox.btnA.whileHeld(BotCommands.shoot);
         BotControllers.xbox.btnA.whileHeld(BotCommands.toggleGate);
 
         // Pickup
@@ -20,6 +20,8 @@ public class ButtonBindings {
         // Delivery
         BotControllers.xbox.btnBumperRight.whenPressed(BotCommands.stopPickup);
         BotControllers.xbox.btnBumperRight.whenPressed(BotCommands.stopDelivery);
+
+        BotControllers.xbox.btnA.whenPressed(BotCommands.swerveDrive);
 
     }
 

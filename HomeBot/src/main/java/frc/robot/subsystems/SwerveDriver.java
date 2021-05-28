@@ -15,7 +15,7 @@ public class SwerveDriver extends SubsystemBase {
     public static final double kMaxAngularSpeed = Math.PI; // 1/2 rotation per second
 
     // Control if you want to move from the point of view of the robot or from the point of view of the field
-    public static final boolean fieldRelative = true;
+    public static final boolean fieldRelative = false;
     
     // Control whether you want the thumbstick axes to be flipped in the opposite direction.
     public static final boolean isYFlipped = false;
@@ -47,7 +47,8 @@ public class SwerveDriver extends SubsystemBase {
         double m_xVel = xVel;
         double m_yVel = yVel;
         double m_omega = omega;
-        SwerveModuleState[] swerveModuleStates;
+        ChassisSpeeds speeds = new ChassisSpeeds(1, 0, 0);
+        SwerveModuleState[] swerveModuleStates = m_kinematics.toSwerveModuleStates(speeds);
 
         // Flip axis directions 
         if (isXFlipped) {
@@ -56,7 +57,7 @@ public class SwerveDriver extends SubsystemBase {
         if (isOmegaFlipped) {
             m_omega = -omega;
         }
-
+/*
         // Choose between robot or field relative driving
         if (fieldRelative) {
             swerveModuleStates = m_kinematics.toSwerveModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(m_xVel, m_yVel, m_omega, getAngle()));
@@ -64,20 +65,22 @@ public class SwerveDriver extends SubsystemBase {
         else {
             swerveModuleStates = m_kinematics.toSwerveModuleStates(new ChassisSpeeds(m_xVel, m_yVel, m_omega));
         }
-
-        SwerveDriveKinematics.normalizeWheelSpeeds(swerveModuleStates, kMaxSpeed);
+*/
+        //SwerveDriveKinematics.normalizeWheelSpeeds(swerveModuleStates, kMaxSpeed);
 
         // Set the state of each swerve module in order to achieve the specified drive velocities
         Devices.frontLeftSwerveModule.setDesiredState(swerveModuleStates[0]);
         Devices.frontRightSwerveModule.setDesiredState(swerveModuleStates[1]);
         Devices.rearLeftSwerveModule.setDesiredState(swerveModuleStates[2]);
         Devices.rearRightSwerveModule.setDesiredState(swerveModuleStates[3]);
+
+        Logger.info(swerveModuleStates[0].toString());
     }
 
     // The odometry object updates its position given a current gyro angle and current module states
     public void updateOdometry() {
         Pose2d pose = m_odometry.update(getAngle(), Devices.frontLeftSwerveModule.getCurrentState(), Devices.frontRightSwerveModule.getCurrentState(), Devices.rearLeftSwerveModule.getCurrentState(), Devices.rearRightSwerveModule.getCurrentState());
-        Logger.info(pose.toString());
+        //Logger.info(pose.toString());
     }
     
     // Stop all the swerve modules
