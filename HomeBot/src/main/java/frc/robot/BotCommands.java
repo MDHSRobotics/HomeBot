@@ -55,7 +55,7 @@ public class BotCommands {
     public static Shoot shoot;
     public static StopShoot stopShoot;
     public static ResetShoot resetShoot;
-
+    public static TurretAligning turretAligning;
     // Limelight
     public static TurnOffLed turnOffLed;
     public static TurnOnLed turnOnLed;
@@ -96,7 +96,7 @@ public class BotCommands {
         shoot = new Shoot(BotSubsystems.shooter);
         stopShoot = new StopShoot(BotSubsystems.shooter);
         resetShoot = new ResetShoot(BotSubsystems.shooter);
-
+        turretAligning = new TurretAligning(BotSubsystems.turret);
         // Limelight
         turnOnLed = new TurnOnLed();
         turnOffLed = new TurnOffLed();
