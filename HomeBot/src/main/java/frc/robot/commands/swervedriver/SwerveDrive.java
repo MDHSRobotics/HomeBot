@@ -32,6 +32,7 @@ public class SwerveDrive extends CommandBase {
         SwerveMovement move = SwerveMovement.getMovement(controller);
         m_swerveDriver.drive(move.forwardBackwardSpeed, move.sideToSideSpeed, move.rotationSpeed);
         m_swerveDriver.updateOdometry();
+        // m_swerveDriver.testMotors();
     }
 
     // This command continues until interrupted.

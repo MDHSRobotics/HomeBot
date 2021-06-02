@@ -61,7 +61,8 @@ public class DevSwerveModule {
         int turnPosition = m_steerTalon.getSelectedSensorPosition();
         double turnPositionRadians = EncoderUtils.translateTicksToRadians(turnPosition);
 
-        double driveOutput = m_drivePIDController.calculate(driveVelocity, state.speedMetersPerSecond); // Calculate the drive output from the current velocity and a velocity setpoint
+        double driveOutput = m_drivePIDController.calculate(EncoderUtils.translateTicksToDistance(driveVelocity, 4 * Math.PI), state.speedMetersPerSecond); // Calculate the drive output from the current velocity and a velocity setpoint
+        //conflict between feet per 100 ms and meters per second
         double driveFeedforward = m_driveFeedforward.calculate(state.speedMetersPerSecond); // Calculate the drive feed forward from a velocity setpoint
 
         double turnOutput = m_turningPIDController.calculate(turnPositionRadians, state.angle.getRadians()); // Calculate the turning motor output from the current position and a position setpoint
@@ -69,11 +70,15 @@ public class DevSwerveModule {
 
         // Creates a percentage value for set by adding the voltages required for the respective motors and dividing by the current maximum battery voltage
         double driveTalonVoltage = (driveOutput + driveFeedforward) / BATTERY_VOLTAGE;
-        double steerTalonVOltage = (turnOutput + turnFeedforward) / BATTERY_VOLTAGE;
-        Logger.info(driveTalonVoltage);
-        Logger.info(steerTalonVOltage);
+        double steerTalonVoltage = (turnOutput + turnFeedforward) / BATTERY_VOLTAGE;
+        Logger.info("Output: " + driveOutput);
+        Logger.info("Output: " + turnOutput);
+        Logger.info("Feed: " + driveFeedforward);
+        Logger.info("Feed: " + turnFeedforward);
+        Logger.info("Voltage: " + driveTalonVoltage);
+        Logger.info("Voltage: " + steerTalonVoltage);
         m_driveTalon.set(driveTalonVoltage);
-        m_steerTalon.set(steerTalonVOltage);
+        // m_steerTalon.set(steerTalonVoltage);
     }
 
     /**
@@ -100,6 +105,11 @@ public class DevSwerveModule {
     public void stopModule(){
         m_driveTalon.stopMotor();
         m_steerTalon.stopMotor();
+    }
+
+    public void testModule() {
+        m_driveTalon.set(0.3);
+        m_steerTalon.set(0.3);
     }
     
 }

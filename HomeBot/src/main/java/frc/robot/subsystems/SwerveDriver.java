@@ -22,11 +22,6 @@ public class SwerveDriver extends SubsystemBase {
     public static final boolean isXFlipped = false;
     public static final boolean isOmegaFlipped = false;
 
-    // Controller thresholds
-    public static final double xThreshold = 0.03;
-    public static final double yThreshold = 0.03;
-    public static final double rotThreshold = 0.03;
-
     // The kinematics object is created from the locations of the swerve modules
     private final SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(Devices.frontLeftSwerveModule.getLocation(), Devices.frontRightSwerveModule.getLocation(), Devices.rearLeftSwerveModule.getLocation(), Devices.rearRightSwerveModule.getLocation());
 
@@ -47,7 +42,7 @@ public class SwerveDriver extends SubsystemBase {
         double m_xVel = xVel;
         double m_yVel = yVel;
         double m_omega = omega;
-        ChassisSpeeds speeds = new ChassisSpeeds(1, 0, 0);
+        ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(0, 1, 0, Rotation2d.fromDegrees(0));
         SwerveModuleState[] swerveModuleStates = m_kinematics.toSwerveModuleStates(speeds);
 
         // Flip axis directions 
@@ -69,10 +64,11 @@ public class SwerveDriver extends SubsystemBase {
         //SwerveDriveKinematics.normalizeWheelSpeeds(swerveModuleStates, kMaxSpeed);
 
         // Set the state of each swerve module in order to achieve the specified drive velocities
+        
         Devices.frontLeftSwerveModule.setDesiredState(swerveModuleStates[0]);
-        Devices.frontRightSwerveModule.setDesiredState(swerveModuleStates[1]);
-        Devices.rearLeftSwerveModule.setDesiredState(swerveModuleStates[2]);
-        Devices.rearRightSwerveModule.setDesiredState(swerveModuleStates[3]);
+        // Devices.frontRightSwerveModule.setDesiredState(swerveModuleStates[1]);
+        // Devices.rearLeftSwerveModule.setDesiredState(swerveModuleStates[2]);
+        // Devices.rearRightSwerveModule.setDesiredState(swerveModuleStates[3]);
 
         Logger.info(swerveModuleStates[0].toString());
     }
@@ -89,5 +85,12 @@ public class SwerveDriver extends SubsystemBase {
         Devices.frontRightSwerveModule.stopModule();
         Devices.rearLeftSwerveModule.stopModule();
         Devices.rearRightSwerveModule.stopModule();
+    }
+
+    public void testMotors() {
+        Devices.frontLeftSwerveModule.testModule();
+        Devices.frontRightSwerveModule.testModule();
+        Devices.rearLeftSwerveModule.testModule();
+        Devices.rearRightSwerveModule.testModule();
     }
 }
