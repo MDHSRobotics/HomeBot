@@ -33,8 +33,13 @@ public class EncoderUtils {
         double rotationTicks = rotationCountMS * ENCODER_TPR; // Amount of ticks to rotate
         return (int) rotationTicks;
     }
+    /** Computes an encoder tick count based on the desired distance in inches for a given wheel diameter and gearbox ratio (MS : GS)
+     * @param rotationTicks The amount of ticks to rotate a certain distance
+     * @param wheelCircumference The circumference of the wheel in inches
+     * @return Returns the distance in feet
+    */
     public static double translateTicksToDistance(double rotationTicks, double wheelCircumference){
-        double distance = (rotationTicks/360)*(wheelCircumference / 12.0);
+        double distance = (rotationTicks/4096)*(wheelCircumference / 12.0);
         return distance;
     }
 

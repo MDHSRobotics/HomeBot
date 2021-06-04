@@ -24,8 +24,8 @@ public class DevSwerveModule {
     // PID initialization
     private static final double kModuleMaxAngularVelocity = 0.5;//SwerveDriver.kMaxAngularSpeed;  // radians per second squared
     private static final double kModuleMaxAngularAcceleration = 0.5;//2 * Math.PI;                // radians per second squared
-    private final PIDController m_drivePIDController = new PIDController(0.2, 0, 0);          // initialize PID profile
-    private final ProfiledPIDController m_turningPIDController = new ProfiledPIDController(0.2, 0, 0, new TrapezoidProfile.Constraints(kModuleMaxAngularVelocity, kModuleMaxAngularAcceleration));
+    private final PIDController m_drivePIDController = new PIDController(0.87, 0, 0);          // initialize PID profile
+    private final ProfiledPIDController m_turningPIDController = new ProfiledPIDController(0.87, 0, 0, new TrapezoidProfile.Constraints(kModuleMaxAngularVelocity, kModuleMaxAngularAcceleration));
     
     // Configure feed forward gains (experimentally found)
     private final SimpleMotorFeedforward m_driveFeedforward = new SimpleMotorFeedforward(0, 0.45);
@@ -61,8 +61,8 @@ public class DevSwerveModule {
         int turnPosition = m_steerTalon.getSelectedSensorPosition();
         double turnPositionRadians = EncoderUtils.translateTicksToRadians(turnPosition);
 
-        double driveOutput = m_drivePIDController.calculate(EncoderUtils.translateTicksToDistance(driveVelocity, 4 * Math.PI), state.speedMetersPerSecond); // Calculate the drive output from the current velocity and a velocity setpoint
-        //conflict between feet per 100 ms and meters per second
+        double driveOutput = m_drivePIDController.calculate(EncoderUtils.translateTicksToDistance(driveVelocity * 3.048, 4 * Math.PI), state.speedMetersPerSecond); // Calculate the drive output from the current velocity and a velocity setpoint
+        //convert from feet per 100 ms to meters per second
         double driveFeedforward = m_driveFeedforward.calculate(state.speedMetersPerSecond); // Calculate the drive feed forward from a velocity setpoint
 
         double turnOutput = m_turningPIDController.calculate(turnPositionRadians, state.angle.getRadians()); // Calculate the turning motor output from the current position and a position setpoint
@@ -78,7 +78,7 @@ public class DevSwerveModule {
         Logger.info("Voltage: " + driveTalonVoltage);
         Logger.info("Voltage: " + steerTalonVoltage);
         m_driveTalon.set(driveTalonVoltage);
-        // m_steerTalon.set(steerTalonVoltage);
+        m_steerTalon.set(steerTalonVoltage);
     }
 
     /**

@@ -42,8 +42,8 @@ public class SwerveDriver extends SubsystemBase {
         double m_xVel = xVel;
         double m_yVel = yVel;
         double m_omega = omega;
-        ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(0, 1, 0, Rotation2d.fromDegrees(0));
-        SwerveModuleState[] swerveModuleStates = m_kinematics.toSwerveModuleStates(speeds);
+        // ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(0, 1, 0, Rotation2d.fromDegrees(0));
+        SwerveModuleState[] swerveModuleStates; // = m_kinematics.toSwerveModuleStates(speeds);
 
         // Flip axis directions 
         if (isXFlipped) {
@@ -52,7 +52,7 @@ public class SwerveDriver extends SubsystemBase {
         if (isOmegaFlipped) {
             m_omega = -omega;
         }
-/*
+
         // Choose between robot or field relative driving
         if (fieldRelative) {
             swerveModuleStates = m_kinematics.toSwerveModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(m_xVel, m_yVel, m_omega, getAngle()));
@@ -60,15 +60,15 @@ public class SwerveDriver extends SubsystemBase {
         else {
             swerveModuleStates = m_kinematics.toSwerveModuleStates(new ChassisSpeeds(m_xVel, m_yVel, m_omega));
         }
-*/
+
         //SwerveDriveKinematics.normalizeWheelSpeeds(swerveModuleStates, kMaxSpeed);
 
         // Set the state of each swerve module in order to achieve the specified drive velocities
         
         Devices.frontLeftSwerveModule.setDesiredState(swerveModuleStates[0]);
-        // Devices.frontRightSwerveModule.setDesiredState(swerveModuleStates[1]);
-        // Devices.rearLeftSwerveModule.setDesiredState(swerveModuleStates[2]);
-        // Devices.rearRightSwerveModule.setDesiredState(swerveModuleStates[3]);
+        Devices.frontRightSwerveModule.setDesiredState(swerveModuleStates[1]);
+        Devices.rearLeftSwerveModule.setDesiredState(swerveModuleStates[2]);
+        Devices.rearRightSwerveModule.setDesiredState(swerveModuleStates[3]);
 
         Logger.info(swerveModuleStates[0].toString());
     }
