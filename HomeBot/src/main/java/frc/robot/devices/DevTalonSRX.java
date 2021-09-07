@@ -87,7 +87,7 @@ public class DevTalonSRX extends WPI_TalonSRX {
         m_monitor.log(methodName);
     }
 
-    public int getSelectedSensorVelocity() {
+    public double getSelectedSensorVelocity() {
         if (isConnected) {
             return super.getSelectedSensorVelocity();
         }

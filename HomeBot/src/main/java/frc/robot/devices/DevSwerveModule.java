@@ -57,8 +57,8 @@ public class DevSwerveModule {
      * @param state Desired state with speed and angle.
      */
     public void setDesiredState(SwerveModuleState state) {
-        int driveVelocity = m_driveTalon.getSelectedSensorVelocity();
-        int turnPosition = m_steerTalon.getSelectedSensorPosition();
+        int driveVelocity = (int) m_driveTalon.getSelectedSensorVelocity();
+        int turnPosition = (int) m_steerTalon.getSelectedSensorPosition();
         double turnPositionRadians = EncoderUtils.translateTicksToRadians(turnPosition);
 
         double driveOutput = m_drivePIDController.calculate(EncoderUtils.translateTicksToDistance(driveVelocity * 3.048, 4 * Math.PI), state.speedMetersPerSecond); // Calculate the drive output from the current velocity and a velocity setpoint
@@ -87,8 +87,8 @@ public class DevSwerveModule {
      * @return The current state of the module
      */
     public SwerveModuleState getCurrentState() {
-        int velocity = m_driveTalon.getSelectedSensorVelocity();
-        int position = m_steerTalon.getSelectedSensorPosition();
+        int velocity = (int) m_driveTalon.getSelectedSensorVelocity();
+        int position = (int) m_steerTalon.getSelectedSensorPosition();
         double positionRadians = EncoderUtils.translateTicksToRadians(position);
         return new SwerveModuleState(velocity, new Rotation2d(positionRadians));
     }
