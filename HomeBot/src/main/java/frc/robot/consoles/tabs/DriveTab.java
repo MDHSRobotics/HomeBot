@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj.shuffleboard.*;
 import frc.robot.brains.DiffDriverBrain;
 import frc.robot.consoles.ShuffleLogger;
 import frc.robot.subsystems.Devices;
-import frc.robot.BotSubsystems;
 
 // The Shuffleboard Drive tab.
 public class DriveTab {

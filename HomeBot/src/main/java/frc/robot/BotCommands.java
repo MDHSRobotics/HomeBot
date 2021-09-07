@@ -61,7 +61,7 @@ public class BotCommands {
     public static TurnOnLed turnOnLed;
 
     // Pixy
-    public static PixyTest pixyTest;
+    public static pixyTest pixyTest;
 
     // Autonomous
     public static AutoDrivePath autoDrivePath;
@@ -103,7 +103,7 @@ public class BotCommands {
         turnOffLed = new TurnOffLed();
 
         // Pixy
-        pixyTest = new PixyTest();
+        pixyTest = new pixyTest();
 
         // Autonomous
         autoDrivePath = new AutoDrivePath(BotSubsystems.diffDriver);
