@@ -39,22 +39,22 @@ public class DiffDriver extends SubsystemBase {
 
     // Constructor requires device instances
     public DiffDriver() {
-        TalonUtils.configureBaseTalon(talonFxDiffWheelFrontLeft, true);
+        TalonUtils.configureBaseTalon(talonFxDiffWheelFrontLeft, false);
         TalonUtils.configureBaseTalon(talonFxDiffWheelFrontRight, true);
-        TalonUtils.configureBaseTalon(talonFxDiffWheelRearLeft, true);
+        TalonUtils.configureBaseTalon(talonFxDiffWheelRearLeft, false);
         TalonUtils.configureBaseTalon(talonFxDiffWheelRearRight, true);
 
-        PIDValues pidLeft = new PIDValues(0.0, 1.0, 0.0, 0.0);
-        PIDValues pidRight = new PIDValues(0.0, 1.0, 0.0, 0.0);
-        TalonUtils.configureTalonWithEncoder(talonFxDiffWheelFrontLeft, true, true, pidLeft);
-        TalonUtils.configureTalonWithEncoder(talonFxDiffWheelFrontRight, true, true, pidRight);
+        PIDValues pidLeft = new PIDValues(0.0, .8, 0.0, 0.0);
+        PIDValues pidRight = new PIDValues(0.0, .8, 0.0, 0.0);
+        TalonUtils.configureTalonWithEncoder(talonFxDiffWheelFrontLeft, false, pidLeft);
+        TalonUtils.configureTalonWithEncoder(talonFxDiffWheelFrontRight, true, pidRight);
 
         m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
 
         if (isReal) {
             // Configure the TalonFX devices used for DiffDriver
-            TalonUtils.configureBaseTalonMasterFollower(talonFxDiffWheelFrontLeft, talonFxDiffWheelRearLeft, true, true);
-            TalonUtils.configureBaseTalonMasterFollower(talonFxDiffWheelFrontRight, talonFxDiffWheelRearRight, true, true);
+            TalonUtils.configureBaseTalonMasterFollower(talonFxDiffWheelFrontLeft, talonFxDiffWheelRearLeft);
+            TalonUtils.configureBaseTalonMasterFollower(talonFxDiffWheelFrontRight, talonFxDiffWheelRearRight);
             talonFxDiffWheelFrontLeft.configOpenloopRamp(SECONDS_FROM_NEUTRAL_TO_FULL, TIMEOUT_MS);
             talonFxDiffWheelFrontRight.configOpenloopRamp(SECONDS_FROM_NEUTRAL_TO_FULL, TIMEOUT_MS);
             talonFxDiffWheelRearLeft.configOpenloopRamp(SECONDS_FROM_NEUTRAL_TO_FULL, TIMEOUT_MS);
@@ -66,11 +66,13 @@ public class DiffDriver extends SubsystemBase {
     // Might change constant 6 depending on wheel's diameter 
     @Override
     public void periodic() {
-        double wheelCircumference = 6 * Math.PI;
+        double wheelCircumference = .1524 * Math.PI;
         double rightDistance = EncoderUtils.translateTicksToDistance(talonFxDiffWheelFrontRight.getSelectedSensorPosition(0), wheelCircumference);
         double leftDistance = EncoderUtils.translateTicksToDistance(talonFxDiffWheelFrontLeft.getSelectedSensorPosition(0), wheelCircumference);
         
         m_odometry.update(BotSensors.gyro.getRotation2d(), leftDistance, rightDistance);
+        // Logger.debug("Odometry X: " + m_odometry.getPoseMeters().getTranslation().getX());
+        // Logger.debug("Odometry Y: " + m_odometry.getPoseMeters().getTranslation().getY());
     }
 
     // Flip the control direction of the joystick in Y (or Y Left for Xbox thumbsticks)
@@ -209,7 +211,7 @@ public class DiffDriver extends SubsystemBase {
 
     public void tankDriveVolts(double leftVolts, double rightVolts) {
         talonFxDiffWheelFrontLeft.setVoltage(leftVolts);
-        talonFxDiffWheelFrontRight.setVoltage(-rightVolts);
+        talonFxDiffWheelFrontRight.setVoltage(rightVolts);
         diffDriveTalonFX.feed();
     }
 
@@ -225,4 +227,35 @@ public class DiffDriver extends SubsystemBase {
         return talonFxDiffWheelFrontRight.getSelectedSensorPosition();
     }
  
+
+
+    // Test all the drive motors
+    public void test(int testNumber) {
+        diffDriveTalonFX.feed();
+        if (testNumber == 1) {
+            Logger.debug("Test1");
+            talonFxDiffWheelFrontLeft.set(.5);
+            talonFxDiffWheelFrontRight.set(.5);
+        }
+        else if (testNumber == 2) {
+            Logger.debug("Test2");
+            talonFxDiffWheelFrontLeft.setVoltage(6);
+            talonFxDiffWheelFrontRight.setVoltage(6);
+        }
+        else if (testNumber == 3) {
+            Logger.debug("Test3");
+            talonFxDiffWheelFrontLeft.set(ControlMode.Position, 50000);
+            talonFxDiffWheelFrontRight.set(ControlMode.Position, 50000);
+        }
+        else if (testNumber == 4) {
+            Logger.debug("Test4");
+            talonFxDiffWheelFrontLeft.set(ControlMode.Position, 0);
+            talonFxDiffWheelFrontRight.set(ControlMode.Position, 0);
+        }
+        else if (testNumber == 5) {
+            Logger.debug("Test5");
+            resetEncoders();
+        }
+    }
+
 }

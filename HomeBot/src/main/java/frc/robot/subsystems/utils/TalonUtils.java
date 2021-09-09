@@ -50,12 +50,12 @@ public class TalonUtils {
 
         talon.configNominalOutputForward(0);
         talon.configNominalOutputReverse(0);
-        talon.configPeakOutputForward(0.17);
-        talon.configPeakOutputReverse(-0.17);
+        talon.configPeakOutputForward(0.5);
+        talon.configPeakOutputReverse(-0.5);
     }
 
     // Configure the given TalonSRX
-    public static void configureTalonWithEncoder(DevTalonSRX talon, boolean sensorPhase, boolean motorInvert, PIDValues pid) {
+    public static void configureTalonWithEncoder(DevTalonSRX talon, boolean sensorPhase, PIDValues pid) {
         if (!talon.isConnected) return;
 
         talon.setSensorPhase(sensorPhase);
@@ -75,7 +75,7 @@ public class TalonUtils {
     }
 
     // Configure the given TalonFX
-    public static void configureTalonWithEncoder(DevTalonFX talon, boolean sensorPhase, boolean motorInvert, PIDValues pid) {
+    public static void configureTalonWithEncoder(DevTalonFX talon, boolean sensorPhase, PIDValues pid) {
         if (!talon.isConnected) return;
 
         talon.setSensorPhase(sensorPhase);
@@ -95,20 +95,16 @@ public class TalonUtils {
     }
 
     // Config the given TalonSRX master and follower
-    public static void configureBaseTalonMasterFollower(DevTalonSRX talonM, DevTalonSRX talonF, boolean motorInvertM, boolean motorInvertF) {
+    public static void configureBaseTalonMasterFollower(DevTalonSRX talonM, DevTalonSRX talonF) {
         if (!talonM.isConnected || !talonF.isConnected) return;
 
-        // configureBaseTalon(talonF, motorInvertF);
-        // configureBaseTalon(talonM, motorInvertM);
         talonF.follow(talonM);
     }
 
     // Config the given TalonFX master and follower
-    public static void configureBaseTalonMasterFollower(DevTalonFX talonM, DevTalonFX talonF, boolean motorInvertM, boolean motorInvertF) {
+    public static void configureBaseTalonMasterFollower(DevTalonFX talonM, DevTalonFX talonF) {
         if (!talonM.isConnected || !talonF.isConnected) return;
 
-        // configureBaseTalon(talonF, motorInvertF);
-        // configureBaseTalon(talonM, motorInvertM);
         talonF.follow(talonM);
     }
 

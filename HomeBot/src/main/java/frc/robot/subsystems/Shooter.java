@@ -19,10 +19,8 @@ public class Shooter extends SubsystemBase {
 
     // Encoder constants
     private static final boolean SENSOR_PHASE_BOTTOM = true;
-    private static final boolean MOTOR_INVERT_BOTTOM = false;
 
     private static final boolean SENSOR_PHASE_TOP = true;
-    private static final boolean MOTOR_INVERT_TOP = false;
 
     // Position constants
     private static final double GEAR_RATIO = 4.0; // Gear ratio bewteen Input Shaft : Output Shaft of a gearbox
@@ -52,10 +50,10 @@ public class Shooter extends SubsystemBase {
         if (isReal) {
             // Configure devices
             PIDValues pidTop = new PIDValues(0.00835, 0.0, 0.0, 0.0);
-            TalonUtils.configureTalonWithEncoder(talonSrxShooterTopWheel, SENSOR_PHASE_TOP, MOTOR_INVERT_TOP, pidTop);
+            TalonUtils.configureTalonWithEncoder(talonSrxShooterTopWheel, SENSOR_PHASE_TOP, pidTop);
 
             PIDValues pidBottom = new PIDValues(0.00835, 0.0, 0.0, 0.0); // Calibrated for 20,000: TpHMS 0.00835
-            TalonUtils.configureTalonWithEncoder(talonSrxShooterBottomWheel, SENSOR_PHASE_BOTTOM, MOTOR_INVERT_BOTTOM, pidBottom);
+            TalonUtils.configureTalonWithEncoder(talonSrxShooterBottomWheel, SENSOR_PHASE_BOTTOM, pidBottom);
         }
     }
 

@@ -100,31 +100,43 @@ public class Robot extends TimedRobot {
         Logger.setup("Initializing Autonomous Mode...");
 
         CommandScheduler.getInstance().cancelAll();
+        BotCommands.driveDiffArcade.schedule();
+
+        // String pathweaverGame = DiffDriverBrain.getPathweaverGame();
+        // String pathweaverGame = "slalom";
+        // String pathweaverGame = "bounce";
+        // String pathweaverGame = "barrel";
+        // String pathweaverGame = "straight";
+        String pathweaverGame = "test";
+        Logger.setup("Pathweaver Game: " + pathweaverGame);
 
         // Schedule the autonomous command
-        m_autonomousCommandRed = BotCommands.getAutonomousCommand('R');
-        m_autonomousCommandBlue = BotCommands.getAutonomousCommand('B');
-        m_autonomousCommandAutoNav = BotCommands.getAutonomousCommand(DiffDriverBrain.getPathweaverGame());
-        m_moveForwardAuto = BotCommands.moveForwardAuto10Feet;
+        // m_autonomousCommandRed = BotCommands.getAutonomousCommand('R');
+        // m_autonomousCommandBlue = BotCommands.getAutonomousCommand('B');
+         m_autonomousCommandAutoNav = BotCommands.getAutonomousCommand(pathweaverGame);
+        // m_autonomousCommandAutoNav = BotCommands.getAutonomousCommandExample();
+        // m_moveForwardAuto = BotCommands.moveForwardAuto10Feet;
         
-        if (DiffDriverBrain.getPathweaverGame().equals("none")) {
-            if (Pixy.detectFieldMode().equals("no blocks detected")) {
-                if (m_moveForwardAuto != null) {
-                    m_moveForwardAuto.schedule();
-                }
-                if (m_autonomousCommandBlue != null) {
-                    m_autonomousCommandBlue.schedule();
-                }
-            } else {
-                if (m_autonomousCommandRed != null) {
-                    m_autonomousCommandRed.schedule();
-                }
-            }
-        } else {
-            if (m_autonomousCommandAutoNav != null) {
-                m_autonomousCommandAutoNav.schedule();
-            }
-        }
+        // if (pathweaverGame.equals("none")) {
+        //     if (Pixy.detectFieldMode().equals("no blocks detected")) {
+        //         if (m_moveForwardAuto != null) {
+        //             m_moveForwardAuto.schedule();
+        //         }
+        //         if (m_autonomousCommandBlue != null) {
+        //             m_autonomousCommandBlue.schedule();
+        //         }
+        //     } else {
+        //         if (m_autonomousCommandRed != null) {
+        //             m_autonomousCommandRed.schedule();
+        //         }
+        //     }
+        // } else {
+        //     if (m_autonomousCommandAutoNav != null) {
+        //         m_autonomousCommandAutoNav.schedule();
+        //     }
+        // }
+
+        m_autonomousCommandAutoNav.schedule();
         
     }
 

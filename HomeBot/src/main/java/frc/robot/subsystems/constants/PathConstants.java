@@ -24,7 +24,7 @@ public final class PathConstants {
     public static final boolean kLeftEncoderReversed = false;
     public static final boolean kRightEncoderReversed = true;
 
-    public static final double kTrackwidthMeters = 0.69;
+    public static final double kTrackwidthMeters = .6096;
     public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(kTrackwidthMeters);
 
     public static final int kEncoderCPR = 2048;
@@ -33,7 +33,7 @@ public final class PathConstants {
             // Assumes the encoders are directly mounted on the wheel shafts
             (kWheelDiameterMeters * Math.PI) / (double) kEncoderCPR;
 
-    public static final boolean kGyroReversed = true;
+    public static final boolean kGyroReversed = false;
 
     // These are example values only - DO NOT USE THESE FOR YOUR OWN ROBOT!
     // These characterization values MUST be determined either experimentally or
@@ -42,12 +42,12 @@ public final class PathConstants {
     // The Robot Characterization Toolsuite provides a convenient tool for obtaining
     // these
     // values for your robot.
-    public static final double ksVolts = 0.669;
-    public static final double kvVoltSecondsPerMeter = 0.000325;
-    public static final double kaVoltSecondsSquaredPerMeter = 0.0000814;
+    public static final double ksVolts = 0.676;
+    public static final double kvVoltSecondsPerMeter = 1;
+    public static final double kaVoltSecondsSquaredPerMeter = 0.2;
 
     // Example value only - as above, this must be tuned for your drive!
-    public static final double kPDriveVel = 9.35 * ( 1 / Math.pow(10, 51));
+    public static final double kPDriveVel = 8.5;
 
     public static final class OIConstants {
         public static final int kDriverControllerPort = 1;

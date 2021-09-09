@@ -15,7 +15,7 @@ public class DiffDriverBrain {
     public static double alignZSpeedMinimumDefault = .5;
     public static double alignZToleranceDefault = 3;
 
-    public static String pathweaverGameDefault = "none";
+    public static String pathweaverGameDefault = "slalom";
 
     //---------------------//
     // NetworkTableEntries //

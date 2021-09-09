@@ -11,6 +11,14 @@ import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 
+import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import java.util.List;
+import edu.wpi.first.wpilibj.geometry.Translation2d;
+
 import java.io.IOException;
 import java.nio.file.Path;
 
@@ -38,6 +46,11 @@ public class BotCommands {
     public static DriveTankForward driveTankForward;
     public static RotateToDpadDirection rotateToDpadDirection;
     public static RotateTowardsTarget rotateTowardsTarget;
+    public static TestDiffDrive test1DiffDrive;
+    public static TestDiffDrive test2DiffDrive;
+    public static TestDiffDrive test3DiffDrive;
+    public static TestDiffDrive test4DiffDrive;
+    public static TestDiffDrive test5DiffDrive;
 
     // Pickup
     public static SpinPickup spinPickup;
@@ -80,6 +93,11 @@ public class BotCommands {
         driveDiffArcade = new DriveDiffArcade(BotSubsystems.diffDriver, BotControllers.xbox);
         driveTankForward = new DriveTankForward(BotSubsystems.diffDriver, BotControllers.xbox);
         rotateTowardsTarget = new RotateTowardsTarget(BotSubsystems.diffDriver);
+        test1DiffDrive = new TestDiffDrive(BotSubsystems.diffDriver, 1);
+        test2DiffDrive = new TestDiffDrive(BotSubsystems.diffDriver, 2);
+        test3DiffDrive = new TestDiffDrive(BotSubsystems.diffDriver, 3);
+        test4DiffDrive = new TestDiffDrive(BotSubsystems.diffDriver, 4);
+        test5DiffDrive = new TestDiffDrive(BotSubsystems.diffDriver, 5);
 
         // Pickup
         spinPickup = new SpinPickup(BotSubsystems.pickup);
@@ -111,6 +129,8 @@ public class BotCommands {
     }
 
     public static Command getPathweaverCommand(String pathweaverPath) {
+        Logger.info("Getting Pathweaver Command for: " + pathweaverPath);
+
         try {
             Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(pathweaverPath);
             Trajectory trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
@@ -146,8 +166,11 @@ public class BotCommands {
             trajectoryJSON = "/home/lvuser/deploy/paths/Bounce.wpilib.json";
         } else if (game.equals("slalom")) {
             trajectoryJSON = "/home/lvuser/deploy/paths/Slalom.wpilib.json";
+        } else if (game.equals("straight")) {
+            trajectoryJSON = "/home/lvuser/deploy/paths/straight.wpilib.json";
+        } else if (game.equals("test")) {
+            trajectoryJSON = "/home/lvuser/deploy/paths/test.wpilib.json";
         }
-
         return getPathweaverCommand(trajectoryJSON);
     }
 
@@ -156,6 +179,49 @@ public class BotCommands {
         String trajectoryJSON = "/home/lvuser/deploy/paths/" + Pixy.detectPath(color);
 
         return getPathweaverCommand(trajectoryJSON);
+    }
+
+    public static Command getAutonomousCommandExample() {
+
+        // Create a voltage constraint to ensure we don't accelerate too fast
+        var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
+                new SimpleMotorFeedforward(PathConstants.ksVolts, PathConstants.kvVoltSecondsPerMeter,
+                        PathConstants.kaVoltSecondsSquaredPerMeter),
+                PathConstants.kDriveKinematics, 10);
+
+        // Create config for trajectory
+        TrajectoryConfig config = new TrajectoryConfig(AutoConstants.kMaxSpeedMetersPerSecond,
+                AutoConstants.kMaxAccelerationMetersPerSecondSquared)
+                        // Add kinematics to ensure max speed is actually obeyed
+                        .setKinematics(PathConstants.kDriveKinematics)
+                        // Apply the voltage constraint
+                        .addConstraint(autoVoltageConstraint);
+
+        // An example trajectory to follow. All units in meters.
+        Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
+                // Start at the origin facing the +X direction
+                new Pose2d(0, 0, new Rotation2d(0)),
+                // Pass through these two interior waypoints, making an 's' curve path
+                List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
+                // End 3 meters straight ahead of where we started, facing forward
+                new Pose2d(3, 0, new Rotation2d(0)),
+                // Pass config
+                config);
+
+        RamseteCommand ramseteCommand = new RamseteCommand(exampleTrajectory, BotSubsystems.diffDriver::getPose,
+                new RamseteController(AutoConstants.kRamseteB, AutoConstants.kRamseteZeta),
+                new SimpleMotorFeedforward(PathConstants.ksVolts, PathConstants.kvVoltSecondsPerMeter,
+                        PathConstants.kaVoltSecondsSquaredPerMeter),
+                PathConstants.kDriveKinematics, BotSubsystems.diffDriver::getWheelSpeeds,
+                new PIDController(PathConstants.kPDriveVel, 0, 0), new PIDController(PathConstants.kPDriveVel, 0, 0),
+                // RamseteCommand passes volts to the callback
+                BotSubsystems.diffDriver::tankDriveVolts, BotSubsystems.diffDriver);
+
+        // Reset odometry to the starting pose of the trajectory.
+        BotSubsystems.diffDriver.resetOdometry(exampleTrajectory.getInitialPose());
+
+        // Run path following command, then stop at the end.
+        return ramseteCommand.andThen(() -> BotCommands.driveDiffArcade.schedule());
     }
 
 }
