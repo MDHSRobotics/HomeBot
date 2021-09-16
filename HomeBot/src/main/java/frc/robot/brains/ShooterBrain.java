@@ -32,7 +32,7 @@ public class ShooterBrain {
     //---------------------//
     // NetworkTableEntries //
     //---------------------//
-    public static NetworkTableEntry shutup;
+    
     public static NetworkTableEntry pidkFTopEntry;
     public static NetworkTableEntry pidkFBottomEntry;
 
