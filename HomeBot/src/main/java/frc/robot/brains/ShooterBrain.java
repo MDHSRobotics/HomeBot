@@ -32,7 +32,7 @@ public class ShooterBrain {
     //---------------------//
     // NetworkTableEntries //
     //---------------------//
-
+    public static NetworkTableEntry shutup;
     public static NetworkTableEntry pidkFTopEntry;
     public static NetworkTableEntry pidkFBottomEntry;
 
@@ -115,5 +115,5 @@ public class ShooterBrain {
     public static double getBallSpinVelocity() {
         return shootBallSpinVelocityEntry.getDouble(ballSpinVelocityDefault);
     }
-
+   
 }
