@@ -47,9 +47,9 @@ public class BotSubsystems {
         Logger.setup("Shooter Teleop Default Command -> Shoot...");
         shooter.setDefaultCommand(BotCommands.stopShoot);
         
-        // Turret 
+        //Turret 
         Logger.setup("Turret Teleop Default Command -> TurretAligning ...");
-        turret.setDefaultCommand(BotCommands.TurretAligning);
+        shooter.setDefaultCommand(BotCommands.turretAligning);
 
     }
 

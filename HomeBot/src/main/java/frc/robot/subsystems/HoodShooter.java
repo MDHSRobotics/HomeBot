@@ -6,6 +6,7 @@ import frc.robot.brains.ShooterBrain;
 import frc.robot.consoles.Logger;
 import frc.robot.subsystems.utils.*;
 import static frc.robot.subsystems.Devices.talonSrxShooterHood;
+import static frc.robot.subsystems.Devices.talonSrxShooterTopWheel;
 import static frc.robot.RobotManager.isReal;
 public class HoodShooter extends SubsystemBase {
     // Encoder constants
