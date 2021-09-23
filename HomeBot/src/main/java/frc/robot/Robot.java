@@ -105,9 +105,9 @@ public class Robot extends TimedRobot {
         // String pathweaverGame = DiffDriverBrain.getPathweaverGame();
         // String pathweaverGame = "slalom";
         // String pathweaverGame = "bounce";
-        // String pathweaverGame = "barrel";
+        String pathweaverGame = "barrel";
         // String pathweaverGame = "straight";
-        String pathweaverGame = "test";
+        // String pathweaverGame = "test";
         Logger.setup("Pathweaver Game: " + pathweaverGame);
 
         // Schedule the autonomous command

@@ -42,13 +42,14 @@ public final class PathConstants {
     // The Robot Characterization Toolsuite provides a convenient tool for obtaining
     // these
     // values for your robot.
-    public static final double ksVolts = 0.676;
-    public static final double kvVoltSecondsPerMeter = 1;
-    public static final double kaVoltSecondsSquaredPerMeter = 0.2;
+    public static final double ksVolts = 0;
+    public static final double kvVoltSecondsPerMeter = 0;
+    public static final double kaVoltSecondsSquaredPerMeter = 0;
 
     // Example value only - as above, this must be tuned for your drive!
-    public static final double kPDriveVel = 8.5;
-
+    public static final double kPDriveVel = 0.004033698535276000002;
+    //smallest fast:
+    //lowest
     public static final class OIConstants {
         public static final int kDriverControllerPort = 1;
     }
