@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import frc.robot.BotSensors;
 import frc.robot.consoles.Logger;
+import frc.robot.subsystems.constants.EncoderConstants;
 
 public class SwerveDriver extends SubsystemBase {
     public static final double kMaxSpeed = 1.0; // 1 meter per second

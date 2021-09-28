@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
 import frc.robot.consoles.Logger;
 import frc.robot.subsystems.SwerveDriver;
+import frc.robot.subsystems.constants.EncoderConstants;
 import frc.robot.subsystems.utils.EncoderUtils;
 
 public class DevSwerveModule {
@@ -79,6 +80,18 @@ public class DevSwerveModule {
         Logger.info("Voltage: " + steerTalonVoltage);
         m_driveTalon.set(driveTalonVoltage);
         m_steerTalon.set(steerTalonVoltage);
+    }
+
+    /**
+     * Converts by taking the MPS and dividing it by the cirfcumference to find the ratio. After finding the ratio, you multiply by the ticks per rotation to get ticks per second. Convert from there.
+     * @param MPS
+     * @param wheelDiameter
+     * @return
+     */
+    public static double translateMetersPerSecondToTPHMS(double MPS, double wheelDiameter) {
+        double wheelCircumference = wheelDiameter * Math.PI;
+        double TPHMS = ((MPS / wheelCircumference) * EncoderConstants.ENCODER_TPR) / 10;
+        return TPHMS;
     }
 
     /**
