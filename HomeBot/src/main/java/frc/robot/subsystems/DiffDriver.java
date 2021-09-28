@@ -39,9 +39,9 @@ public class DiffDriver extends SubsystemBase {
 
     // Constructor requires device instances
     public DiffDriver() {
-        TalonUtils.configureBaseTalon(talonFxDiffWheelFrontLeft, false);
+        TalonUtils.configureBaseTalon(talonFxDiffWheelFrontLeft, true);
+        TalonUtils.configureBaseTalon(talonFxDiffWheelRearLeft, true);
         TalonUtils.configureBaseTalon(talonFxDiffWheelFrontRight, true);
-        TalonUtils.configureBaseTalon(talonFxDiffWheelRearLeft, false);
         TalonUtils.configureBaseTalon(talonFxDiffWheelRearRight, true);
 
         PIDValues pidLeft = new PIDValues(0.0, .8, 0.0, 0.0);
@@ -71,8 +71,8 @@ public class DiffDriver extends SubsystemBase {
         double leftDistance = EncoderUtils.translateTicksToDistance(talonFxDiffWheelFrontLeft.getSelectedSensorPosition(0), wheelCircumference);
         
         m_odometry.update(BotSensors.gyro.getRotation2d(), leftDistance, rightDistance);
-        // Logger.debug("Odometry X: " + m_odometry.getPoseMeters().getTranslation().getX());
-        // Logger.debug("Odometry Y: " + m_odometry.getPoseMeters().getTranslation().getY());
+        Logger.debug("Odometry X: " + m_odometry.getPoseMeters().getTranslation().getX());
+        Logger.debug("Odometry Y: " + m_odometry.getPoseMeters().getTranslation().getY());
     }
 
     // Flip the control direction of the joystick in Y (or Y Left for Xbox thumbsticks)
