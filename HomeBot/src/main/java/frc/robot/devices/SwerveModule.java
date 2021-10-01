@@ -42,9 +42,9 @@ public class SwerveModule {
         m_steerTalon = steerTalon;
         location = new Translation2d(xpos, ypos);
 
-        PIDValues pidDrive = new PIDValues(0.0, 0.5, 0.0, 0.0);
+        PIDValues pidDrive = new PIDValues(0.0, 0.05, 0.0, 0.0);
         TalonUtils.configureTalonWithEncoder(m_driveTalon, SENSOR_PHASE, MOTOR_INVERT, pidDrive);
-        PIDValues pidSteer = new PIDValues(0.0, 0.5, 0.0, 0.0);
+        PIDValues pidSteer = new PIDValues(0.0, 0.05, 0.0, 0.0);
         TalonUtils.configureTalonWithEncoder(m_steerTalon, false, false, pidSteer);
     }
 
@@ -56,12 +56,12 @@ public class SwerveModule {
     public void setDesiredState(SwerveModuleState state) {
         double wrappedSensorPosition = (m_steerTalon.getSelectedSensorPosition() % ENCODER_TPR); // wraps the current encoder position
         double currentSteerAngle = (wrappedSensorPosition / ENCODER_TPR) * 2 * Math.PI; // converts the current encoder position into an angle in radians
-        SwerveModuleState optimizedState = state.optimize(state, new Rotation2d(currentSteerAngle));
+        SwerveModuleState optimizedState = SwerveModuleState.optimize(state, new Rotation2d(currentSteerAngle));
         double stateVelocity = optimizedState.speedMetersPerSecond;
         Rotation2d stateAngle = optimizedState.angle;
 
         int driveVelocity = EncoderUtils.translateMPSToTicksPerDecisecond(stateVelocity, WHEEl_DIAMETER, DRIVE_GEAR_RATIO);
-        double stateAngleDegrees = stateAngle.getRadians();
+        double stateAngleDegrees = (stateAngle.getRadians() * 180) / Math.PI;
         int steerPosition = EncoderUtils.translateDegreesToTicks(stateAngleDegrees, STEER_GEAR_RATIO);
         double steerInput = (steerPosition - currentSteerAngle) * STEER_GEAR_RATIO;
 

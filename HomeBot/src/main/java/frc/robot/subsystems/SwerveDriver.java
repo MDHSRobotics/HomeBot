@@ -11,8 +11,8 @@ import frc.robot.BotSensors;
 import frc.robot.consoles.Logger;
 
 public class SwerveDriver extends SubsystemBase {
-    public static final double kMaxSpeed = 1.0; // 1 meter per second
-    public static final double kMaxAngularSpeed = Math.PI; // 1/2 rotation per second
+    public static final double kMaxSpeed = 0.5; // 1 meter per second
+    public static final double kMaxAngularSpeed = Math.PI/3; // 1/2 rotation per second
 
     // Control if you want to move from the point of view of the robot or from the point of view of the field
     public static final boolean fieldRelative = false;
@@ -47,7 +47,7 @@ public class SwerveDriver extends SubsystemBase {
         double m_xVel = xVel;
         double m_yVel = yVel;
         double m_omega = omega;
-        ChassisSpeeds speeds = new ChassisSpeeds(1, 0, 0);
+        ChassisSpeeds speeds = new ChassisSpeeds(m_xVel, m_yVel, m_omega);
         SwerveModuleState[] swerveModuleStates = m_kinematics.toSwerveModuleStates(speeds);
 
         // Flip axis directions 
@@ -57,7 +57,7 @@ public class SwerveDriver extends SubsystemBase {
         if (isOmegaFlipped) {
             m_omega = -omega;
         }
-/*
+
         // Choose between robot or field relative driving
         if (fieldRelative) {
             swerveModuleStates = m_kinematics.toSwerveModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(m_xVel, m_yVel, m_omega, getAngle()));
@@ -65,8 +65,8 @@ public class SwerveDriver extends SubsystemBase {
         else {
             swerveModuleStates = m_kinematics.toSwerveModuleStates(new ChassisSpeeds(m_xVel, m_yVel, m_omega));
         }
-*/
-        //SwerveDriveKinematics.normalizeWheelSpeeds(swerveModuleStates, kMaxSpeed);
+
+        SwerveDriveKinematics.normalizeWheelSpeeds(swerveModuleStates, kMaxSpeed);
 
         // Set the state of each swerve module in order to achieve the specified drive velocities
         Devices.frontLeftSwerveModule.setDesiredState(swerveModuleStates[0]);
