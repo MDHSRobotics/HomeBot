@@ -10,7 +10,7 @@ public class TurnOnLed extends InstantCommand {
     @Override
     public void initialize(){
         LimeLight.setLedMode(3);
-        Logger.info("turn on");
+        
     }
     
 
