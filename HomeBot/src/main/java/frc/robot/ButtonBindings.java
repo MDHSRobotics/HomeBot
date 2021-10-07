@@ -11,7 +11,7 @@ public class ButtonBindings {
         
         //Shoot
         //BotControllers.xbox.btnA.whileHeld(BotCommands.shoot);
-        BotControllers.xbox.btnA.whileHeld(BotCommands.toggleGate);
+        BotControllers.xbox.btnB.whileHeld(BotCommands.toggleGate);
 
         // Pickup
         BotControllers.xbox.btnBumperLeft.whenPressed(BotCommands.spinPickup);
