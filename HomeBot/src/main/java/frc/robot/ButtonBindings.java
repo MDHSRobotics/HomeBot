@@ -10,12 +10,14 @@ public class ButtonBindings {
         Logger.setup("Configure Buttons -> Xbox Controller...");
         
         //Shoot
-        BotControllers.xbox.btnA.whileHeld(BotCommands.shoot);
+        BotControllers.xbox.btnA.whenPressed(BotCommands.shoot);
         BotControllers.xbox.btnA.whileHeld(BotCommands.toggleGate);
-
+        BotControllers.xbox.btnB.whenPressed(BotCommands.turretAligning);
+        BotControllers.xbox.btnX.whenPressed(BotCommands.stopShoot);
+        BotControllers.xbox.btnY.whenPressed(BotCommands.setFlapAngle);
         // Drive
         BotControllers.xbox.btnStart.whenPressed(BotCommands.moveForwardAuto10Feet);
-        BotControllers.xbox.btnB.whenPressed(BotCommands.driveDiffArcade);
+        BotControllers.xbox.btnA.whenPressed(BotCommands.driveDiffArcade);
 
         // Pickup
         BotControllers.xbox.btnBumperLeft.whenPressed(BotCommands.spinPickup);

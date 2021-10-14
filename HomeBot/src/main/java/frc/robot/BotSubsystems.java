@@ -12,6 +12,7 @@ public class BotSubsystems {
     public static Gate gate;
     public static Shooter shooter;
     public static Turret turret;
+    public static HoodShooter hoodShooter;
     // Initialize all robot subsystems
     public static void initializeSubsystems() {
         Logger.setup("Initializing BotSubsystems...");
@@ -22,6 +23,7 @@ public class BotSubsystems {
         gate = new Gate();
         shooter = new Shooter();
         turret = new Turret();
+        hoodShooter = new HoodShooter();
     }
 
     // Set all the subsystem "teleop" default commands
@@ -45,11 +47,11 @@ public class BotSubsystems {
         
         // Shoot
         Logger.setup("Shooter Teleop Default Command -> Shoot...");
-        shooter.setDefaultCommand(BotCommands.stopShoot);
+        hoodShooter.setDefaultCommand(BotCommands.stopShoot);
         
         //Turret 
         Logger.setup("Turret Teleop Default Command -> TurretAligning ...");
-        shooter.setDefaultCommand(BotCommands.turretAligning);
+        turret.setDefaultCommand(BotCommands.turretAligning);
 
     }
 

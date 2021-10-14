@@ -4,14 +4,14 @@ package frc.robot.commands.shooter;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.consoles.Logger;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.HoodShooter;
 
 // This command activates the shoot mechanism.
 public class Shoot extends CommandBase {
 
-    private Shooter m_shooter;
+    private HoodShooter m_shooter;
 
-    public Shoot(Shooter shooter) {
+    public Shoot(HoodShooter shooter) {
         Logger.setup("Constructing Command: Shoot...");
 
         // Add given subsystem requirements
@@ -29,7 +29,7 @@ public class Shoot extends CommandBase {
     @Override
     public void execute() {
 
-        m_shooter.shootBasedOnDistance();
+        m_shooter.shoot();
     }
 
     // This command continues until interrupted

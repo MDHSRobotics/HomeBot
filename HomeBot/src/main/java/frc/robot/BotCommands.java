@@ -55,6 +55,7 @@ public class BotCommands {
     public static Shoot shoot;
     public static StopShoot stopShoot;
     public static ResetShoot resetShoot;
+    public static SetFlapAngle setFlapAngle;
     public static TurretAligning turretAligning;
     // Limelight
     public static TurnOffLed turnOffLed;
@@ -93,9 +94,10 @@ public class BotCommands {
         feedGate = new FeedGate(BotSubsystems.gate);
 
         // Shooter
-        shoot = new Shoot(BotSubsystems.shooter);
-        stopShoot = new StopShoot(BotSubsystems.shooter);
+        shoot = new Shoot(BotSubsystems.hoodShooter);
+        stopShoot = new StopShoot(BotSubsystems.hoodShooter);
         resetShoot = new ResetShoot(BotSubsystems.shooter);
+        setFlapAngle = new SetFlapAngle(BotSubsystems.hoodShooter);
         turretAligning = new TurretAligning(BotSubsystems.turret);
         // Limelight
         turnOnLed = new TurnOnLed();

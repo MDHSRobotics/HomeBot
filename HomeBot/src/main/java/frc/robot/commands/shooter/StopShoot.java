@@ -4,14 +4,14 @@ package frc.robot.commands.shooter;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.consoles.Logger;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.HoodShooter;
 
 // This command stops the Shooter.
 public class StopShoot extends CommandBase {
 
-    private Shooter m_shooter;
+    private HoodShooter m_shooter;
 
-    public StopShoot(Shooter shooter) {
+    public StopShoot(HoodShooter shooter) {
         Logger.setup("Constructing Command: StopShoot...");
 
         // Add given subsystem requirements
