@@ -1,5 +1,7 @@
 package frc.robot.devices;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
@@ -8,14 +10,19 @@ import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
 import frc.robot.consoles.Logger;
+import frc.robot.sensors.Gyro;
 import frc.robot.subsystems.SwerveDriver;
 import frc.robot.subsystems.constants.EncoderConstants;
 import frc.robot.subsystems.utils.EncoderUtils;
+import frc.robot.subsystems.utils.PIDValues;
+import frc.robot.subsystems.utils.TalonUtils;
 
 public class DevSwerveModule {
 
     // Typical battery voltage
     public static final double BATTERY_VOLTAGE = 12.0;
+    public static final double driveGearRatio = 8.16;
+    public static final double turnGearRatio = 12.8;
 
     // Accessible module objects
     private final DevTalonFX m_driveTalon;
@@ -26,12 +33,12 @@ public class DevSwerveModule {
     private static final double kModuleMaxAngularVelocity = 0.5;//SwerveDriver.kMaxAngularSpeed;  // radians per second squared
     private static final double kModuleMaxAngularAcceleration = 0.5;//2 * Math.PI;                // radians per second squared
     private final PIDController m_drivePIDController = new PIDController(0.87, 0, 0);          // initialize PID profile
-    private final ProfiledPIDController m_turningPIDController = new ProfiledPIDController(0.87, 0, 0, new TrapezoidProfile.Constraints(kModuleMaxAngularVelocity, kModuleMaxAngularAcceleration));
+    public final PIDController m_turningPIDController = new PIDController(0.87, 0, 0);
     
     // Configure feed forward gains (experimentally found)
     private final SimpleMotorFeedforward m_driveFeedforward = new SimpleMotorFeedforward(0, 0.45);
     private final SimpleMotorFeedforward m_turnFeedforward = new SimpleMotorFeedforward(0, 0.45);
-    
+
     /**
      * Constructs a SwerveModule device.
      * 
@@ -50,6 +57,11 @@ public class DevSwerveModule {
 
         // Limit the PID Controller's input range between -pi and pi and set the input to be continuous
         m_turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
+
+        PIDValues pidDriveValues = new PIDValues(0.0, 0.5, 0.0, 0.0);
+        TalonUtils.configureTalonWithEncoder(m_driveTalon, false, false, pidDriveValues);
+        PIDValues pidTurnValues = new PIDValues(0.0, 0.5, 0.0, 0.0);
+        TalonUtils.configureTalonWithEncoder(m_steerTalon, false, false, pidTurnValues);
     }
 
     /**
@@ -58,8 +70,8 @@ public class DevSwerveModule {
      * @param state Desired state with speed and angle.
      */
     public void setDesiredState(SwerveModuleState state) {
-        int driveVelocity = (int) m_driveTalon.getSelectedSensorVelocity();
-        int turnPosition = (int) m_steerTalon.getSelectedSensorPosition();
+        int driveVelocity = (int) state.speedMetersPerSecond;
+        int turnPosition = (int) ((state.angle.getRadians() * 4096) / (2 * Math.PI));
         double turnPositionRadians = EncoderUtils.translateTicksToRadians(turnPosition);
 
         double driveOutput = m_drivePIDController.calculate(EncoderUtils.translateTicksToDistance(driveVelocity * 3.048, 4 * Math.PI), state.speedMetersPerSecond); // Calculate the drive output from the current velocity and a velocity setpoint
@@ -67,17 +79,11 @@ public class DevSwerveModule {
         double driveFeedforward = m_driveFeedforward.calculate(state.speedMetersPerSecond); // Calculate the drive feed forward from a velocity setpoint
 
         double turnOutput = m_turningPIDController.calculate(turnPositionRadians, state.angle.getRadians()); // Calculate the turning motor output from the current position and a position setpoint
-        double turnFeedforward = m_turnFeedforward.calculate(m_turningPIDController.getSetpoint().velocity); // Calculate the turn feed forward from a velocity setpoint
+        double turnFeedforward = m_turnFeedforward.calculate(m_turningPIDController.getSetpoint()); // Calculate the turn feed forward from a velocity setpoint
 
         // Creates a percentage value for set by adding the voltages required for the respective motors and dividing by the current maximum battery voltage
         double driveTalonVoltage = (driveOutput + driveFeedforward) / BATTERY_VOLTAGE;
         double steerTalonVoltage = (turnOutput + turnFeedforward) / BATTERY_VOLTAGE;
-        Logger.info("Output: " + driveOutput);
-        Logger.info("Output: " + turnOutput);
-        Logger.info("Feed: " + driveFeedforward);
-        Logger.info("Feed: " + turnFeedforward);
-        Logger.info("Voltage: " + driveTalonVoltage);
-        Logger.info("Voltage: " + steerTalonVoltage);
         m_driveTalon.set(driveTalonVoltage);
         m_steerTalon.set(steerTalonVoltage);
     }
@@ -100,8 +106,8 @@ public class DevSwerveModule {
      * @return The current state of the module
      */
     public SwerveModuleState getCurrentState() {
-        int velocity = (int) m_driveTalon.getSelectedSensorVelocity();
-        int position = (int) m_steerTalon.getSelectedSensorPosition();
+        int velocity = (int) 0;//m_driveTalon.getSelectedSensorVelocity();
+        int position = (int) 0;//m_steerTalon.getSelectedSensorPosition();
         double positionRadians = EncoderUtils.translateTicksToRadians(position);
         return new SwerveModuleState(velocity, new Rotation2d(positionRadians));
     }
@@ -121,8 +127,15 @@ public class DevSwerveModule {
     }
 
     public void testModule() {
-        m_driveTalon.set(0.3);
-        m_steerTalon.set(0.3);
+        m_driveTalon.set(ControlMode.Position, 2056);
+        m_steerTalon.set(ControlMode.Position, 2056);
+    }
+    
+    public void rotateMotorsToSetpoint() {
+        // m_turningPIDController.setSetpoint(Gyro.YAW_TOLERANCE);
+        Logger.info("Setting Rotation of Swerve Drive Wheels");
+        m_driveTalon.set(ControlMode.Velocity, 0.2 * driveGearRatio);
+        m_steerTalon.set(ControlMode.Position, 2056 * turnGearRatio);
     }
     
 }

@@ -30,8 +30,9 @@ import frc.robot.commands.swervedriver.*;
 // Contains singleton instances of all the commands on the robot.
 public class BotCommands {
 
-	// DiffDriver
+	// SwerveDrive
     public static SwerveDrive swerveDrive;
+    public static RotateSwerveWheelsToStart rotateSwerveWheelsToStart;
 
     // Pickup
     public static SpinPickup spinPickup;
@@ -68,6 +69,7 @@ public class BotCommands {
 
         // SwerveDriver
         swerveDrive = new SwerveDrive(BotSubsystems.swerveDriver, BotControllers.xbox);
+        rotateSwerveWheelsToStart = new RotateSwerveWheelsToStart(BotSubsystems.swerveDriver);
 
         // Delivery
         spinDelivery = new SpinDelivery(BotSubsystems.delivery);

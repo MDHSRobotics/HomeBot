@@ -21,7 +21,7 @@ public class ButtonBindings {
         BotControllers.xbox.btnBumperRight.whenPressed(BotCommands.stopPickup);
         BotControllers.xbox.btnBumperRight.whenPressed(BotCommands.stopDelivery);
 
-        BotControllers.xbox.btnA.whenPressed(BotCommands.swerveDrive);
+        BotControllers.xbox.btnB.whenPressed(BotCommands.rotateSwerveWheelsToStart);
 
     }
 

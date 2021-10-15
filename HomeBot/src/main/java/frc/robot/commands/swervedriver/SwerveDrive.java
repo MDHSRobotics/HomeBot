@@ -30,8 +30,7 @@ public class SwerveDrive extends CommandBase {
     @Override
     public void execute() {
         SwerveMovement move = SwerveMovement.getMovement(controller);
-        //scale the controller movement from -0.6 and 0.6 to -0.96 and 0.96
-        m_swerveDriver.drive(move.forwardBackwardSpeed * 1.6, move.sideToSideSpeed * 1.6, move.rotationSpeed * 1.6);
+        m_swerveDriver.drive(move.forwardBackwardSpeed, move.sideToSideSpeed, move.rotationSpeed);
         m_swerveDriver.updateOdometry();
         // m_swerveDriver.testMotors();
     }

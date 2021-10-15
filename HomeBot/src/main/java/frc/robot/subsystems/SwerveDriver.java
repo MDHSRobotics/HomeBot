@@ -43,8 +43,8 @@ public class SwerveDriver extends SubsystemBase {
         double m_xVel = xVel;
         double m_yVel = yVel;
         double m_omega = omega;
-        // ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(0, 1, 0, Rotation2d.fromDegrees(0));
-        SwerveModuleState[] swerveModuleStates; // = m_kinematics.toSwerveModuleStates(speeds);
+        ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(0, 1, 0, Rotation2d.fromDegrees(0));
+        SwerveModuleState[] swerveModuleStates = m_kinematics.toSwerveModuleStates(speeds);
 
         // Flip axis directions 
         if (isXFlipped) {
@@ -62,16 +62,16 @@ public class SwerveDriver extends SubsystemBase {
             swerveModuleStates = m_kinematics.toSwerveModuleStates(new ChassisSpeeds(m_xVel, m_yVel, m_omega));
         }
 
-        //SwerveDriveKinematics.normalizeWheelSpeeds(swerveModuleStates, kMaxSpeed);
+        SwerveDriveKinematics.normalizeWheelSpeeds(swerveModuleStates, kMaxSpeed);
 
         // Set the state of each swerve module in order to achieve the specified drive velocities
         
-        Devices.frontLeftSwerveModule.setDesiredState(swerveModuleStates[0]);
-        Devices.frontRightSwerveModule.setDesiredState(swerveModuleStates[1]);
-        Devices.rearLeftSwerveModule.setDesiredState(swerveModuleStates[2]);
-        Devices.rearRightSwerveModule.setDesiredState(swerveModuleStates[3]);
+        // Devices.frontLeftSwerveModule.setDesiredState(swerveModuleStates[0]);
+        // Devices.frontRightSwerveModule.setDesiredState(swerveModuleStates[1]);
+        // Devices.rearLeftSwerveModule.setDesiredState(swerveModuleStates[2]);
+        // Devices.rearRightSwerveModule.setDesiredState(swerveModuleStates[3]);
 
-        Logger.info(swerveModuleStates[0].toString());
+        // Logger.info(swerveModuleStates[0].toString());
     }
 
     // The odometry object updates its position given a current gyro angle and current module states
@@ -93,5 +93,12 @@ public class SwerveDriver extends SubsystemBase {
         Devices.frontRightSwerveModule.testModule();
         Devices.rearLeftSwerveModule.testModule();
         Devices.rearRightSwerveModule.testModule();
+    }
+
+    public void resetPositionOfMotors() {
+        Devices.frontLeftSwerveModule.rotateMotorsToSetpoint();
+        Devices.frontRightSwerveModule.rotateMotorsToSetpoint();
+        Devices.rearLeftSwerveModule.rotateMotorsToSetpoint();
+        Devices.rearRightSwerveModule.rotateMotorsToSetpoint();
     }
 }
