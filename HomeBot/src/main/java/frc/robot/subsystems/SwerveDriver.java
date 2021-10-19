@@ -10,6 +10,9 @@ import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import frc.robot.BotSensors;
 import frc.robot.consoles.Logger;
 import frc.robot.subsystems.constants.EncoderConstants;
+import frc.robot.subsystems.utils.PIDValues;
+import frc.robot.subsystems.utils.TalonUtils;
+import static frc.robot.subsystems.Devices.*;
 
 public class SwerveDriver extends SubsystemBase {
     public static final double kMaxSpeed = 1.0; // 1 meter per second
@@ -31,6 +34,16 @@ public class SwerveDriver extends SubsystemBase {
 
     public SwerveDriver() {
         BotSensors.gyro.reset();
+        PIDValues pidDriveValues = new PIDValues(0.0, 0.5, 0.0, 0.0);
+        PIDValues pidTurnValues = new PIDValues(0.0, 0.5, 0.0, 0.0);
+        TalonUtils.configureTalonWithEncoder(talonFxSwerveDriveWheelFrontLeft, false, false, pidDriveValues);
+        TalonUtils.configureTalonWithEncoder(talonFxSwerveTurnWheelFrontLeft, false, false, pidTurnValues);
+        TalonUtils.configureTalonWithEncoder(talonFxSwerveDriveWheelFrontRight, false, false, pidDriveValues);
+        TalonUtils.configureTalonWithEncoder(talonFxSwerveTurnWheelFrontRight, false, false, pidTurnValues);
+        TalonUtils.configureTalonWithEncoder(talonFxSwerveDriveWheelRearLeft, false, false, pidDriveValues);
+        TalonUtils.configureTalonWithEncoder(talonFxSwerveTurnWheelRearLeft, false, false, pidTurnValues);
+        TalonUtils.configureTalonWithEncoder(talonFxSwerveDriveWheelRearRight, false, false, pidDriveValues);
+        TalonUtils.configureTalonWithEncoder(talonFxSwerveTurnWheelRearRight, false, false, pidTurnValues);
     }
 
     // Returns the current gyro angle
@@ -100,5 +113,9 @@ public class SwerveDriver extends SubsystemBase {
         Devices.frontRightSwerveModule.rotateMotorsToSetpoint();
         Devices.rearLeftSwerveModule.rotateMotorsToSetpoint();
         Devices.rearRightSwerveModule.rotateMotorsToSetpoint();
+        Logger.info("Encoder returned ticks: " + talonFxSwerveTurnWheelFrontLeft.getSelectedSensorPosition());
+        Logger.info("Encoder returned ticks: " + talonFxSwerveTurnWheelFrontRight.getSelectedSensorPosition());
+        Logger.info("Encoder returned ticks: " + talonFxSwerveTurnWheelRearLeft.getSelectedSensorPosition());
+        Logger.info("Encoder returned ticks: " + talonFxSwerveTurnWheelRearRight.getSelectedSensorPosition());
     }
 }

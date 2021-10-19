@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
 import frc.robot.consoles.Logger;
 import frc.robot.sensors.Gyro;
+import frc.robot.subsystems.Devices;
 import frc.robot.subsystems.SwerveDriver;
 import frc.robot.subsystems.constants.EncoderConstants;
 import frc.robot.subsystems.utils.EncoderUtils;
@@ -58,10 +59,6 @@ public class DevSwerveModule {
         // Limit the PID Controller's input range between -pi and pi and set the input to be continuous
         m_turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
 
-        PIDValues pidDriveValues = new PIDValues(0.0, 0.5, 0.0, 0.0);
-        TalonUtils.configureTalonWithEncoder(m_driveTalon, false, false, pidDriveValues);
-        PIDValues pidTurnValues = new PIDValues(0.0, 0.5, 0.0, 0.0);
-        TalonUtils.configureTalonWithEncoder(m_steerTalon, false, false, pidTurnValues);
     }
 
     /**
@@ -127,15 +124,15 @@ public class DevSwerveModule {
     }
 
     public void testModule() {
-        m_driveTalon.set(ControlMode.Position, 2056);
-        m_steerTalon.set(ControlMode.Position, 2056);
+        m_driveTalon.set(ControlMode.Position, 1024);
+        m_steerTalon.set(ControlMode.Position, 1024);
     }
     
     public void rotateMotorsToSetpoint() {
-        // m_turningPIDController.setSetpoint(Gyro.YAW_TOLERANCE);
-        Logger.info("Setting Rotation of Swerve Drive Wheels");
+        m_turningPIDController.setSetpoint(Gyro.YAW_TOLERANCE);
+        Logger.info("Setting Rotation Positino of Swerve Drive Wheels");
         m_driveTalon.set(ControlMode.Velocity, 0.2 * driveGearRatio);
-        m_steerTalon.set(ControlMode.Position, 2056 * turnGearRatio);
+        m_steerTalon.set(ControlMode.Position, 1024 * turnGearRatio);
     }
     
 }
