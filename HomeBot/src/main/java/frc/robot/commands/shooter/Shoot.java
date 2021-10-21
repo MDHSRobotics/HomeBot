@@ -29,7 +29,7 @@ public class Shoot extends CommandBase {
     @Override
     public void execute() {
 
-        m_shooter.shootBasedOnDistance();
+        m_shooter.getTurnWheelPosition();
     }
 
     // This command continues until interrupted

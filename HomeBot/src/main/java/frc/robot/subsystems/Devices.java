@@ -29,18 +29,14 @@ public class Devices {
     public static Servo servoGate = new Servo(1);
 
     // SwerveModule
-    //public static DevTalonFX talonFxSwerveDriveWheelFrontLeft = new DevTalonFX("talonFxSwerveDriveWheelFrontLeft", 69);
+    public static DevTalonFX talonFxSwerveDriveWheelFrontLeft = new DevTalonFX("talonFxSwerveDriveWheelFrontLeft", 28);
     public static DevTalonFX talonFxSwerveDriveWheelFrontRight = new DevTalonFX("talonFxSwerveDriveWheelFrontRight", 26);
     public static DevTalonFX talonFxSwerveDriveWheelRearLeft = new DevTalonFX("talonFxSwerveDriveWheelRearLeft", 31);
     public static DevTalonFX talonFxSwerveDriveWheelRearRight = new DevTalonFX("talonFxSwerveDriveWheelRearRight", 25);
-    //public static DevTalonFX talonFxSwerveTurnWheelFrontLeft = new DevTalonFX("talonFxSwerveTurnWheelFrontLeft", 70);
+    public static DevTalonFX talonFxSwerveTurnWheelFrontLeft = new DevTalonFX("talonFxSwerveTurnWheelFrontLeft", 30);
     public static DevTalonFX talonFxSwerveTurnWheelFrontRight = new DevTalonFX("talonFxSwerveTurnWheelFrontRight", 32);
     public static DevTalonFX talonFxSwerveTurnWheelRearLeft = new DevTalonFX("talonFxSwerveTurnWheelRearLeft", 27);
     public static DevTalonFX talonFxSwerveTurnWheelRearRight = new DevTalonFX("talonFxSwerveTurnWheelRearRight", 29);
-
-    //Testing Zombie Talon Objects:
-    public static DevTalonFX talonFxSwerveDriveWheel = new DevTalonFX("talonFxSwerveDriveWheelFrontLeft", 28);
-    public static DevTalonFX talonFxSwerveTurnWheel = new DevTalonFX("talonFxSwerveDriveWheelFrontLeft", 70);
 
     /////////////////////
     // Drive Instances //
