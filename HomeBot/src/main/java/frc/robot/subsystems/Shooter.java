@@ -10,8 +10,8 @@ import frc.robot.brains.ShooterBrain;
 import frc.robot.consoles.Logger;
 import frc.robot.subsystems.utils.*;
 
-import static frc.robot.subsystems.Devices.talonSrxShooterBottomWheel;
-import static frc.robot.subsystems.Devices.talonSrxShooterTopWheel;
+import static frc.robot.subsystems.Devices.talonFxSwerveDriveWheel;
+import static frc.robot.subsystems.Devices.talonFxSwerveTurnWheel;
 import static frc.robot.RobotManager.isReal;
 
 // Shooter subsystem, for shooting balls with two flywheels.
@@ -52,10 +52,10 @@ public class Shooter extends SubsystemBase {
         if (isReal) {
             // Configure devices
             PIDValues pidTop = new PIDValues(0.00835, 0.0, 0.0, 0.0);
-            TalonUtils.configureTalonWithEncoder(talonSrxShooterTopWheel, SENSOR_PHASE_TOP, MOTOR_INVERT_TOP, pidTop);
+            TalonUtils.configureTalonWithEncoder(talonFxSwerveDriveWheel, SENSOR_PHASE_TOP, MOTOR_INVERT_TOP, pidTop);
 
             PIDValues pidBottom = new PIDValues(0.00835, 0.0, 0.0, 0.0); // Calibrated for 20,000: TpHMS 0.00835
-            TalonUtils.configureTalonWithEncoder(talonSrxShooterBottomWheel, SENSOR_PHASE_BOTTOM, MOTOR_INVERT_BOTTOM, pidBottom);
+            TalonUtils.configureTalonWithEncoder(talonFxSwerveTurnWheel, SENSOR_PHASE_BOTTOM, MOTOR_INVERT_BOTTOM, pidBottom);
         }
     }
 
@@ -113,8 +113,8 @@ public class Shooter extends SubsystemBase {
 
     // Stop the flywheels
     public void stop() {
-        talonSrxShooterBottomWheel.stopMotor();
-        talonSrxShooterTopWheel.stopMotor();
+        talonFxSwerveDriveWheelFrontLeft.stopMotor();
+        talonFxSwerveTurnWheelFrontLeft.stopMotor();
     }
 
     /**
@@ -132,8 +132,8 @@ public class Shooter extends SubsystemBase {
         //double ballSpinVelocity = (velocityTPHMS > 25000) ? 60000 : 0; //ShooterBrain.getBallSpinVelocity();
         double ballSpinVelocity = 0;
 
-        talonSrxShooterTopWheel.set(ControlMode.Velocity, velocityTPHMS + ballSpinVelocity);
-        talonSrxShooterBottomWheel.set(ControlMode.Velocity, velocityTPHMS - ballSpinVelocity);
+        talonFxSwerveDriveWheel.set(ControlMode.Velocity, velocityTPHMS + ballSpinVelocity);
+        talonFxSwerveTurnWheel.set(ControlMode.Velocity, velocityTPHMS - ballSpinVelocity);
 
         // Update values for Shuffleboard
         ShooterBrain.setShootVelocity(velocityTPHMS);
@@ -145,13 +145,13 @@ public class Shooter extends SubsystemBase {
     public void shootBasedOnTPHMS() {
         // double velocityTPHMS = ShooterBrain.getTargetTPHMS() * GEAR_RATIO;
         double ballSpinVelocity = ShooterBrain.getBallSpinVelocity() / 2;
-        talonSrxShooterTopWheel.set(ControlMode.Velocity, 15000 - ballSpinVelocity);
-        talonSrxShooterBottomWheel.set(ControlMode.Velocity, 15000 + ballSpinVelocity);
+        talonFxSwerveDriveWheel.set(ControlMode.Velocity, 15000 - ballSpinVelocity);
+        talonFxSwerveTurnWheel.set(ControlMode.Velocity, 15000 + ballSpinVelocity);
     }
 
     public void testEncoders(){
-        talonSrxShooterBottomWheel.set(ControlMode.Position, 10000);
-        talonSrxShooterTopWheel.set(ControlMode.Position, 10000);
+        talonFxSwerveDriveWheel.set(ControlMode.Position, 10000);
+        talonFxSwerveTurnWheel.set(ControlMode.Position, 10000);
     }
     /**
      * Translate a desired target shoot distance (ft) to a motor velocity in Ticks per 100 ms.
@@ -220,7 +220,7 @@ public class Shooter extends SubsystemBase {
      * @return velocity
      */
     public int getTopWheelVelocity() {
-        int velocity = (int)(talonSrxShooterTopWheel.getSelectedSensorVelocity() / GEAR_RATIO);
+        int velocity = (int)(talonFxSwerveDriveWheel.getSelectedSensorVelocity() / GEAR_RATIO);
         return velocity;
     }
 
@@ -229,7 +229,12 @@ public class Shooter extends SubsystemBase {
      * @return velocity
      */
     public int getBottomWheelVelocity() {
-        int velocity = (int)(talonSrxShooterBottomWheel.getSelectedSensorVelocity() / GEAR_RATIO);
+        int velocity = (int)(talonFxSwerveTurnWheel.getSelectedSensorVelocity() / GEAR_RATIO);
+        return velocity;
+    }
+
+    public int getBottomWheelPosition() {
+        int velocity = (int)(talonFxSwerveTurnWheel.getSelectedSensorPosition() / GEAR_RATIO);
         return velocity;
     }
 
@@ -256,8 +261,8 @@ public class Shooter extends SubsystemBase {
     //---------//
 
     public void testMotor() {
-        talonSrxShooterBottomWheel.set(0.3);
-        talonSrxShooterTopWheel.set(0.3);
+        talonFxSwerveDriveWheel.set(0.3);
+        talonFxSwerveTurnWheel.set(0.3);
     }
 
 }
