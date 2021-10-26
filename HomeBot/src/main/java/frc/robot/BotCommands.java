@@ -22,7 +22,6 @@ import edu.wpi.first.wpilibj.geometry.Translation2d;
 import java.io.IOException;
 import java.nio.file.Path;
 
-import frc.robot.commands.auto.*;
 import frc.robot.commands.deliverer.*;
 import frc.robot.commands.diffdriver.*;
 import frc.robot.commands.gate.*;
@@ -76,9 +75,7 @@ public class BotCommands {
     // Pixy
     public static PixyTest pixyTest;
 
-    // Autonomous
-    public static AutoDrivePath autoDrivePath;
-    public static MoveForwardAuto moveForwardAuto10Feet;
+    // Autonomous 
 
     // Pathweaver
     private static Trajectory m_trajectory;
@@ -123,9 +120,6 @@ public class BotCommands {
         // Pixy
         pixyTest = new PixyTest();
 
-        // Autonomous
-        autoDrivePath = new AutoDrivePath(BotSubsystems.diffDriver);
-        moveForwardAuto10Feet = new MoveForwardAuto(BotSubsystems.diffDriver, 10.0);
     }
 
     public static Command getPathweaverCommand(String pathweaverPath) {

@@ -14,6 +14,7 @@ import static frc.robot.subsystems.constants.TalonConstants.*;
 
 // Utility methods for talon configuration (with or without encoders.)
 public class TalonUtils {
+    static private int PIDIDX = 0;
 
     // Config the given TalonSRX
     public static void configureBaseTalon(DevTalonSRX talon, boolean motorInvert) {
@@ -80,7 +81,7 @@ public class TalonUtils {
 
         talon.setSensorPhase(sensorPhase);
 
-        // talon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, PID_LOOP_PRIMARY, TIMEOUT_MS);
+        //talon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, PID_LOOP_PRIMARY, TIMEOUT_MS);
         talon.configAllowableClosedloopError(PID_SLOT_0, 0, TIMEOUT_MS);
 
         talon.config_kF(PID_SLOT_0, pid.kF, TIMEOUT_MS);
@@ -106,6 +107,7 @@ public class TalonUtils {
         if (!talonM.isConnected || !talonF.isConnected) return;
 
         talonF.follow(talonM);
+        talonM.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, PIDIDX, 10);    
     }
 
     // Initialize current encoder position as zero

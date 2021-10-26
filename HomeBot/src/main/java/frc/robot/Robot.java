@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.sensors.Pixy;
-import frc.robot.commands.auto.MoveForwardAuto;
 import frc.robot.brains.DiffDriverBrain;
 
 import frc.robot.consoles.Logger;
@@ -22,7 +21,6 @@ public class Robot extends TimedRobot {
     private Command m_autonomousCommandRed;
     private Command m_autonomousCommandBlue;
     private Command m_autonomousCommandAutoNav;
-    private MoveForwardAuto m_moveForwardAuto;
 
     // Test variables
     private int m_numberOfTests;
@@ -105,9 +103,9 @@ public class Robot extends TimedRobot {
         // String pathweaverGame = DiffDriverBrain.getPathweaverGame();
         // String pathweaverGame = "slalom";
         // String pathweaverGame = "bounce";
-        String pathweaverGame = "barrel";
-        // String pathweaverGame = "straight";
-        // String pathweaverGame = "test";
+        //String pathweaverGame = "barrel";
+        String pathweaverGame = "straight";
+        //String pathweaverGame = "test";
         Logger.setup("Pathweaver Game: " + pathweaverGame);
 
         // Schedule the autonomous command

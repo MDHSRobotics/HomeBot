@@ -218,13 +218,14 @@ public class DiffDriver extends SubsystemBase {
     public void feed() {
         diffDriveTalonFX.feed();
     }
+    private double encoderConstant = (1 / 4) * (1 / 2048);
 
     public int getPositionLeft() {
-        return talonFxDiffWheelFrontLeft.getSelectedSensorPosition();
+        return talonFxDiffWheelFrontLeft.getSelectedSensorPosition(0) * encoderConstant;
     }
 
     public int getPositionRight() {
-        return talonFxDiffWheelFrontRight.getSelectedSensorPosition();
+        return talonFxDiffWheelFrontRight.getSelectedSensorPosition(0) * encoderConstant;
     }
  
 
