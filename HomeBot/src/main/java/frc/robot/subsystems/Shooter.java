@@ -4,6 +4,8 @@ package frc.robot.subsystems;
 import java.util.*;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.brains.LimelightBrain;
 import frc.robot.brains.ShooterBrain;
@@ -56,6 +58,10 @@ public class Shooter extends SubsystemBase {
 
             PIDValues pidBottom = new PIDValues(0.00835, 0.0, 0.0, 0.0); // Calibrated for 20,000: TpHMS 0.00835
             TalonUtils.configureTalonWithEncoder(talonFxSwerveTurnWheelFrontLeft, SENSOR_PHASE_BOTTOM, MOTOR_INVERT_BOTTOM, pidBottom);
+
+            //Configure talon encoders
+            talonFxSwerveDriveWheelFrontLeft.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+            talonFxSwerveTurnWheelFrontLeft.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
         }
     }
 
