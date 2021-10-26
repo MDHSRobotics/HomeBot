@@ -233,9 +233,9 @@ public class Shooter extends SubsystemBase {
         return velocity;
     }
 
-    public int getTurnWheelPosition() {
-        int velocity = (int)(talonFxSwerveTurnWheelFrontLeft.getSelectedSensorPosition() / GEAR_RATIO);
-        return velocity;
+    public void getTurnWheelPosition() {
+        int position = (int)(talonFxSwerveTurnWheelFrontLeft.getSelectedSensorPosition() / GEAR_RATIO);
+        Logger.info("Cureent wheel position: " + position);
     }
 
     //--------------//

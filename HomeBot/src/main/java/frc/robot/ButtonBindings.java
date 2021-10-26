@@ -10,7 +10,7 @@ public class ButtonBindings {
         Logger.setup("Configure Buttons -> Xbox Controller...");
         
         //Shoot
-        BotControllers.xbox.btnA.whileHeld(BotCommands.shoot);
+        BotControllers.xbox.btnA.whenPressed(BotCommands.shoot);
     }
 
 }
