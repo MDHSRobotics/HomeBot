@@ -109,13 +109,20 @@ public class SwerveDriver extends SubsystemBase {
     }
 
     public void resetPositionOfMotors() {
-        Devices.frontLeftSwerveModule.rotateMotorsToSetpoint();
-        Devices.frontRightSwerveModule.rotateMotorsToSetpoint();
-        Devices.rearLeftSwerveModule.rotateMotorsToSetpoint();
-        Devices.rearRightSwerveModule.rotateMotorsToSetpoint();
+        Devices.frontLeftSwerveModule.resetModulePositions();
+        Devices.frontRightSwerveModule.resetModulePositions();
+        Devices.rearLeftSwerveModule.resetModulePositions();
+        Devices.rearRightSwerveModule.resetModulePositions();
         Logger.info("Encoder returned ticks: " + talonFxSwerveTurnWheelFrontLeft.getSelectedSensorPosition());
         Logger.info("Encoder returned ticks: " + talonFxSwerveTurnWheelFrontRight.getSelectedSensorPosition());
         Logger.info("Encoder returned ticks: " + talonFxSwerveTurnWheelRearLeft.getSelectedSensorPosition());
         Logger.info("Encoder returned ticks: " + talonFxSwerveTurnWheelRearRight.getSelectedSensorPosition());
+    }
+
+    public void getTurnPositions(){
+        Logger.info("Encoder returned ticks: " + talonFxSwerveTurnWheelFrontLeft.getSelectedSensorPosition(0));
+        Logger.info("Encoder returned ticks: " + talonFxSwerveTurnWheelFrontRight.getSelectedSensorPosition(0));
+        Logger.info("Encoder returned ticks: " + talonFxSwerveTurnWheelRearLeft.getSelectedSensorPosition(0));
+        Logger.info("Encoder returned ticks: " + talonFxSwerveTurnWheelRearRight.getSelectedSensorPosition(0));
     }
 }

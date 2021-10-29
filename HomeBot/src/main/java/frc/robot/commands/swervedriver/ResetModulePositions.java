@@ -7,12 +7,12 @@ import frc.robot.consoles.Logger;
 import frc.robot.subsystems.SwerveDriver;
 
 // This command stops the SwerveDriver.
-public class RotateSwerveWheelsToStart extends CommandBase {
+public class ResetModulePositions extends CommandBase {
 
     private SwerveDriver m_swerveDriver;
 
-    public RotateSwerveWheelsToStart(SwerveDriver swerveDriver) {
-        Logger.setup("Constructing Command: StopSwerveDrive...");
+    public ResetModulePositions(SwerveDriver swerveDriver) {
+        Logger.setup("Constructing Command: ResetModulePositions...");
 
         // Add given subsystem requirements
         m_swerveDriver = swerveDriver;
@@ -21,12 +21,12 @@ public class RotateSwerveWheelsToStart extends CommandBase {
 
     @Override
     public void initialize() {
-        Logger.action("Initializing Command: RotateSwerveWheelsToStart...");
+        Logger.action("Initializing Command: ResetModulePositions...");
     }
 
     @Override
     public void execute() {
-        m_swerveDriver.testMotors();
+        m_swerveDriver.resetPositionOfMotors();
     }
 
     // This command continues until interrupted
@@ -39,9 +39,9 @@ public class RotateSwerveWheelsToStart extends CommandBase {
     public void end(boolean interrupted) {
         if (interrupted) {
             System.out.println("--");
-            Logger.ending("Interrupting Command: StopSwerveDrive...");
+            Logger.ending("Interrupting Command: ResetModulePositions...");
         } else {
-            Logger.ending("Ending Command: StopSwerveDrive...");
+            Logger.ending("Ending Command: ResetModulePositions...");
         }
         m_swerveDriver.stop();
     }

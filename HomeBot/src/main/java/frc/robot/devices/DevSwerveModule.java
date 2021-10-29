@@ -1,6 +1,7 @@
 package frc.robot.devices;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.TalonFXSensorCollection;
 
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
@@ -124,8 +125,16 @@ public class DevSwerveModule {
     }
 
     public void testModule() {
-        m_driveTalon.set(ControlMode.Position, 1024);
-        m_steerTalon.set(ControlMode.Position, 1024);
+        m_driveTalon.set(ControlMode.Position, 2048 * driveGearRatio);
+        m_steerTalon.set(ControlMode.Position, 2048 * turnGearRatio);
+    }
+
+    public void resetModulePositions(){
+        TalonFXSensorCollection sensorCol = m_driveTalon.getSensorCollection();
+        sensorCol.setIntegratedSensorPosition(0, 20);
+        TalonFXSensorCollection sensorCol2 = m_steerTalon.getSensorCollection();
+        sensorCol2.setIntegratedSensorPosition(0, 20);
+        
     }
     
     public void rotateMotorsToSetpoint() {
