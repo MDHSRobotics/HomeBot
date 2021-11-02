@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
+import frc.robot.BotSensors;
 import frc.robot.consoles.Logger;
 import frc.robot.sensors.Gyro;
 import frc.robot.subsystems.Devices;
@@ -104,8 +105,8 @@ public class DevSwerveModule {
      * @return The current state of the module
      */
     public SwerveModuleState getCurrentState() {
-        int velocity = (int) 0;//m_driveTalon.getSelectedSensorVelocity();
-        int position = (int) 0;//m_steerTalon.getSelectedSensorPosition();
+        int velocity = (int) m_driveTalon.getSelectedSensorVelocity();
+        int position = (int) m_steerTalon.getSelectedSensorPosition();
         double positionRadians = EncoderUtils.translateTicksToRadians(position);
         return new SwerveModuleState(velocity, new Rotation2d(positionRadians));
     }
@@ -138,10 +139,10 @@ public class DevSwerveModule {
     }
     
     public void rotateMotorsToSetpoint() {
-        m_turningPIDController.setSetpoint(Gyro.YAW_TOLERANCE);
+        m_turningPIDController.setSetpoint(BotSensors.gyro.getAngle());
         Logger.info("Setting Rotation Positino of Swerve Drive Wheels");
         m_driveTalon.set(ControlMode.Velocity, 0.2 * driveGearRatio);
-        m_steerTalon.set(ControlMode.Position, 1024 * turnGearRatio);
+        m_steerTalon.set(ControlMode.Position, BotSensors.gyro.getAngle() * turnGearRatio);
     }
     
 }

@@ -46,15 +46,6 @@ public class SwerveDriver extends SubsystemBase {
         TalonUtils.configureTalonWithEncoder(talonFxSwerveTurnWheelRearLeft, false, false, pidTurnValues);
         TalonUtils.configureTalonWithEncoder(talonFxSwerveDriveWheelRearRight, false, false, pidDriveValues);
         TalonUtils.configureTalonWithEncoder(talonFxSwerveTurnWheelRearRight, false, false, pidTurnValues);
-        talonFxSwerveDriveWheelFrontLeft.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
-        talonFxSwerveTurnWheelFrontLeft.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
-        talonFxSwerveDriveWheelFrontRight.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
-        talonFxSwerveTurnWheelFrontRight.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
-        talonFxSwerveDriveWheelRearLeft.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
-        talonFxSwerveTurnWheelRearLeft.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
-        talonFxSwerveDriveWheelRearRight.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
-        talonFxSwerveTurnWheelRearRight.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
-    
     }
 
     // Returns the current gyro angle
