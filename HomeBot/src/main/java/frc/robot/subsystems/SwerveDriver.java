@@ -14,6 +14,8 @@ import frc.robot.subsystems.utils.PIDValues;
 import frc.robot.subsystems.utils.TalonUtils;
 import static frc.robot.subsystems.Devices.*;
 
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+
 public class SwerveDriver extends SubsystemBase {
     public static final double kMaxSpeed = 1.0; // 1 meter per second
     public static final double kMaxAngularSpeed = Math.PI; // 1/2 rotation per second
@@ -44,6 +46,15 @@ public class SwerveDriver extends SubsystemBase {
         TalonUtils.configureTalonWithEncoder(talonFxSwerveTurnWheelRearLeft, false, false, pidTurnValues);
         TalonUtils.configureTalonWithEncoder(talonFxSwerveDriveWheelRearRight, false, false, pidDriveValues);
         TalonUtils.configureTalonWithEncoder(talonFxSwerveTurnWheelRearRight, false, false, pidTurnValues);
+        talonFxSwerveDriveWheelFrontLeft.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+        talonFxSwerveTurnWheelFrontLeft.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+        talonFxSwerveDriveWheelFrontRight.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+        talonFxSwerveTurnWheelFrontRight.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+        talonFxSwerveDriveWheelRearLeft.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+        talonFxSwerveTurnWheelRearLeft.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+        talonFxSwerveDriveWheelRearRight.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+        talonFxSwerveTurnWheelRearRight.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+    
     }
 
     // Returns the current gyro angle
@@ -79,12 +90,12 @@ public class SwerveDriver extends SubsystemBase {
 
         // Set the state of each swerve module in order to achieve the specified drive velocities
         
-        // Devices.frontLeftSwerveModule.setDesiredState(swerveModuleStates[0]);
-        // Devices.frontRightSwerveModule.setDesiredState(swerveModuleStates[1]);
-        // Devices.rearLeftSwerveModule.setDesiredState(swerveModuleStates[2]);
-        // Devices.rearRightSwerveModule.setDesiredState(swerveModuleStates[3]);
+        Devices.frontLeftSwerveModule.setDesiredState(swerveModuleStates[0]);
+        Devices.frontRightSwerveModule.setDesiredState(swerveModuleStates[1]);
+        Devices.rearLeftSwerveModule.setDesiredState(swerveModuleStates[2]);
+        Devices.rearRightSwerveModule.setDesiredState(swerveModuleStates[3]);
 
-        // Logger.info(swerveModuleStates[0].toString());
+        Logger.info(swerveModuleStates[0].toString());
     }
 
     // The odometry object updates its position given a current gyro angle and current module states
