@@ -29,24 +29,16 @@ public class Devices {
     public static Servo servoGate = new Servo(1);
 
     // SwerveModule
-    public static DevTalonFX talonFxSwerveDriveWheelFrontLeft = new DevTalonFX("talonFxSwerveDriveWheelFrontLeft", 28);
-    public static DevTalonFX talonFxSwerveDriveWheelFrontRight = new DevTalonFX("talonFxSwerveDriveWheelFrontRight", 26);
-    public static DevTalonFX talonFxSwerveDriveWheelRearLeft = new DevTalonFX("talonFxSwerveDriveWheelRearLeft", 31);
-    public static DevTalonFX talonFxSwerveDriveWheelRearRight = new DevTalonFX("talonFxSwerveDriveWheelRearRight", 25);
-    public static DevTalonFX talonFxSwerveTurnWheelFrontLeft = new DevTalonFX("talonFxSwerveTurnWheelFrontLeft", 30);
-    public static DevTalonFX talonFxSwerveTurnWheelFrontRight = new DevTalonFX("talonFxSwerveTurnWheelFrontRight", 32);
-    public static DevTalonFX talonFxSwerveTurnWheelRearLeft = new DevTalonFX("talonFxSwerveTurnWheelRearLeft", 27);
-    public static DevTalonFX talonFxSwerveTurnWheelRearRight = new DevTalonFX("talonFxSwerveTurnWheelRearRight", 29);
+    public static DevTalonFX talonFxSwerveDriveFL = new DevTalonFX("talonFxSwerveDriveWheelFrontLeft", 28);
+    public static DevTalonFX talonFxSwerveDriveFR = new DevTalonFX("talonFxSwerveDriveWheelFrontRight", 26);
+    public static DevTalonFX talonFxSwerveDriveRL = new DevTalonFX("talonFxSwerveDriveWheelRearLeft", 31);
+    public static DevTalonFX talonFxSwerveDriveRR = new DevTalonFX("talonFxSwerveDriveWheelRearRight", 25);
+    public static DevTalonFX talonFxSwerveTurnFL = new DevTalonFX("talonFxSwerveTurnWheelFrontLeft", 30);
+    public static DevTalonFX talonFxSwerveTurnFR = new DevTalonFX("talonFxSwerveTurnWheelFrontRight", 32);
+    public static DevTalonFX talonFxSwerveTurnRL = new DevTalonFX("talonFxSwerveTurnWheelRearLeft", 27);
+    public static DevTalonFX talonFxSwerveTurnRR = new DevTalonFX("talonFxSwerveTurnWheelRearRight", 29);
 
     /////////////////////
     // Drive Instances //
     /////////////////////
-    
-    //Swerve Modules
-    public static final DevSwerveModule frontLeftSwerveModule = new DevSwerveModule(talonFxSwerveDriveWheelFrontLeft, talonFxSwerveTurnWheelFrontLeft, 0.24, 0.24, true, true);
-    public static final DevSwerveModule frontRightSwerveModule = new DevSwerveModule(talonFxSwerveDriveWheelFrontRight, talonFxSwerveTurnWheelFrontRight, 0.24, -0.24, true, true);
-    public static final DevSwerveModule rearLeftSwerveModule = new DevSwerveModule(talonFxSwerveDriveWheelRearLeft, talonFxSwerveTurnWheelRearLeft, -0.24, 0.24, true, true);
-    public static final DevSwerveModule rearRightSwerveModule = new DevSwerveModule(talonFxSwerveDriveWheelRearRight, talonFxSwerveTurnWheelRearRight, -0.24, -0.24, true, true);
-
-    
 }

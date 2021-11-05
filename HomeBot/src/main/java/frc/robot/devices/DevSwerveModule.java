@@ -50,13 +50,15 @@ public class DevSwerveModule {
      * @param xpos horizontal position of the module (in meters) from the center of the robot
      * @param ypos vertical position of the module (in meters) from the center of the robot
      */
-    public DevSwerveModule(DevTalonFX driveTalon, DevTalonFX steerTalon, double xpos, double ypos, boolean SENSOR_PHASE, boolean MOTOR_INVERT) {
+    public DevSwerveModule(DevTalonFX driveTalon, DevTalonFX steerTalon, double xpos, double ypos, boolean SENSOR_PHASE, boolean MOTOR_INVERT, PIDValues pidDrive, PIDValues pidSteer) {
         m_driveTalon = driveTalon;
         m_steerTalon = steerTalon;
         location = new Translation2d(xpos, ypos);
 
         m_driveTalon.setSensorPhase(SENSOR_PHASE);
         m_driveTalon.setInverted(MOTOR_INVERT);
+
+        TalonUtils.configureTalonWithEncoder(m_driveTalon, SENSOR_PHASE, MOTOR_INVERT, pidDrive);
 
         // Limit the PID Controller's input range between -pi and pi and set the input to be continuous
         m_turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
