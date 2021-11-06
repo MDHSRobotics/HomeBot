@@ -33,6 +33,7 @@ public class EncoderUtils {
         double rotationTicks = rotationCountMS * ENCODER_TPR; // Amount of ticks to rotate
         return (int) rotationTicks;
     }
+    
     /** Computes an encoder tick count based on the desired distance in inches for a given wheel diameter and gearbox ratio (MS : GS)
      * @param rotationTicks The amount of ticks to rotate a certain distance
      * @param wheelCircumference The circumference of the wheel in inches
@@ -41,6 +42,18 @@ public class EncoderUtils {
     public static double translateTicksToDistance(double rotationTicks, double wheelCircumference){
         double distance = (rotationTicks/4096)*(wheelCircumference / 12.0);
         return distance;
+    }
+
+    /**
+     * Converts by taking the MPS and dividing it by the cirfcumference to find the ratio. After finding the ratio, you multiply by the ticks per rotation to get ticks per second. Convert from there.
+     * @param MPS
+     * @param wheelDiameter
+     * @return
+     */
+    public static double translateMetersPerSecondToTPHMS(double MPS, double wheelDiameter) {
+        double wheelCircumference = wheelDiameter * Math.PI;
+        double TPHMS = ((MPS / wheelCircumference) * ENCODER_TPR) / 10;
+        return TPHMS;
     }
 
     /** Computes an encoder velocity tick count based on the desired velocity in feet per second for a given wheel diameter and gearbox ratio (MS : GS)

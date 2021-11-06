@@ -4,18 +4,10 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXSensorCollection;
 
 import edu.wpi.first.wpilibj.controller.PIDController;
-import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
-import frc.robot.BotSensors;
-import frc.robot.consoles.Logger;
-import frc.robot.sensors.Gyro;
-import frc.robot.subsystems.Devices;
-import frc.robot.subsystems.SwerveDriver;
-import frc.robot.subsystems.constants.EncoderConstants;
 import frc.robot.subsystems.utils.EncoderUtils;
 import frc.robot.subsystems.utils.PIDValues;
 import frc.robot.subsystems.utils.TalonUtils;
@@ -33,8 +25,6 @@ public class DevSwerveModule {
     private final Translation2d location;
     
     // PID initialization
-    private static final double kModuleMaxAngularVelocity = 0.5;//SwerveDriver.kMaxAngularSpeed;  // radians per second squared
-    private static final double kModuleMaxAngularAcceleration = 0.5;//2 * Math.PI;                // radians per second squared
     private final PIDController m_drivePIDController = new PIDController(0.87, 0, 0);          // initialize PID profile
     public final PIDController m_turningPIDController = new PIDController(0.87, 0, 0);
     
@@ -45,20 +35,20 @@ public class DevSwerveModule {
     /**
      * Constructs a SwerveModule device.
      * 
-     * @param driveTalon talonFX object of the drive motor
-     * @param steerTalon talonFX object of the steer motor
-     * @param xpos horizontal position of the module (in meters) from the center of the robot
-     * @param ypos vertical position of the module (in meters) from the center of the robot
+     * @param driveTalon the talonFX object of this module's drive motor
+     * @param steerTalon the talonFX object of this module's steer motor
+     * @param xpos horizontal position of this module (in meters) from the center of the robot
+     * @param ypos vertical position of this module (in meters) from the center of the robot
      */
-    public DevSwerveModule(DevTalonFX driveTalon, DevTalonFX steerTalon, double xpos, double ypos, boolean SENSOR_PHASE, boolean MOTOR_INVERT, PIDValues pidDrive, PIDValues pidSteer) {
+    public DevSwerveModule(DevTalonFX driveTalon, DevTalonFX steerTalon, double xpos, double ypos) {
         m_driveTalon = driveTalon;
         m_steerTalon = steerTalon;
         location = new Translation2d(xpos, ypos);
+        PIDValues pidDrive = new PIDValues(0.0, 0.5, 0.0, 0.0);
+        PIDValues pidSteer = new PIDValues(0.0, 0.5, 0.0, 0.0);
 
-        m_driveTalon.setSensorPhase(SENSOR_PHASE);
-        m_driveTalon.setInverted(MOTOR_INVERT);
-
-        TalonUtils.configureTalonWithEncoder(m_driveTalon, SENSOR_PHASE, MOTOR_INVERT, pidDrive);
+        TalonUtils.configureTalonWithEncoder(m_driveTalon, true, true, pidDrive);
+        TalonUtils.configureTalonWithEncoder(m_steerTalon, true, true, pidSteer);
 
         // Limit the PID Controller's input range between -pi and pi and set the input to be continuous
         m_turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
@@ -90,18 +80,6 @@ public class DevSwerveModule {
     }
 
     /**
-     * Converts by taking the MPS and dividing it by the cirfcumference to find the ratio. After finding the ratio, you multiply by the ticks per rotation to get ticks per second. Convert from there.
-     * @param MPS
-     * @param wheelDiameter
-     * @return
-     */
-    public static double translateMetersPerSecondToTPHMS(double MPS, double wheelDiameter) {
-        double wheelCircumference = wheelDiameter * Math.PI;
-        double TPHMS = ((MPS / wheelCircumference) * EncoderConstants.ENCODER_TPR) / 10;
-        return TPHMS;
-    }
-
-    /**
      * Gets the current state of the module.
      *
      * @return The current state of the module
@@ -127,24 +105,19 @@ public class DevSwerveModule {
         m_steerTalon.stopMotor();
     }
 
+    /**
+     * Should spin both drive and steer talons a full 360 degrees
+     */
     public void testModule() {
         m_driveTalon.set(ControlMode.Position, 2048 * driveGearRatio);
         m_steerTalon.set(ControlMode.Position, 2048 * turnGearRatio);
     }
 
-    public void resetModulePositions(){
-        TalonFXSensorCollection sensorCol = m_driveTalon.getSensorCollection();
-        sensorCol.setIntegratedSensorPosition(0, 20);
-        TalonFXSensorCollection sensorCol2 = m_steerTalon.getSensorCollection();
-        sensorCol2.setIntegratedSensorPosition(0, 20);
+    public void zeroOutModulePositions(){
+        TalonFXSensorCollection sensorColDrive = m_driveTalon.getSensorCollection();
+        sensorColDrive.setIntegratedSensorPosition(0, 20);
+        TalonFXSensorCollection sensorColSteer = m_steerTalon.getSensorCollection();
+        sensorColSteer.setIntegratedSensorPosition(0, 20);
         
     }
-    
-    public void rotateMotorsToSetpoint() {
-        m_turningPIDController.setSetpoint(BotSensors.gyro.getAngle());
-        Logger.info("Setting Rotation Positino of Swerve Drive Wheels");
-        m_driveTalon.set(ControlMode.Velocity, 0.2 * driveGearRatio);
-        m_steerTalon.set(ControlMode.Position, BotSensors.gyro.getAngle() * turnGearRatio);
-    }
-    
 }

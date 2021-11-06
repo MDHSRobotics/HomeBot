@@ -3,7 +3,6 @@ package frc.robot.oi.movements;
 
 import frc.robot.oi.controllers.XboxPositionAccessible;
 import frc.robot.oi.positions.ThumbstickPosition;
-import frc.robot.subsystems.SwerveDriver;
 
 // The values needed to drive with SwerveDriver.
 public class SwerveMovement {
@@ -20,8 +19,8 @@ public class SwerveMovement {
 
     // Determines the Swerve movement (straight speed, side speed, rotation speed)
     // from the given xbox thumbstick positions
-    public static SwerveMovement getMovement(XboxPositionAccessible controller) {
-        ThumbstickPosition pos = ThumbstickPosition.getPositions(controller, SwerveDriver.isYFlipped);
+    public static SwerveMovement getMovement(XboxPositionAccessible controller, boolean isYFlipped) {
+        ThumbstickPosition pos = ThumbstickPosition.getPositions(controller, isYFlipped);
         SwerveMovement move = new SwerveMovement(pos.leftForwardBackPosition, pos.leftSideToSidePosition, pos.rightSideToSidePosition);
         return move;
     }

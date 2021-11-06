@@ -25,11 +25,12 @@ public class SwerveDrive extends CommandBase {
 
     @Override
     public void initialize() {
+        m_swerveDriver.resetGyro();
     }
 
     @Override
     public void execute() {
-        SwerveMovement move = SwerveMovement.getMovement(controller);
+        SwerveMovement move = SwerveMovement.getMovement(controller, SwerveDriver.isYFlipped);
         m_swerveDriver.drive(move.forwardBackwardSpeed, move.sideToSideSpeed, move.rotationSpeed);
         m_swerveDriver.updateOdometry();
         // m_swerveDriver.testMotors();

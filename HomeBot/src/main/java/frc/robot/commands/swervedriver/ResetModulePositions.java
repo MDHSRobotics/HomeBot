@@ -26,7 +26,7 @@ public class ResetModulePositions extends CommandBase {
 
     @Override
     public void execute() {
-        m_swerveDriver.resetPositionOfMotors();
+        m_swerveDriver.resetModulePosition();
     }
 
     // This command continues until interrupted
