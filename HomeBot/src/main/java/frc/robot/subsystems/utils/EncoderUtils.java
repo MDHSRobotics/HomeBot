@@ -113,4 +113,12 @@ public class EncoderUtils {
         int ticks = (int) (radians * 4096 / 2 / Math.PI);
         return ticks;
     }
+
+	public static int translateMPSToTicksPerDecisecond(double MPS, double wheelDiameter, double gearRatio) {
+        double wheelCircumference = Math.PI * (wheelDiameter);
+        double rotationsPerSecondGS = MPS / wheelCircumference; // Amount of rotations per second on the gearbox shaft
+        double rotationsPerSecondMS = rotationsPerSecondGS * gearRatio; // Amount of rotations per second on the motor shaft
+        double ticksPerDecisecond = rotationsPerSecondMS * ENCODER_TPR / 10.0; // Amount of ticks per decisecond on the motor shaft
+        return (int) ticksPerDecisecond;
+	}
 }

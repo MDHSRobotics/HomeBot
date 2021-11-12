@@ -18,6 +18,10 @@ public class DevSwerveModule {
     public static final double BATTERY_VOLTAGE = 12.0;
     public static final double driveGearRatio = 8.16;
     public static final double turnGearRatio = 12.8;
+    public static final double ENCODER_TPR = 2048;
+    public static final double WHEEl_DIAMETER = 6;
+    public static final double DRIVE_GEAR_RATIO = 8.16;
+    public static final double STEER_GEAR_RATIO = 13.6;
 
     // Accessible module objects
     private final DevTalonFX m_driveTalon;
@@ -61,22 +65,35 @@ public class DevSwerveModule {
      * @param state Desired state with speed and angle.
      */
     public void setDesiredState(SwerveModuleState state) {
-        int driveVelocity = (int) state.speedMetersPerSecond;
-        int turnPosition = (int) ((state.angle.getRadians() * 4096) / (2 * Math.PI));
-        double turnPositionRadians = EncoderUtils.translateTicksToRadians(turnPosition);
+        // int driveVelocity = (int) state.speedMetersPerSecond;
+        // int turnPosition = (int) ((state.angle.getRadians() * 4096) / (2 * Math.PI));
+        // double turnPositionRadians = EncoderUtils.translateTicksToRadians(turnPosition);
 
-        double driveOutput = m_drivePIDController.calculate(EncoderUtils.translateTicksToDistance(driveVelocity * 3.048, 4 * Math.PI), state.speedMetersPerSecond); // Calculate the drive output from the current velocity and a velocity setpoint
-        //convert from feet per 100 ms to meters per second
-        double driveFeedforward = m_driveFeedforward.calculate(state.speedMetersPerSecond); // Calculate the drive feed forward from a velocity setpoint
+        // double driveOutput = m_drivePIDController.calculate(EncoderUtils.translateTicksToDistance(driveVelocity * 3.048, 4 * Math.PI), state.speedMetersPerSecond); // Calculate the drive output from the current velocity and a velocity setpoint
+        // //convert from feet per 100 ms to meters per second
+        // double driveFeedforward = m_driveFeedforward.calculate(state.speedMetersPerSecond); // Calculate the drive feed forward from a velocity setpoint
 
-        double turnOutput = m_turningPIDController.calculate(turnPositionRadians, state.angle.getRadians()); // Calculate the turning motor output from the current position and a position setpoint
-        double turnFeedforward = m_turnFeedforward.calculate(m_turningPIDController.getSetpoint()); // Calculate the turn feed forward from a velocity setpoint
+        // double turnOutput = m_turningPIDController.calculate(turnPositionRadians, state.angle.getRadians()); // Calculate the turning motor output from the current position and a position setpoint
+        // double turnFeedforward = m_turnFeedforward.calculate(m_turningPIDController.getSetpoint()); // Calculate the turn feed forward from a velocity setpoint
 
-        // Creates a percentage value for set by adding the voltages required for the respective motors and dividing by the current maximum battery voltage
-        double driveTalonVoltage = (driveOutput + driveFeedforward) / BATTERY_VOLTAGE;
-        double steerTalonVoltage = (turnOutput + turnFeedforward) / BATTERY_VOLTAGE;
-        m_driveTalon.set(driveTalonVoltage);
-        m_steerTalon.set(steerTalonVoltage);
+        // // Creates a percentage value for set by adding the voltages required for the respective motors and dividing by the current maximum battery voltage
+        // double driveTalonVoltage = (driveOutput + driveFeedforward) / BATTERY_VOLTAGE;
+        // double steerTalonVoltage = (turnOutput + turnFeedforward) / BATTERY_VOLTAGE;
+        // m_driveTalon.set(driveTalonVoltage);
+        // m_steerTalon.set(steerTalonVoltage);
+
+
+        double wrappedSensorPosition = (m_steerTalon.getSelectedSensorPosition() % ENCODER_TPR); // wraps the current encoder position
+        double currentSteerAngle = (wrappedSensorPosition / ENCODER_TPR) * 2 * Math.PI; // converts the current encoder position into an angle in radians
+        SwerveModuleState optimizedState = SwerveModuleState.optimize(state, new Rotation2d(currentSteerAngle));
+        double stateVelocity = optimizedState.speedMetersPerSecond;
+        Rotation2d stateAngle = optimizedState.angle;
+
+        int driveVelocity = EncoderUtils.translateMPSToTicksPerDecisecond(stateVelocity, WHEEl_DIAMETER, DRIVE_GEAR_RATIO);
+        int steerPosition = EncoderUtils.translateRadiansToTicks(stateAngle.getRadians());
+
+        m_driveTalon.set(ControlMode.Velocity, driveVelocity);
+        m_steerTalon.set(ControlMode.Position, steerPosition);
     }
 
     /**
