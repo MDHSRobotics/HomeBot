@@ -18,6 +18,8 @@ import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import java.util.List;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
+import edu.wpi.first.wpilibj.trajectory.Trajectory.State;
+import java.util.ArrayList;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -128,6 +130,16 @@ public class BotCommands {
         try {
             Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(pathweaverPath);
             Trajectory trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+            List<Trajectory.State> states = trajectory.getStates();
+            List<Trajectory.State> newStates = new ArrayList<Trajectory.State>();
+            for (Trajectory.State state : states) {
+                
+                //change acceleration multiplier
+                double accelerationMultiplier = 0.1;
+
+                newStates.add(new State(state.timeSeconds, state.velocityMetersPerSecond, state.accelerationMetersPerSecondSq * accelerationMultiplier, state.poseMeters, state.curvatureRadPerMeter));
+            }
+            trajectory = new Trajectory(states);
             m_trajectory = trajectory;
             Logger.info("Trajectory created.");
         }
