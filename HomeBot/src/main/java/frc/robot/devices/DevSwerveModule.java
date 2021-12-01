@@ -1,5 +1,7 @@
 package frc.robot.devices;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.controller.*;
@@ -10,6 +12,8 @@ import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
 import frc.robot.consoles.Logger;
 import frc.robot.subsystems.SwerveDriver;
 import frc.robot.subsystems.utils.EncoderUtils;
+import frc.robot.subsystems.utils.PIDValues;
+import frc.robot.subsystems.utils.TalonUtils;
 
 public class DevSwerveModule {
 
@@ -34,8 +38,9 @@ public class DevSwerveModule {
         m_driveTalon = driveTalon;
         m_steerTalon = steerTalon;
 
-        m_driveTalon.setSensorPhase(SENSOR_PHASE);
-        m_driveTalon.setInverted(MOTOR_INVERT);
+        PIDValues pid = new PIDValues(0.0, 0.05, 0.0, 0.0);
+        TalonUtils.configureTalonWithEncoder(m_driveTalon, SENSOR_PHASE, MOTOR_INVERT, pid);
+        TalonUtils.configureTalonWithEncoder(m_steerTalon, SENSOR_PHASE, MOTOR_INVERT, pid);
     }
 
     public void stopModule(){
@@ -45,7 +50,7 @@ public class DevSwerveModule {
 
     public void testModule() {
         m_driveTalon.set(0.3);
-        m_steerTalon.set(0.3);
+        m_steerTalon.set(ControlMode.Velocity, 2048);
     }
     
 }

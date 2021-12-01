@@ -16,6 +16,8 @@ public class SwerveDriver extends SubsystemBase {
     // Drive using a vertical, horizontal, and rotational velocity
     public final double L = .47;
     public final double W = .47;
+    public final double GEAR_RATIO = 12.8;
+    public final int ticksperrotation = 2048;
 
     public void drive (double x1, double y1, double x2) {
         double r = Math.sqrt ((L * L) + (W * W));
@@ -36,10 +38,10 @@ public class SwerveDriver extends SubsystemBase {
         double frontRightAngle = Math.atan2 (b, d) / Math.PI;
         double frontLeftAngle = Math.atan2 (b, c) / Math.PI;
 
-        int tickBackRightAngle = (int) (backRightAngle * 4096);
-        int tickBackLeftAngle = (int) (backLeftAngle * 4096);
-        int tickFrontRightAngle = (int) (frontRightAngle * 4096);
-        int tickFrontLeftAngle = (int) (frontLeftAngle * 4096);
+        int tickBackRightAngle = (int) (backRightAngle * ticksperrotation * GEAR_RATIO);
+        int tickBackLeftAngle = (int) (backLeftAngle * ticksperrotation * GEAR_RATIO);
+        int tickFrontRightAngle = (int) (frontRightAngle * ticksperrotation * GEAR_RATIO);
+        int tickFrontLeftAngle = (int) (frontLeftAngle * ticksperrotation * GEAR_RATIO);
 
         talonFxSwerveDriveWheelRearRight.set(backRightSpeed);
         talonFxSwerveDriveWheelRearLeft.set(backLeftSpeed);

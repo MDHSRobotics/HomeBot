@@ -13,8 +13,8 @@ public class SwerveMovement {
     public double rotationSpeed = 0; // Rotation speed
 
     public SwerveMovement(double xLeftSpeed, double yLeftSpeed, double yRightSpeed) {
-        forwardBackwardSpeed = xLeftSpeed;
-        sideToSideSpeed = yLeftSpeed;
+        forwardBackwardSpeed = yLeftSpeed;
+        sideToSideSpeed = xLeftSpeed;
         rotationSpeed = yRightSpeed;
     }
 

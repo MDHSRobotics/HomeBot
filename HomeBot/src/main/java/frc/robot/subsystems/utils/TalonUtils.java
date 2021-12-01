@@ -58,7 +58,7 @@ public class TalonUtils {
     public static void configureTalonWithEncoder(DevTalonSRX talon, boolean sensorPhase, boolean motorInvert, PIDValues pid) {
         if (!talon.isConnected) return;
 
-        talon.setSensorPhase(sensorPhase);
+        configureBaseTalon(talon, sensorPhase);
 
         talon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, PID_LOOP_PRIMARY, TIMEOUT_MS);
         talon.configAllowableClosedloopError(PID_SLOT_0, 0, TIMEOUT_MS);
@@ -78,9 +78,9 @@ public class TalonUtils {
     public static void configureTalonWithEncoder(DevTalonFX talon, boolean sensorPhase, boolean motorInvert, PIDValues pid) {
         if (!talon.isConnected) return;
 
-        talon.setSensorPhase(sensorPhase);
+        configureBaseTalon(talon, sensorPhase);
 
-        talon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, PID_LOOP_PRIMARY, TIMEOUT_MS);
+        talon.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, PID_LOOP_PRIMARY, TIMEOUT_MS);
         talon.configAllowableClosedloopError(PID_SLOT_0, 0, TIMEOUT_MS);
 
         talon.config_kF(PID_SLOT_0, pid.kF, TIMEOUT_MS);
