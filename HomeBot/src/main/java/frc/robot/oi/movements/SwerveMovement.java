@@ -10,11 +10,24 @@ public class SwerveMovement {
     public double forwardBackwardSpeed = 0; // Forward & Backward
     public double sideToSideSpeed = 0; // Side to Side Speed
     public double rotationSpeed = 0; // Rotation speed
+    public double DEADBAND = 0.05;
 
     public SwerveMovement(double xLeftSpeed, double yLeftSpeed, double yRightSpeed) {
-        forwardBackwardSpeed = xLeftSpeed;
-        sideToSideSpeed = yLeftSpeed;
-        rotationSpeed = yRightSpeed;
+        if (Math.abs(xLeftSpeed) < DEADBAND) {
+            forwardBackwardSpeed = 0;
+        } else {
+            forwardBackwardSpeed = xLeftSpeed;
+        }
+        if (Math.abs(yLeftSpeed) < DEADBAND) {
+            sideToSideSpeed = 0;
+        } else {
+            sideToSideSpeed = yLeftSpeed;
+        }
+        if (Math.abs(yRightSpeed) < DEADBAND) {
+            rotationSpeed = 0;
+        } else {
+            rotationSpeed = yRightSpeed;
+        }
     }
 
     // Determines the Swerve movement (straight speed, side speed, rotation speed)

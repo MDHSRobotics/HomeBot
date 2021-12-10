@@ -69,7 +69,7 @@ public class SwerveDriver extends SubsystemBase {
         double m_xVel = xVel;
         double m_yVel = yVel;
         double m_omega = omega;
-        ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(0, 1, 0, Rotation2d.fromDegrees(0));
+        ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(m_xVel, m_yVel, m_omega, Rotation2d.fromDegrees(0));
         SwerveModuleState[] swerveModuleStates = m_kinematics.toSwerveModuleStates(speeds);
 
         // Flip axis directions 

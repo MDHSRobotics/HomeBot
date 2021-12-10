@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
+import frc.robot.consoles.Logger;
 import frc.robot.subsystems.utils.EncoderUtils;
 import frc.robot.subsystems.utils.PIDValues;
 import frc.robot.subsystems.utils.TalonUtils;
@@ -48,8 +49,8 @@ public class DevSwerveModule {
         m_driveTalon = driveTalon;
         m_steerTalon = steerTalon;
         location = new Translation2d(xpos, ypos);
-        PIDValues pidDrive = new PIDValues(0.0, 0.5, 0.0, 0.0);
-        PIDValues pidSteer = new PIDValues(0.0, 0.5, 0.0, 0.0);
+        PIDValues pidDrive = new PIDValues(0.0, 0.02, 0.0, 0.0);
+        PIDValues pidSteer = new PIDValues(0.0, 0.02, 0.0, 0.0);
 
         TalonUtils.configureTalonWithEncoder(m_driveTalon, true, true, pidDrive);
         TalonUtils.configureTalonWithEncoder(m_steerTalon, true, true, pidSteer);
@@ -92,8 +93,19 @@ public class DevSwerveModule {
         int driveVelocity = EncoderUtils.translateMPSToTicksPerDecisecond(stateVelocity, WHEEl_DIAMETER, DRIVE_GEAR_RATIO);
         int steerPosition = EncoderUtils.translateRadiansToTicks(stateAngle.getRadians());
 
-        m_driveTalon.set(ControlMode.Velocity, driveVelocity);
-        m_steerTalon.set(ControlMode.Position, steerPosition);
+        m_driveTalon.set(ControlMode.Velocity, driveVelocity * DRIVE_GEAR_RATIO);
+        m_steerTalon.set(ControlMode.Position, steerPosition * STEER_GEAR_RATIO);
+    
+
+        // int driveMPS = (int) state.speedMetersPerSecond;
+        // int turnRadians = (int) state.angle.getRadians();
+        // int driveVelocity = EncoderUtils.translateMPSToTicksPerDecisecond(driveMPS, WHEEl_DIAMETER, driveGearRatio);
+        // int turnPosition = EncoderUtils.translateRadiansToTicks(turnRadians);
+
+        // m_driveTalon.set(ControlMode.Velocity, driveVelocity * driveGearRatio);
+        // m_steerTalon.set(ControlMode.Position, turnPosition * turnGearRatio);
+        Logger.info("Ticks to turn:" + steerPosition);
+        Logger.info("Velocity to run at:" + driveVelocity);
     }
 
     /**
