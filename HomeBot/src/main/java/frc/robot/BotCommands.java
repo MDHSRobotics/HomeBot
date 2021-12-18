@@ -28,6 +28,8 @@ import frc.robot.sensors.Pixy;
 import frc.robot.subsystems.constants.AutoConstants;
 import frc.robot.subsystems.constants.PathConstants;
 
+import frc.robot.commands.sensors.GetCameraStream;
+
 
 // Contains singleton instances of all the commands on the robot.
 public class BotCommands {
@@ -70,6 +72,9 @@ public class BotCommands {
     // Pathweaver
     private static Trajectory m_trajectory;
 
+    //WebCamera
+    public static GetCameraStream webCamera;
+
 
     // Initialize all robot commands
     public static void initializeCommands() {
@@ -108,6 +113,11 @@ public class BotCommands {
         // Autonomous
         autoDrivePath = new AutoDrivePath(BotSubsystems.diffDriver);
         moveForwardAuto10Feet = new MoveForwardAuto(BotSubsystems.diffDriver, 10.0);
+
+        //GetCameraStream
+        webCamera = new GetCameraStream();
+
+
     }
 
     public static Command getPathweaverCommand(String pathweaverPath) {
