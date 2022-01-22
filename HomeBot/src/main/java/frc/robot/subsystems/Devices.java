@@ -34,6 +34,10 @@ public class Devices {
     //Sensors
     public static Servo servoGate = new Servo(1);
 
+    // Pneumatics
+    static DevCompressor compressor = new DevCompressor("compressor", 0);
+    static DevSolenoid solenoid = new DevSolenoid("solenoid", 3);
+
     /////////////////////
     // Drive Instances //
     /////////////////////

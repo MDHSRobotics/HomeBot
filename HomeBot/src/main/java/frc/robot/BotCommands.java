@@ -42,6 +42,10 @@ public class BotCommands {
     // Pickup
     public static SpinPickup spinPickup;
     public static StopPickup stopPickup;
+    public static OpenSolenoid openSolenoid;
+    public static CloseSolenoid closeSolenoid;
+    public static StartCompressor startCompressor;
+    public static StopCompressor stopCompressor;
 
     // Delivery
     public static SpinDelivery spinDelivery;
@@ -84,6 +88,10 @@ public class BotCommands {
         // Pickup
         spinPickup = new SpinPickup(BotSubsystems.pickup);
         stopPickup = new StopPickup(BotSubsystems.pickup);
+        openSolenoid = new OpenSolenoid(BotSubsystems.pickup);
+        closeSolenoid = new CloseSolenoid(BotSubsystems.pickup);
+        startCompressor = new StartCompressor(BotSubsystems.pickup);
+        stopCompressor = new StopCompressor(BotSubsystems.pickup);
 
         // Delivery
         spinDelivery = new SpinDelivery(BotSubsystems.delivery);

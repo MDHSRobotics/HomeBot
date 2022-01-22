@@ -5,6 +5,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.consoles.Logger;
 
 import static frc.robot.subsystems.Devices.talonSrxPickup;
+import static frc.robot.subsystems.Devices.compressor;
+import static frc.robot.subsystems.Devices.solenoid;
 
 // Pickup Subsytem, for sucking in balls.
 public class Pickup extends SubsystemBase {
@@ -28,4 +30,19 @@ public class Pickup extends SubsystemBase {
         talonSrxPickup.set(0.5);
     }
 
+    public void openSolenoid(){
+        solenoid.set(true);
+    }
+
+    public void closeSolenoid(){
+        solenoid.set(false);
+    }
+
+    public void startCompressor(){
+        compressor.start();
+    }
+
+    public void stopCompressor(){
+        compressor.stop();
+    }
 }
