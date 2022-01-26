@@ -10,7 +10,7 @@ public class ButtonBindings {
         Logger.setup("Configure Buttons -> Xbox Controller...");
         
         //Shoot
-        BotControllers.xbox.btnA.whileHeld(BotCommands.shoot);
+        BotControllers.xbox.btnA.whileHeld(BotCommands.webCamera);
         BotControllers.xbox.btnA.whileHeld(BotCommands.toggleGate);
 
         // Drive
@@ -26,6 +26,9 @@ public class ButtonBindings {
         BotControllers.xbox.btnBumperRight.whenPressed(BotCommands.stopDelivery);
 
         BotControllers.xbox.btnDpadUp.whenPressed(BotCommands.rotateTowardsTarget);
+
+        //camera
+        
     }
 
 }
