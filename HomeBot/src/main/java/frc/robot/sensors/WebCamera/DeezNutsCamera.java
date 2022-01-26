@@ -3,7 +3,7 @@ package frc.robot.sensors.WebCamera;
 
 import org.opencv.core.Mat;
 import org.opencv.imgproc.Imgproc;
-
+import edu.wpi.cscore.MjpegServer;
 import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.CvSource;
 import edu.wpi.cscore.UsbCamera;
@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 
-public class WebCamera extends IterativeRobot {
+public class DeezNutsCamera extends IterativeRobot {
 
 //a thread created in robotInit() gets the Camera Server instance. Each frame of the video is individually processed, in this case converting a color image (BGR) to gray scale using the OpenCV cvtColor() method. The resultant images are then passed to the output stream and sent to the dashboard. You can replace the cvtColor operation with any image processing code that is necessary for your application. You can even annotate the image using OpenCV methods to write targeting information onto the image being sent to the dashboard.
 
